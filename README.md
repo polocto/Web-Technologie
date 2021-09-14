@@ -1,5 +1,5 @@
 # Web-Technologie
-Cous de Web Technology ING 4
+Cours de Web Technology ING 4
 
 # Prérequis
 - Lire l'index suivant
