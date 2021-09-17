@@ -11,3 +11,10 @@ Web Technology ING 4
 
 # Git command line
 > https://gist.github.com/aquelito/8596717
+
+# Authors
+- Paul SADE
+- Mathis Camard
+
+# Liscence
+None
