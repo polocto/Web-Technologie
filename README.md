@@ -32,3 +32,6 @@ Les modification mineur (ajout de commentaires, de points virgules...), peuvent 
 > - Vérifier à nouveau que le code fonctionne (compile correctement suffira)
 > - Enfin **merge X dans Developpe** après modifications
 > - Supprimer X si plus nécessaire ou conserver X si d'autres modifications du même type à effectuer et recommencer
+
+# Git command line
+> https://gist.github.com/aquelito/8596717
