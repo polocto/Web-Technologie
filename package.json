@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/polocto/Web-Technologie/issues"
   },
-  "homepage": "https://github.com/polocto/Web-Technologie#readme"
+  "homepage": "https://github.com/polocto/Web-Technologie#readme",
+  "dependencies": {
+    "nodemon": "^2.0.13"
+  }
 }
