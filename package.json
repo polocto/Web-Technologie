@@ -4,7 +4,8 @@
   "description": "Web Technology ING 4",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "develop": "./node_modules/.bin/nodemon index.js"
   },
   "repository": {
     "type": "git",
