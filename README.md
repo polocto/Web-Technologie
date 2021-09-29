@@ -3,7 +3,7 @@ Web Technology ING 4
 
 In this repository there is the last lab of webtech.
 
-# Courses
+## Courses
 > https://github.com/adaltas/ece-webtech-2021-fall
 
 # Prerequistes
@@ -15,7 +15,7 @@ In this repository there is the last lab of webtech.
 - ssh : `git clone git@github.com:polocto/Web-Technologie.git`
 
 # Authors
-- Paul SADE
+- [Paul SADE](mailto:paul.sade@live.fr)
 - Mathis Camard
 
 # Liscence
