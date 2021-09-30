@@ -1,7 +1,6 @@
 # Lab 1
-Web Technology ING 4
 
-In this repository there is the last lab of webtech.
+At the end of the lab, once you will run the application you will be able to see how attibutes in the url can affect a web page.
 
 ## Courses
 > https://github.com/adaltas/ece-webtech-2021-fall
