@@ -33,7 +33,7 @@ Open <localhost:8080> in the browser of your choice
 
 # Authors
 - [Paul SADE](mailto:paul.sade@edu.ece.fr)
-- Mathis Camard
+- [Mathis Camard](mailto:mathis.camard@edu.ece.fr)
 
 # Liscence
 None
