@@ -15,7 +15,7 @@ We want to ensure our project adheres to community good practices. This include:
 
 Once we get all this setup, our new web application will start an HTTP web server with Express.js. It exposes some static routes such as the homepage as well as dynamic routes to print information relative to a given channel, or an error message if the channel does not exist. The route shall match a pattern like `/channel/{channel_id}`.
 ## Courses
-> https://github.com/adaltas/ece-webtech-2021-fall
+> https://github.com/adaltas/ece-webtech-2021-fall/tree/master/courses/webtech/modules/02.expressjs
 
 # Prerequistes
 - Read the following index
