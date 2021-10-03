@@ -30,10 +30,15 @@ git clone git@github.com:polocto/Web-Technologie.git
 ```sh
 npm init -y
 ```
+- Install Exress.js
+```sh
+npm install express [--save] #--save to add to the dependencies in package.json
+```
 
 # Run
-
-
+```sh
+npm start
+```
 
 # Authors
 - [Paul SADE](mailto:paul.sade@edu.ece.fr)
