@@ -1,4 +1,4 @@
-# Lab 2 : webtech-back-end
+# Lab 3 : webtech-back-end
 
 We are building a **Chat application**. This is our first Node.js project with Express.js.
 
