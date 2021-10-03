@@ -1,4 +1,4 @@
-# Lab 1
+# Lab 2
 
 At the end of the lab, once you will run the application you will be able to see how attibutes in the url can affect a web page.
 
