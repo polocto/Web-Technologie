@@ -29,7 +29,7 @@ npm start
 # or if nodemon
 npm run develop
 ```
-Open <localhost:8080> in the browser of your choice
+Open [localhost:8080](http://localhost:8080/) in the browser of your choice
 
 # Authors
 - [Paul SADE](mailto:paul.sade@edu.ece.fr)
