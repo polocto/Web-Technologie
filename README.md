@@ -26,10 +26,6 @@ Once we get all this setup, our new web application will start an HTTP web serve
 ```sh
 git clone git@github.com:polocto/Web-Technologie.git
 ```
-- Initialize a NodeJS package running this command:
-```sh
-npm init -y
-```
 - Install Exress.js
 ```sh
 npm install express [--save] #--save to add to the dependencies in package.json
