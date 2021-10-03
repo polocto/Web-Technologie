@@ -1,0 +1,20 @@
+{
+  "name": "webtech-back-end",
+  "version": "1.0.0",
+  "description": "We are building a **Chat application**. This is our first Node.js project with Express.js.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./lib/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/polocto/Web-Technologie.git"
+  },
+  "keywords": [],
+  "author": "Paul Sade and Mathis Camard",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/polocto/Web-Technologie/issues"
+  },
+  "homepage": "https://github.com/polocto/Web-Technologie#readme"
+}
