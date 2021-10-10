@@ -35,7 +35,7 @@ npm install express [--save] #--save to add to the dependencies in package.json
 ```sh
 npm start
 ```
-
+Click on the following link http://localhost:3000/
 # Authors
 - [Paul SADE](mailto:paul.sade@edu.ece.fr)
 - [Mathis Camard](mailto:mathis.camard@edu.ece.fr)
