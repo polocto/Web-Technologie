@@ -17,7 +17,7 @@ describe('users', () => {
     users.should.eql([])
   })
   
-  it.skip('list one element', async () => {
+  it('list one element', async () => {
     // Create a user
     await supertest(app)
     .post('/users')
@@ -32,7 +32,7 @@ describe('users', () => {
     }])
   })
   
-  it.skip('add one element', async () => {
+  it('add one element', async () => {
     // Create a user
     const {body: user} = await supertest(app)
     .post('/users')
