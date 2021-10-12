@@ -32,6 +32,7 @@
     "recursive": true
   },
   "scripts": {
+    "start": "node bin/start",
     "test": "mocha 'test/**/*.js'"
   }
 }
