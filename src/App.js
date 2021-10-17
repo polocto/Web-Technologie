@@ -2,6 +2,10 @@ import {useState} from 'react';
 import './App.css';
 /** @jsx jsx */
 import { jsx } from '@emotion/core'
+import Header from './Corps/Header'
+import Main from './Corps/Main';
+import Footer from './Corps/Footer'
+//import MessageForm from './MessageForm';
 
 const styles = {
   root: {
@@ -85,31 +89,27 @@ const styles = {
   
 }
 
-const MessageForm = ({
-  addMessage
-}) => {
+/*const MessageForm = ({addMessage}) => {
   const onSubmit = (e) => {
-    e.preventDefault()
-    const data = new FormData(e.target)
+    e.preventDefault();
+    const data = new FormData(e.target);
     addMessage({
       content: data.get('content'),
       author: 'david',
-      creation: Date.now(),
-    })
-    e.target.elements.content.value = ''
+      creation: Date.now()
+    });
+    e.target.elements.content.value = '';
   } 
   return (
     <form css={styles.form}  onSubmit={onSubmit}>
       <input type="input" name="content" css={styles.content} />
       <input type="submit" value="Send" css={styles.send} />
     </form>
-  )
-}
+  );
+}*/
 
 export default ({
-  channel = {
-    name: 'Fake channel'
-  }
+  channel = {name: 'Fake channel'}
 }) => {
   const [messages, setMessages] = useState([{
     author: 'sergei',
@@ -186,19 +186,16 @@ export default ({
     Consider adding syntax highlight support with a library like
     [Prism](https://prismjs.com/).
     `,
-  }])
+  }]);
+
   const addMessage = (message) => {
-    setMessages([
-      ...messages,
-      message
-    ])
-  }
+    setMessages([...messages,message]);
+  };
+
   return (
     <div className="App" css={styles.root}>
-      <header className="App-header" css={styles.header}>
-        <h1>header</h1>
-      </header>
-      <main className="App-main" css={styles.main}>
+      <Header/>
+       {/* <main className="App-main" css={styles.main}>
         <div css={styles.channels}>
         </div>
         <div css={styles.channel}>
@@ -226,10 +223,11 @@ export default ({
           </div>
           <MessageForm addMessage={addMessage} />
         </div>
-      </main>
-      <footer className="App-footer" style={styles.footer}>
-        footer
-      </footer>
+                  </main>  */}
+      <Main addMessage={addMessage} messages={messages} channel={channel}/>
+      <Footer/>
     </div>
   );
 }
+
+export {styles}
