@@ -1,38 +1,35 @@
 {
-  "name": "webtech-back-end",
-  "version": "0.0.0",
-  "description": "WebTech demo lab",
-  "author": "david worms <david@adaltas.com>",
+  "name": "webtech-front-end-gr-03",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1",
-    "level": "^6.0.1",
-    "mixme": "^0.5.4",
-    "uuid": "^8.3.2"
-  },
-  "devDependencies": {
-    "mocha": "^8.4.0",
-    "should": "^13.2.3",
-    "supertest": "^4.0.2"
-  },
-  "keywords": [
-    "tech",
-    "ece",
-    "nodejs"
-  ],
-  "license": "MIT",
-  "main": "./lib/index.js",
-  "mocha": {
-    "throw-deprecation": true,
-    "require": [
-      "should"
-    ],
-    "inline-diffs": true,
-    "reporter": "spec",
-    "recursive": true
+    "@emotion/core": "^10.0.35",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.3"
   },
   "scripts": {
-    "start": "node bin/start",
-    "test": "mocha 'test/**/*.js'"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
