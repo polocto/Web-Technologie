@@ -9,7 +9,7 @@ export default function Messages(props){
               <p>
                 <span>{message.author}</span>
                 {' '}
-                <span>{(new Date(message.creation)).toString()}</span>
+                <span>{new Intl.DateTimeFormat('fr-FR', {dateStyle:'medium', timeStyle:'short'}).format(new Date(message.creation))/*.format("ddd, hA").toString()*/}</span>
               </p>
               <div>
                 {

@@ -4,7 +4,7 @@ export default function MessageForm(props){
     const onSubmit = (e) => {
         e.preventDefault();
         const data = new FormData(e.target);
-        this.propos.addMessage({
+        props.addMessage({
           content: data.get('content'),
           author: 'david',
           creation: Date.now()
