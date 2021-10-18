@@ -1,93 +1,93 @@
-import {useState} from 'react';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
 /** @jsx jsx */
-import { jsx } from '@emotion/core'
-import Header from './Corps/Header'
-import Main from './Corps/Main';
-import Footer from './Corps/Footer'
+import { jsx } from "@emotion/core";
+import Header from "./Corps/Header";
+import Main from "./Corps/Main";
+import Footer from "./Corps/Footer";
 //import MessageForm from './Messages/MessageForm';
 
 const styles = {
   root: {
-    boxSizing: 'border-box',
-    display: 'flex',
-    flexDirection: 'column',
-    backgroundColor: '#565E71',
-    padding: '50px',
+    boxSizing: "border-box",
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "#565E71",
+    padding: "50px",
   },
   header: {
-    height: '60px',
-    backgroundColor: 'rgba(255,255,255,.3)',
+    height: "60px",
+    backgroundColor: "rgba(255,255,255,.3)",
     flexShrink: 0,
+    "text-align": "center",
   },
   headerLogIn: {
-    backgroundColor: 'red',
+    backgroundColor: "red",
   },
   headerLogOut: {
-    backgroundColor: 'blue',
+    backgroundColor: "blue",
   },
   footer: {
-    height: '30px',
-    backgroundColor: 'rgba(255,255,255,.3)',
+    height: "30px",
+    backgroundColor: "rgba(255,255,255,.3)",
     flexShrink: 0,
   },
   main: {
-    backgroundColor: '#373B44',
-    flex: '1 1 auto',
-    display: 'flex',
-    flexDirection: 'row',
-    overflow: 'hidden',
+    backgroundColor: "#373B44",
+    flex: "1 1 auto",
+    display: "flex",
+    flexDirection: "row",
+    overflow: "hidden",
   },
   channels: {
-    minWidth: '200px',
+    minWidth: "200px",
   },
   channel: {
-    height: '100%',
-    flex: '1 1 auto',
-    display: 'flex',
-    flexDirection: 'column',
-    overflow: 'hidden',
+    height: "100%",
+    flex: "1 1 auto",
+    display: "flex",
+    flexDirection: "column",
+    overflow: "hidden",
   },
   messages: {
-    flex: '1 1 auto',
-    height: '100%',
-    overflow: 'auto',
-    '& ul': {
-      'margin': 0,
-      'padding': 0,
-      'textIndent': 0,
-      'listStyleType': 0,
+    flex: "1 1 auto",
+    height: "100%",
+    overflow: "auto",
+    "& ul": {
+      margin: 0,
+      padding: 0,
+      textIndent: 0,
+      listStyleType: 0,
     },
   },
   message: {
-    margin: '.2rem',
-    padding: '.2rem',
-    backgroundColor: '#66728E',
-    ':hover': {
-      backgroundColor: 'rgba(255,255,255,.2)',
+    margin: ".2rem",
+    padding: ".2rem",
+    backgroundColor: "#66728E",
+    ":hover": {
+      backgroundColor: "rgba(255,255,255,.2)",
     },
   },
   form: {
-    borderTop: '2px solid #373B44',
-    padding: '.5rem',
-    display: 'flex',
+    borderTop: "2px solid #373B44",
+    padding: ".5rem",
+    display: "flex",
   },
   content: {
-    flex: '1 1 auto',
-    marginRight: '.5rem'
+    flex: "1 1 auto",
+    marginRight: ".5rem",
   },
   send: {
-    backgroundColor: '#D6DDEC',
-    padding: '.2rem .5rem',
-    border: 'none',
-    ':hover': {
-      backgroundColor: '#2A4B99',
-      cursor: 'pointer',
-      color: '#fff',
+    backgroundColor: "#D6DDEC",
+    padding: ".2rem .5rem",
+    border: "none",
+    ":hover": {
+      backgroundColor: "#2A4B99",
+      cursor: "pointer",
+      color: "#fff",
     },
   },
-  
-}
+};
 
 /*const MessageForm = ({addMessage}) => {
   const onSubmit = (e) => {
@@ -108,13 +108,12 @@ const styles = {
   );
 }*/
 
-export default ({
-  channel = {name: 'Fake channel'}
-}) => {
-  const [messages, setMessages] = useState([{
-    author: 'sergei',
-    creation: 1602831101929,
-    content: `
+export default ({ channel = { name: "Fake channel" } }) => {
+  const [messages, setMessages] = useState([
+    {
+      author: "sergei",
+      creation: 1602831101929,
+      content: `
     ## 1 - Architecture - Level easy
     
     It is now the right time to re-organize/refactor our code. Split this
@@ -144,20 +143,22 @@ export default ({
     +--------------------------------------------+
     \`\`\`
     `,
-  },{
-    author: 'david',
-    creation: 1602832138892,
-    content: `
+    },
+    {
+      author: "david",
+      creation: 1602832138892,
+      content: `
     ## 2 - Styles - Level easy
     
     Give it some styles, use CSS to make it looks good. Possible source of
     improvements include changing the colors, replacing the HTML "send" button
     with an icon, working on the header, providing day/night themes ... be creative
     `,
-  },{
-    author: 'sergei',
-    creation: 1602840139202,
-    content: `
+    },
+    {
+      author: "sergei",
+      creation: 1602840139202,
+      content: `
     ## 3 - Use an external library - Level medium
     
     Format the date in a human readable format. While the date is generated on
@@ -168,10 +169,11 @@ export default ({
     top right corner of their homepage, it is now depreciated. Read the reasons
     and act accordingly.
     `,
-  },{
-    author: 'david',
-    creation: 1602844139200,
-    content: `
+    },
+    {
+      author: "david",
+      creation: 1602844139200,
+      content: `
     ## 4 - Support message contents in Markdown - Level hard
     
     Markdown is the most popular syntax to format text into HTML. It is used
@@ -186,16 +188,17 @@ export default ({
     Consider adding syntax highlight support with a library like
     [Prism](https://prismjs.com/).
     `,
-  }]);
+    },
+  ]);
 
   const addMessage = (message) => {
-    setMessages([...messages,message]);
+    setMessages([...messages, message]);
   };
 
   return (
     <div className="App" style={styles.root}>
-      <Header/>
-        {/* <main className="App-main" css={styles.main}>
+      <Header />
+      {/* <main className="App-main" css={styles.main}>
         <div css={styles.channels}>
         </div>
         <div css={styles.channel}>
@@ -224,10 +227,10 @@ export default ({
           <MessageForm addMessage={addMessage} />
         </div>
        </main> */}
-      <Main addMessage={addMessage} messages={messages} channel={channel}/>
-      <Footer/>
+      <Main addMessage={addMessage} messages={messages} channel={channel} />
+      <Footer />
     </div>
   );
-}
+};
 
-export {styles}
+export { styles };
