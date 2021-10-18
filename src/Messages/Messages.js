@@ -5,7 +5,7 @@ import { styles } from '../App'
 export default function Messages(props){
     return (
         props.messages.map( (message, i) => (
-            <li key={i} css={styles.message}>
+            <li key={i} style={styles.message}>
               <p>
                 <span>{message.author}</span>
                 {' '}

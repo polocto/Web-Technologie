@@ -6,7 +6,7 @@ import { styles } from '../App'
 
 export default function Main(props){
     return (
-        <main className="App-main" css={styles.main}>
+        <main className="App-main" style={styles.main}>
             <Channels/>
             <Channel messages={props.messages} channel={props.channel} addMessage={props.addMessage}/>
       </main>

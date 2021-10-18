@@ -1,8 +1,16 @@
 import React from 'react'
-import { styles } from '../App'
+//import { styles } from '../App'
+
+const styles = {
+    channels: {
+      minWidth: '200px',
+    },
+  }
+
 export default function Channels(props){
     return (
-        <div css={styles.channels}>
+        <div style={styles.channels}>
+            <h1>Channels</h1>
         </div>
     )
 }

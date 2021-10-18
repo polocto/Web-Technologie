@@ -12,9 +12,9 @@ export default function MessageForm(props){
         e.target.elements.content.value = '';
       } 
       return (
-        <form css={styles.form}  onSubmit={onSubmit}>
-          <input type="input" name="content" css={styles.content} />
-          <input type="submit" value="Send" css={styles.send} />
+        <form style={styles.form}  onSubmit={onSubmit}>
+          <input type="input" name="content" style={styles.content} />
+          <input type="submit" value="Send" style={styles.send} />
         </form>
       );
 }

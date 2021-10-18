@@ -5,7 +5,7 @@ import { jsx } from '@emotion/core'
 import Header from './Corps/Header'
 import Main from './Corps/Main';
 import Footer from './Corps/Footer'
-//import MessageForm from './MessageForm';
+//import MessageForm from './Messages/MessageForm';
 
 const styles = {
   root: {
@@ -62,7 +62,7 @@ const styles = {
   message: {
     margin: '.2rem',
     padding: '.2rem',
-    // backgroundColor: '#66728E',
+    backgroundColor: '#66728E',
     ':hover': {
       backgroundColor: 'rgba(255,255,255,.2)',
     },
@@ -193,9 +193,9 @@ export default ({
   };
 
   return (
-    <div className="App" css={styles.root}>
+    <div className="App" style={styles.root}>
       <Header/>
-       {/* <main className="App-main" css={styles.main}>
+        {/* <main className="App-main" css={styles.main}>
         <div css={styles.channels}>
         </div>
         <div css={styles.channel}>
@@ -223,7 +223,7 @@ export default ({
           </div>
           <MessageForm addMessage={addMessage} />
         </div>
-                  </main>  */}
+       </main> */}
       <Main addMessage={addMessage} messages={messages} channel={channel}/>
       <Footer/>
     </div>
