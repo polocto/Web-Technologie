@@ -1,10 +1,8 @@
-import {} from 'react';
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
+
+/** @jsxImportSource @emotion/react */
 // Layout
-import { useTheme } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+import { useTheme } from '@mui/styles';
+import { Grid, Typography } from '@mui/material';
 import {ReactComponent as ChannelIcon} from './icons/channel.svg';
 import {ReactComponent as FriendsIcon} from './icons/friends.svg';
 import {ReactComponent as SettingsIcon} from './icons/settings.svg';
@@ -25,7 +23,7 @@ const useStyles = (theme) => ({
   }
 })
 
-export default () => {
+export default function Welcome() {
   const styles = useStyles(useTheme())
   return (
     <div css={styles.root}>

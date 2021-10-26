@@ -1,13 +1,11 @@
+
+/** @jsxImportSource @emotion/react */
 import { useState } from 'react'
 import axios from 'axios';
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
 // Layout
-import Button from "@material-ui/core/Button"
-// import Icon from "@material-ui/core/Icon"
-import SendIcon from "@material-ui/icons/Send";
-import TextField from '@material-ui/core/TextField';
-import { useTheme } from '@material-ui/core/styles';
+import SendIcon from "@mui/icons-material/Send";
+import { Button, TextField } from '@mui/material';
+import { useTheme } from '@mui/styles';
 
 const useStyles = (theme) => {
   // See https://github.com/mui-org/material-ui/blob/next/packages/material-ui/src/OutlinedInput/OutlinedInput.js
@@ -29,10 +27,10 @@ const useStyles = (theme) => {
   }
 }
 
-export default ({
+export default function Form({
   addMessage,
   channel,
-}) => {
+}) {
   const [content, setContent] = useState('')
   const styles = useStyles(useTheme())
   const onSubmit = async () => {
@@ -54,7 +52,7 @@ export default ({
         id="outlined-multiline-flexible"
         label="Message"
         multiline
-        rowsMax={4}
+        maxRows={4}
         value={content}
         onChange={handleChange}
         variant="outlined"

@@ -1,6 +1,5 @@
-import './App.css';
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
+
+/** @jsxImportSource @emotion/react */
 
 const styles = {
   header: {
@@ -16,7 +15,7 @@ const styles = {
   },
 }
 
-export default () => {
+export default function Header() {
   return (
     <header css={styles.header}>
       Header

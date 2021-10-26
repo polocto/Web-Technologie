@@ -1,6 +1,5 @@
-import './App.css';
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
+
+/** @jsxImportSource @emotion/react */
 
 const styles = {
   footer: {
@@ -10,7 +9,7 @@ const styles = {
   },
 }
 
-export default () => {
+export default function Footer() {
   return (
     <footer style={styles.footer}>
       footer

@@ -1,5 +1,5 @@
 .*
 *lock*
-/back-end/db
 node_modules
+/back-end/db
 !.gitignore

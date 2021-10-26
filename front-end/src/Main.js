@@ -1,6 +1,6 @@
+
+/** @jsxImportSource @emotion/react */
 import {useState} from 'react'
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
 // Local
 import Channels from './Channels'
 import Channel from './Channel'
@@ -13,10 +13,11 @@ const styles = {
     flex: '1 1 auto',
     display: 'flex',
     flexDirection: 'row',
+    position: 'relative',
   },
 }
 
-export default () => {
+export default function Main() {
   const [channel, setChannel] = useState(null)
   const fetchChannel = async (channel) => {
     setChannel(channel)

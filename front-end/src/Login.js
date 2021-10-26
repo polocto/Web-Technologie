@@ -1,8 +1,7 @@
-import {} from 'react';
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
+
+/** @jsxImportSource @emotion/react */
 // Layout
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@mui/styles';
 
 const useStyles = (theme) => ({
   root: {
@@ -26,9 +25,9 @@ const useStyles = (theme) => ({
   },
 })
 
-export default ({
+export default function Login({
   onUser
-}) => {
+}) {
   const styles = useStyles(useTheme())
   return (
     <div css={styles.root}>

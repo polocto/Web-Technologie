@@ -1,10 +1,10 @@
+
+/** @jsxImportSource @emotion/react */
 import {forwardRef, useImperativeHandle, useLayoutEffect, useRef} from 'react'
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
 // Layout
-import { useTheme } from '@material-ui/core/styles';
+import { useTheme } from '@mui/styles';
 // Markdown
-import unified from 'unified'
+import {unified} from 'unified'
 import markdown from 'remark-parse'
 import remark2rehype from 'remark-rehype'
 import html from 'rehype-stringify'
@@ -22,7 +22,6 @@ dayjs.updateLocale('en', {
 
 const useStyles = (theme) => ({
   root: {
-    position: 'relative',
     flex: '1 1 auto',
     overflow: 'auto',
     '& ul': {
@@ -35,19 +34,8 @@ const useStyles = (theme) => ({
   message: {
     padding: '.2rem .5rem',
     ':hover': {
-      backgroundColor: 'rgba(255,255,255,.05)',
+      backgroundColor: 'rgba(255,255,255,.2)',
     },
-  },
-  fabWrapper: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    width: '50px',
-  },
-  fab: {
-    position: 'fixed !important',
-    top: 0,
-    width: '50px',
   },
 })
 
@@ -88,11 +76,11 @@ export default forwardRef(({
       <h1>Messages for {channel.name}</h1>
       <ul>
         { messages.map( (message, i) => {
-            const {contents: content} = unified()
+            const {value} = unified()
             .use(markdown)
             .use(remark2rehype)
             .use(html)
-            .processSync(message.content)
+            .processSync(message.content);
             return (
               <li key={i} css={styles.message}>
                 <p>
@@ -100,7 +88,7 @@ export default forwardRef(({
                   {' - '}
                   <span>{dayjs().calendar(message.creation)}</span>
                 </p>
-                <div dangerouslySetInnerHTML={{__html: content}}>
+                <div dangerouslySetInnerHTML={{__html: value}}>
                 </div>
               </li>
             )

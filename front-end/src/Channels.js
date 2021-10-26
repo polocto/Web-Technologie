@@ -1,9 +1,9 @@
+
+/** @jsxImportSource @emotion/react */
 import {useState, useEffect} from 'react';
 import axios from 'axios';
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
 // Layout
-import Link from '@material-ui/core/Link'
+import { Link } from '@mui/material';
 
 const styles = {
   root: {
@@ -15,9 +15,9 @@ const styles = {
   }
 }
 
-export default ({
+export default function Channels({
   onChannel
-}) => {
+}) {
   const [channels, setChannels] = useState([])
   useEffect( () => {
     const fetch = async () => {
