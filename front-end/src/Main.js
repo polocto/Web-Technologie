@@ -8,7 +8,7 @@ import Welcome from './Welcome'
 
 const styles = {
   main: {
-    backgroundColor: '#373B44',
+    backgroundColor: '#6d0fd9',
     overflow: 'hidden',
     flex: '1 1 auto',
     display: 'flex',

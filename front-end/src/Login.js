@@ -39,12 +39,15 @@ export default function Login({ onUser }) {
           <input id="password" name="password" type="password" />
         </fieldset>
         <fieldset>
-          <Button variant="contained">Login</Button>
-          {/* onClick={(e) => {
+          <Button
+            variant="contained"
+            onClick={(e) => {
               e.stopPropagation();
               onUser({ username: "david" });
-            } */}
-          
+            }}
+          >
+            Login
+          </Button>
         </fieldset>
       </div>
     </div>

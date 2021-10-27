@@ -13,7 +13,7 @@ const styles = {
     boxSizing: "border-box",
     display: "flex",
     flexDirection: "column",
-    backgroundColor: "#565E71",
+    backgroundColor: "#D20FD9",
     padding: "50px",
   },
 };

@@ -4,7 +4,7 @@
 const styles = {
   footer: {
     height: '30px',
-    backgroundColor: 'rgba(255,255,255,.3)',
+    backgroundColor: 'D20FD9',
     flexShrink: 0,
   },
 }
