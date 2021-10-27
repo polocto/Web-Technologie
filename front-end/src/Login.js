@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { Button } from "@mui/material";
+import { TextField } from "@mui/material";
 // Layout
 import { useTheme } from "@mui/styles";
 
@@ -31,12 +32,15 @@ export default function Login({ onUser }) {
     <div css={styles.root}>
       <div>
         <fieldset>
-          <label htmlFor="username">username: </label>
-          <input id="username" name="username" />
+          {/* <label htmlFor="username">username: </label> */}
+          <TextField id="filled-basic" label="username" variant="filled" />
+          {/* <input id="username" name="username" /> */}
         </fieldset>
         <fieldset>
-          <label htmlFor="password">password:</label>
-          <input id="password" name="password" type="password" />
+          {/* <label htmlFor="password">password:</label>
+          <input id="password" name="password" type="password" /> */}
+          <TextField id="filled-basic" label="password" variant="filled" />
+        
         </fieldset>
         <fieldset>
           <Button
