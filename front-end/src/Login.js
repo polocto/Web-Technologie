@@ -1,34 +1,32 @@
-
 /** @jsxImportSource @emotion/react */
+import { Button } from "@mui/material";
 // Layout
-import { useTheme } from '@mui/styles';
+import { useTheme } from "@mui/styles";
 
 const useStyles = (theme) => ({
   root: {
-    flex: '1 1 auto',
+    flex: "1 1 auto",
     background: theme.palette.background.default,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    '& > div': {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    "& > div": {
       margin: `${theme.spacing(1)}`,
-      marginLeft: 'auto',
-      marginRight: 'auto',
+      marginLeft: "auto",
+      marginRight: "auto",
     },
-    '& fieldset': {
-      border: 'none',
-      '& label': {
-        marginBottom: theme.spacing(.5),
-        display: 'block',
+    "& fieldset": {
+      border: "none",
+      "& label": {
+        marginBottom: theme.spacing(0.5),
+        display: "block",
       },
     },
   },
-})
+});
 
-export default function Login({
-  onUser
-}) {
-  const styles = useStyles(useTheme())
+export default function Login({ onUser }) {
+  const styles = useStyles(useTheme());
   return (
     <div css={styles.root}>
       <div>
@@ -41,10 +39,12 @@ export default function Login({
           <input id="password" name="password" type="password" />
         </fieldset>
         <fieldset>
-          <input type="submit" value="login" onClick={ (e) => {
-            e.stopPropagation()
-            onUser({username: 'david'})
-          }} />
+          <Button variant="contained">Login</Button>
+          {/* onClick={(e) => {
+              e.stopPropagation();
+              onUser({ username: "david" });
+            } */}
+          
         </fieldset>
       </div>
     </div>

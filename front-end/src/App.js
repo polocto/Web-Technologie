@@ -6,7 +6,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Main from "./Main";
 import Login from "./Login";
-import { Button } from "@material-ui/core";
+//import { Button } from "@material-ui/core";
 
 const styles = {
   root: {
@@ -22,7 +22,12 @@ export default function App() {
   const [user, setUser] = useState(null);
   return (
     <div className="App" css={styles.root}>
-      <Button variant="contained">Login</Button>
+      <Header />
+      {
+        user ? <Main /> : <Login onUser={setUser} />
+      }
+      <Footer />
+      {/* <Button variant="contained">Login</Button> */}
     </div>
   );
 }
