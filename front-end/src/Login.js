@@ -4,6 +4,7 @@ import { TextField } from "@mui/material";
 // Layout
 import { useTheme } from "@mui/styles";
 import auth from "./auth";
+import Cookies from "js-cookie";
 
 const useStyles = (theme) => ({
   root: {
@@ -33,7 +34,33 @@ const getCode= () => {
   if(url.match(/code=/g))
     return url.split("code=")[1].split("&")[0];
   else
-    return '';
+    return null;
+}
+
+const routeConnection = async () => {
+  
+  const code = getCode();
+  const token = Cookies.get("token");
+  if(code == null && token == null)
+  {
+    const data = auth.redirectURLGeneration();
+    Cookies.set(auth.code_verifier,data.code_verifier,{path: 'callback'});
+    window.location.replace(data.url);
+  }
+  else if(token == null) {
+    const code_verifier = Cookies.get(auth.code_verifier);
+    await auth.codeGrant(code,code_verifier);
+    window.location.replace("http://127.0.0.1:3000/");
+  }
+  else
+  {
+    console.log(token);
+    const data = auth.userInfo(JSON.parse(token));
+    //console.log(data);
+    //return data;
+  }
+
+  return null;
 }
 
 export default function Login({ onUser }) {
@@ -56,15 +83,8 @@ export default function Login({ onUser }) {
             variant="contained"
             onClick={ (e) => {
               e.stopPropagation();
-              const code = getCode();
-              if(!code.length)
-              {
-                const redirect = auth.redirectURLGeneration();
-                window.location.replace(redirect.url);
-              }
-              const data = auth.codeGrant(code).data;
-              console.log(data);
-              onUser();
+              routeConnection();
+              onUser(null);
               //{ username: "david" }
             }}
           >

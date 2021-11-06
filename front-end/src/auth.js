@@ -1,8 +1,8 @@
 
 import crypto from 'crypto';
 import axios from 'axios';
-import qs from 'querystring';
-import Cookies from 'js-cookie';
+import qs from 'qs';
+import Cookies from "js-cookie";
 
 const auth = {
     authorization_endpoint: `http://127.0.0.1:5556/dex/auth`,
@@ -10,8 +10,8 @@ const auth = {
     redirect_uri: `http://127.0.0.1:3000/callback`,
     scope: ["openid","email","offline_access"],
     code_verifier: "kjizgoojkpqefj",
-    code_challenge: '',
     token_endpoint: 'http://127.0.0.1:5556/dex/token',
+    userinfo_endpoint: "http://127.0.0.1:5556/dex/userinfo",
     
     base64URLEncode: (str) => str.toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, ''),
     
@@ -35,31 +35,58 @@ const auth = {
             code_verifier: code_verifier,
             url: url
         };
-        console.log(JSON.stringify(data));
-        Cookies.set(auth.code_verifier,code_verifier,{path: 'callback'});
         return data;
     },
     
     
-    codeGrant: async (code) => {
+    codeGrant: async (code, code_verifier) => {
         try {
-            const code_verifier = Cookies.get(auth.code_verifier);
-            console.log(code_verifier);
-            const {data} =  await axios.post(auth.token_endpoint,
+            
+            const data =  await axios.post(auth.token_endpoint,
             qs.stringify({
                 grant_type: 'authorization_code',
                 client_id: auth.client_id,
                 redirect_uri: auth.redirect_uri,
                 code_verifier: code_verifier,
                 code: code
-            }));
-            console.log(data);
+            })).then( (data) => {
+                console.log(data.data);
+                Cookies.set("token",JSON.stringify(data.data),"");
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
+    userInfo: async (token) => {
+        try {
+            console.log(token.access_token);
+            const {data} = await axios.get(`${auth.userinfo_endpoint}?Authorization=Bearer ${token.access_token}`)
+            .then((data) => {
+                console.log(data.data);
+            });
             return data;
         } catch (error) {
             console.error(error);
         }
-    }
+        return null;
+    } 
 
 }
+
+
+// handler = ({
+//     params: { access_token, userinfo_endpoint }
+//     stdout
+//     stderr
+//   }) ->
+//     try
+//       {data} = await axios.get "#{userinfo_endpoint}",
+//         headers: 'Authorization': "Bearer #{access_token}"
+//       stdout.write JSON.stringify data, null, 2
+//       stdout.write '\n\n'
+//     catch err
+//       stderr.write JSON.stringify err.response.data, null, 2
+//       stderr.write '\n\n'
 
 export default auth;
