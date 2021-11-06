@@ -10,6 +10,7 @@ OAuth authentification is included in the messages application.
 # Prerequistes
 - Node.js
 - DEX
+- go
 
 # Installation
 
