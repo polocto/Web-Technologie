@@ -50,7 +50,6 @@ const auth = {
                 code_verifier: code_verifier,
                 code: code
             })).then( (data) => {
-                console.log(data.data);
                 Cookies.set("token",JSON.stringify(data.data),"");
             });
         } catch (error) {
@@ -60,12 +59,17 @@ const auth = {
 
     userInfo: async (token) => {
         try {
-            console.log(token.access_token);
-            const {data} = await axios.get(`${auth.userinfo_endpoint}?Authorization=Bearer ${token.access_token}`)
+            const user = await axios.get(`${auth.userinfo_endpoint}`,{
+                headers: {
+                    'Authorization': `Bearer ${token.access_token}`
+                }
+            })
             .then((data) => {
-                console.log(data.data);
+                return {
+                    email: data.data.email
+                };
             });
-            return data;
+            return user;
         } catch (error) {
             console.error(error);
         }

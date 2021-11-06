@@ -54,10 +54,9 @@ const routeConnection = async () => {
   }
   else
   {
-    console.log(token);
-    const data = auth.userInfo(JSON.parse(token));
-    //console.log(data);
-    //return data;
+    const user = await auth.userInfo(JSON.parse(token));
+    console.log(user.email);
+    return user;
   }
 
   return null;
