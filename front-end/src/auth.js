@@ -73,7 +73,33 @@ const auth = {
             console.error(error);
         }
         return null;
-    } 
+    }/*,
+    validation: async (token) => {
+        const access_token = token.access_token;
+    
+        try {
+            const header = JSON.parse(
+                Buffer.from(
+                    access_token
+                    .split('.')[0], 'base64'
+                    ).toString('utf-8'));
+        const {publicKey, rsaPublicKey} = await jwksClient({
+            jwksUri: auth.jwks_uri
+        }).getSigningKey(header);
+    
+        const key = publicKey || rsaPublicKey;
+    
+        const payload = jwt.verify(access_token,key);
+        console.log("Token Valide");
+        return true;
+    
+        } catch (error) {
+            console.error(error);
+            console.log("Token Invalid");
+            return false;
+        }
+    
+    }*/
 
 }
 
