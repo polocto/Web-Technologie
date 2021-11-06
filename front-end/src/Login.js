@@ -43,7 +43,7 @@ const routeConnection = async () => {
   const token = Cookies.get("token");
   if(code == null && token == null)
   {
-    const data = auth.redirectURLGeneration();
+    const data = await auth.redirectURLGeneration();
     Cookies.set(auth.code_verifier,data.code_verifier,{path: 'callback'});
     window.location.replace(data.url);
   }
@@ -56,6 +56,7 @@ const routeConnection = async () => {
   {
     const user = await auth.userInfo(JSON.parse(token));
     console.log(user.email);
+    console.log("http://127.0.0.1:3000/");
     return user;
   }
 
@@ -82,8 +83,7 @@ export default function Login({ onUser }) {
             variant="contained"
             onClick={ (e) => {
               e.stopPropagation();
-              routeConnection();
-              onUser(null);
+              onUser(routeConnection());
               //{ username: "david" }
             }}
           >

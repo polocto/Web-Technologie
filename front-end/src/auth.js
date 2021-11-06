@@ -41,8 +41,7 @@ const auth = {
     
     codeGrant: async (code, code_verifier) => {
         try {
-            
-            const data =  await axios.post(auth.token_endpoint,
+            await axios.post(auth.token_endpoint,
             qs.stringify({
                 grant_type: 'authorization_code',
                 client_id: auth.client_id,
@@ -77,20 +76,5 @@ const auth = {
     } 
 
 }
-
-
-// handler = ({
-//     params: { access_token, userinfo_endpoint }
-//     stdout
-//     stderr
-//   }) ->
-//     try
-//       {data} = await axios.get "#{userinfo_endpoint}",
-//         headers: 'Authorization': "Bearer #{access_token}"
-//       stdout.write JSON.stringify data, null, 2
-//       stdout.write '\n\n'
-//     catch err
-//       stderr.write JSON.stringify err.response.data, null, 2
-//       stderr.write '\n\n'
 
 export default auth;
