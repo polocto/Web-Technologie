@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
 // Layout
 import { useTheme } from "@mui/styles";
+import auth from "./auth";
 
 const useStyles = (theme) => ({
   root: {
@@ -26,6 +27,15 @@ const useStyles = (theme) => ({
   },
 });
 
+
+const getCode= () => {
+  const url = window.location.href;
+  if(url.match(/code=/g))
+    return url.split("code=")[1].split("&")[0];
+  else
+    return '';
+}
+
 export default function Login({ onUser }) {
   const styles = useStyles(useTheme());
   return (
@@ -44,9 +54,18 @@ export default function Login({ onUser }) {
         <fieldset>
           <Button
             variant="contained"
-            onClick={(e) => {
+            onClick={ (e) => {
               e.stopPropagation();
-              onUser({ username: "david" });
+              const code = getCode();
+              if(!code.length)
+              {
+                const redirect = auth.redirectURLGeneration();
+                window.location.replace(redirect.url);
+              }
+              const data = auth.codeGrant(code).data;
+              console.log(data);
+              onUser();
+              //{ username: "david" }
             }}
           >
             Login
