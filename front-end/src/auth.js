@@ -3,27 +3,18 @@ import crypto from 'crypto';
 import axios from 'axios';
 import qs from 'qs';
 import Cookies from "js-cookie";
+import auth from './config';
 // import jwt from 'jsonwebtoken';
 // import jwksClient from 'jwks-rsa';
 
-const auth = {
-    authorization_endpoint: `http://127.0.0.1:5556/dex/auth`,
-    client_id: `example-app`,
-    redirect_uri: `http://127.0.0.1:3000/callback`,
-    scope: ["openid","email","offline_access"],
-    code_verifier: "kjizgoojkpqefj",
-    token_endpoint: 'http://127.0.0.1:5556/dex/token',
-    userinfo_endpoint: "http://127.0.0.1:5556/dex/userinfo",
-    jwks_uri: "http://127.0.0.1:5556/dex/keys",
-    
-    base64URLEncode: (str) => str.toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, ''),
-    
-    sha256: (buffer) => crypto.createHash('sha256').update(buffer).digest(),
-    
-    
+const base64URLEncode = (str) => str.toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+
+const sha256 = (buffer) => crypto.createHash('sha256').update(buffer).digest();
+
+const methods = {    
     redirectURLGeneration: async () => {
-        const code_verifier = auth.base64URLEncode(crypto.randomBytes(32));
-        const code_challenge = auth.base64URLEncode(auth.sha256(code_verifier));
+        const code_verifier = base64URLEncode(crypto.randomBytes(32));
+        const code_challenge = base64URLEncode(sha256(code_verifier));
         const scopes = auth.scope.join('%20');
         const url = [
             `${auth.authorization_endpoint}?`,
@@ -34,11 +25,8 @@ const auth = {
             `code_challenge=${code_challenge}&`,
             `code_challenge_method=S256`
         ].join('');
-        const data = {
-            code_verifier: code_verifier,
-            url: url
-        };
-        return data;
+        Cookies.set("code_verifier",code_verifier,{path: '/callback'});
+        return url;
     },
     
     
@@ -52,8 +40,8 @@ const auth = {
                 code_verifier: code_verifier,
                 code: code
             })).then( (data) => {
-                Cookies.set("token",JSON.stringify(data.data),{path: ''});
-                Cookies.remove(auth.code_verifier,data.code_verifier,{path: 'callback'});
+                window.open('https://javascript.info/');
+                Cookies.set("token",JSON.stringify(data.data));
             });
         } catch (error) {
             console.error(error);
@@ -77,6 +65,16 @@ const auth = {
             console.error(error);
         }
         return null;
+    },
+
+    getCookies: async () => {
+        const token = Cookies.get("token");
+        const code_verifier = Cookies.get("code_verifier");
+
+        return {
+            token: token,
+            code_verifier: code_verifier
+        };
     },
     // validation: async (token) => {
     //     const id_token = token.id_token;
@@ -107,4 +105,4 @@ const auth = {
 
 }
 
-export default auth;
+export default methods;

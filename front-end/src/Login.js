@@ -3,8 +3,9 @@ import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
 // Layout
 import { useTheme } from "@mui/styles";
+import { useEffect, useState } from "react";
+import connection from "./connection";
 import auth from "./auth";
-import Cookies from "js-cookie";
 
 const useStyles = (theme) => ({
   root: {
@@ -28,49 +29,32 @@ const useStyles = (theme) => ({
   },
 });
 
-
-const getCode= () => {
-  const url = window.location.href;
-  if(url.match(/code=/g))
-    return url.split("code=")[1].split("&")[0];
-  else
-    return null;
-}
-
-const routeConnection = async () => {
-  
-  const code = getCode();
-  const token = Cookies.get("token");
-  if(code == null && token == null)
-  {
-    const data = await auth.redirectURLGeneration();
-    Cookies.set(auth.code_verifier,data.code_verifier,{path: 'callback'});
-    window.location.replace(data.url);
-  }
-  else if(token == null) {
-    const code_verifier = Cookies.get(auth.code_verifier);
-    await auth.codeGrant(code,code_verifier);
-    window.location.replace("http://127.0.0.1:3000/");
-  }
-  else
-  {
-    const user = await auth.userInfo(JSON.parse(token));
-    console.log(user.email);
-    console.log("http://127.0.0.1:3000/");
-    return user;
-  }
-
-  return null;
+const connect = async (setUser) => 
+{
+  const {token} = auth.getCookies();
+  console.log(token);
+  if(token == null)
+    setUser(null);
+  else 
+    await auth.userInfo(JSON.parse(token))
+    .then((result) => {
+      console.log(result);
+      setUser(result);
+    });
 }
 
 export default function Login({ onUser }) {
   const styles = useStyles(useTheme());
+  const [user,setUser] = useState(null);
+  console.log("User : ");
+  console.log(user);
+  const username = user ? user.email : "username";
   return (
     <div css={styles.root}>
       <div>
         <fieldset>
           {/* <label htmlFor="username">username: </label> */}
-          <TextField id="filled-basic" label="username" variant="filled" />
+          <TextField id="filled-basic" label={username} variant="filled" />
           {/* <input id="username" name="username" /> */}
         </fieldset>
         <fieldset>
@@ -83,8 +67,9 @@ export default function Login({ onUser }) {
             variant="contained"
             onClick={ (e) => {
               e.stopPropagation();
-              onUser(routeConnection());
-              //{ username: "david" }
+              connection();
+              connect(setUser);
+              onUser(user);
             }}
           >
             Login
