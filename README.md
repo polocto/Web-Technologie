@@ -22,7 +22,11 @@ git clone git@github.com:polocto/Web-Technologie.git
 ```sh
 npm install
 ```
-Modify callback url in dex/examples/config-dev.yaml to `http://127.0.0.1:3000/callback`
+Modify callback url in `dex/examples/config-dev.yaml` to `http://127.0.0.1:3000/callback`
+then run the following command from dolder `dex`
+```sh
+./bin/dex serve examples/config-dev.yaml 
+```
 # Run
 To run this application
 - In both `.front-end` & `./back-end` run the following command
