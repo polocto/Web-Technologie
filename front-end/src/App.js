@@ -1,11 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import { useState } from "react";
+import { useContext } from "react";
 import "./App.css";
 // Local
 import Footer from "./Footer";
 import Header from "./Header";
 import Main from "./Main";
 import Login from "./Login";
+import {Context} from "./Context"
 //import { Button } from "@material-ui/core";
 
 const styles = {
@@ -19,12 +20,12 @@ const styles = {
 };
 
 export default function App() {
-  const [user, setUser] = useState(null);
+  const {user} = useContext(Context);
   return (
     <div className="App" css={styles.root}>
       <Header />
       {
-        user ? <Main /> : <Login onUser={setUser} />
+        user ? <Main /> : <Login/>
       }
       <Footer />
       {/* <Button variant="contained">Login</Button> */}

@@ -1,6 +1,6 @@
 
 /** @jsxImportSource @emotion/react */
-import {useRef, useState} from 'react';
+import {useContext, useRef, useState} from 'react';
 import axios from 'axios';
 // Layout
 import { useTheme } from '@mui/styles';
@@ -9,6 +9,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 // Local
 import Form from './channel/Form'
 import List from './channel/List'
+import { Context } from './Context';
 
 const useStyles = (theme) => ({
   root: {
@@ -32,6 +33,7 @@ const useStyles = (theme) => ({
 export default function Channel({
   channel
 }) {
+  const {access_token} = useContext(Context);
   const styles = useStyles(useTheme())
   const listRef = useRef();
   const channelId = useRef()
@@ -42,7 +44,11 @@ export default function Channel({
   }
   const fetchMessages = async () => {
     setMessages([])
-    const {data: messages} = await axios.get(`http://localhost:3001/channels/${channel.id}/messages`)
+    const {data: messages} = await axios.get(`http://localhost:3001/channels/${channel.id}/messages`,{
+      headers: {
+          authorization: `${access_token}`
+      }
+  })
     setMessages(messages)
     if(listRef.current){
       listRef.current.scroll()

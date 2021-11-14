@@ -1,37 +1,12 @@
 const db = require("./db");
 const express = require("express");
 const cors = require("cors");
-const jwt = require("jsonwebtoken");
-const jwksClient = require("jwks-rsa");
-const config = require("./config");
+const auth = require("./auth");
 const app = express();
 const { Buffer } = require('buffer');
 
 app.use(require("body-parser").json());
 app.use(cors());
-
-app.get("*", async (req,res)=>{
-  const token = req.headers.authorization;
-  try {
-      const header = JSON.parse(
-          Buffer.from(
-              token
-              .split('.')[0], 'base64'
-              ).toString('utf-8'));
-      const {publicKey, rsaPublicKey} = await jwksClient({
-          jwksUri: auth.jwks_uri
-      }).getSigningKey(header.kid);
-  
-      const key = publicKey || rsaPublicKey;
-  
-      const payload = jwt.verify(id_token,key);
-      console.log("Token Valide");
-
-  } catch (error) {
-      console.error(error);
-      console.log("Token Invalid");
-  }
-});
 
 app.get("/", (req, res) => {
   res.send(["<h1>ECE DevOps Chat</h1>"].join(""));
@@ -39,7 +14,7 @@ app.get("/", (req, res) => {
 
 // Channels
 
-app.get("/channels", async (req, res) => {
+app.get("/channels",auth, async (req, res) => {
   const channels = await db.channels.list();
   res.json(channels);
 });
@@ -49,7 +24,8 @@ app.post("/channels", async (req, res) => {
   res.status(201).json(channel);
 });
 
-app.get("/channels/:id", async (req, res) => {
+app.get("/channels/:id", auth, async (req, res) => {
+  console.log(req.params.id);
   const channel = await db.channels.get(req.params.id);
   res.json(channel);
 });
@@ -61,7 +37,7 @@ app.put("/channels/:id", async (req, res) => {
 
 // Messages
 
-app.get("/channels/:id/messages", async (req, res) => {
+app.get("/channels/:id/messages",auth, async (req, res) => {
   const messages = await db.messages.list(req.params.id);
   res.json(messages);
 });
@@ -73,7 +49,7 @@ app.post("/channels/:id/messages", async (req, res) => {
 
 // Users
 
-app.get("/users", async (req, res) => {
+app.get("/users", auth, async (req, res) => {
   const users = await db.users.list();
   res.json(users);
 });
@@ -83,7 +59,7 @@ app.post("/users", async (req, res) => {
   res.status(201).json(user);
 });
 
-app.get("/users/:id", async (req, res) => {
+app.get("/users/:id",auth, async (req, res) => {
   const user = await db.users.get(req.params.id);
   res.json(user);
 });

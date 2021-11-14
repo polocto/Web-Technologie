@@ -1,5 +1,8 @@
 
 /** @jsxImportSource @emotion/react */
+import { useContext } from "react";
+import { Context } from "./Context";
+import { Link } from '@mui/material';
 
 const styles = {
   header: {
@@ -16,9 +19,12 @@ const styles = {
 }
 
 export default function Header() {
+  const {logout, user} = useContext(Context);
   return (
     <header css={styles.header}>
-      Header
+      {
+        user ? <Link href="#" onClick={ (e) => { e.preventDefault(); logout(); }} >Logout {user.email}</Link> : "header"
+      }
     </header>
   );
 }

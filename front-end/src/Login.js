@@ -3,9 +3,10 @@ import { Button } from "@mui/material";
 import { TextField } from "@mui/material";
 // Layout
 import { useTheme } from "@mui/styles";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { redirectURLGeneration , authorizationCodeGrant , bearerAuthentication } from "./Auth";
 import Cookies from "js-cookie";
+import { Context } from "./Context";
 
 const useStyles = (theme) => ({
   root: {
@@ -38,8 +39,9 @@ const getCode = (setCode) => {
     }
 }
 
-export default function Login({ onUser }) {
+export default function Login() {
   const styles = useStyles(useTheme());
+  const {login, saveToken} = useContext(Context);
   const [code, setCode] = useState(null);
   const [token, setToken] = useState(null);
   const [username, setUsername] = useState(null);
@@ -49,8 +51,10 @@ export default function Login({ onUser }) {
   useEffect(()=>{
     getCode(setCode);
     const temp = Cookies.get("token");
-    if(temp)
+    if(temp){
+      Cookies.remove("token");
       setToken(JSON.parse(temp));
+    }
   },[]);
 
   useEffect(()=>{
@@ -70,9 +74,10 @@ export default function Login({ onUser }) {
     console.log("Token");
     if(token)
     {
+      saveToken(token);
       const data = bearerAuthentication(token.access_token);
       data.then((data)=>{
-        onUser({email: data.email});
+        login({email: data.email});
       });
     }
   },[token]);
