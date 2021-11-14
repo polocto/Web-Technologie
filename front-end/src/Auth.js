@@ -50,7 +50,7 @@ export async function bearerAuthentication(access_token){
     try {
         const {data} = await axios.get(`${config.userinfo_endpoint}`,{
             headers: {
-                Authorization: `Bearer ${access_token}`
+                authorization: `Bearer ${access_token}`
             }
         });
 
