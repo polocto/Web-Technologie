@@ -8,7 +8,6 @@ const config = {
     scope: ["openid","email","offline_access"],
     token_endpoint: 'http://127.0.0.1:5556/dex/token',
     userinfo_endpoint: "http://127.0.0.1:5556/dex/userinfo",
-    jwks_uri: "http://127.0.0.1:5556/dex/keys",
 }
 
 export default config;

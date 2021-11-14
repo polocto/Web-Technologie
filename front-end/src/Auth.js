@@ -45,3 +45,18 @@ export async function authorizationCodeGrant(code_verifier,code){
         return null;
     }
 }
+
+export async function bearerAuthentication(access_token){
+    try {
+        const {data} = await axios.get(`${config.userinfo_endpoint}`,{
+            headers: {
+                Authorization: `Bearer ${access_token}`
+            }
+        });
+
+        return data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}

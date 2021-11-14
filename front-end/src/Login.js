@@ -4,7 +4,7 @@ import { TextField } from "@mui/material";
 // Layout
 import { useTheme } from "@mui/styles";
 import { useEffect, useState } from "react";
-import { redirectURLGeneration , authorizationCodeGrant } from "./Auth";
+import { redirectURLGeneration , authorizationCodeGrant , bearerAuthentication } from "./Auth";
 import Cookies from "js-cookie";
 
 const useStyles = (theme) => ({
@@ -68,7 +68,13 @@ export default function Login({ onUser }) {
 
   useEffect(()=>{
     console.log("Token");
-    console.log(token);
+    if(token)
+    {
+      const data = bearerAuthentication(token.access_token);
+      data.then((data)=>{
+        onUser({email: data.email});
+      });
+    }
   },[token]);
 
   return (
