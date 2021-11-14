@@ -1,10 +1,39 @@
 const db = require("./db");
 const express = require("express");
 const cors = require("cors");
+const jwt = require("jsonwebtoken");
+const jwksClient = require("jwks-rsa");
+const config = require("./config");
 const app = express();
+const { Buffer } = require('buffer');
 
 app.use(require("body-parser").json());
 app.use(cors());
+
+// app.get("*", async (req,res)=>{
+//   const token = '';
+//   try {
+//       const header = JSON.parse(
+//           Buffer.from(
+//               token
+//               .split('.')[0], 'base64'
+//               ).toString('utf-8'));
+//       const {publicKey, rsaPublicKey} = await jwksClient({
+//           jwksUri: auth.jwks_uri
+//       }).getSigningKey(header.kid);
+  
+//       const key = publicKey || rsaPublicKey;
+  
+//       const payload = jwt.verify(id_token,key);
+//       console.log("Token Valide");
+//       res.send(payload);
+
+//   } catch (error) {
+//       console.error(error);
+//       console.log("Token Invalid");
+//       res.send(null);
+//   }
+// });
 
 app.get("/", (req, res) => {
   res.send(["<h1>ECE DevOps Chat</h1>"].join(""));
