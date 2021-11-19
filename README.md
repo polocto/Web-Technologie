@@ -1,43 +1,111 @@
-# OAuth
 
-OAuth2 and OpenID Connect enable the delegation of authorisation to an external service, not managed by our application. Dex can even delegate the authentication to multiple connector, an LDAP/AD directory or another OAuth provider like GitHub, thus acting like a federated OpenID Connect provider. We don't have to manage the security endpoints related to our application including account creation, login form, password retrieval, DDoS attacks and many more. It also provide us with an authentication mechanism where no password is being sent to us.
+# Chat application - final project
 
-OAuth authentification is included in the messages' application.
+*presentation, introduction, ...*
 
-## Courses
-> https://github.com/adaltas/ece-webtech-2021-fall
+## Usage
 
-# Prerequistes
-- Node.js
-- DEX
-- go
+*how to start and use the application, run the tests, ...*
 
-# Installation
+* Clone this repository, from your local machine:
+  ```
+  git clone https://github.com/adaltas/ece-webtech-2021-fall.git webtech
+  cd webtech/courses/webtech/project
+  ```
+* Install [Go](https://golang.org/) and [Dex](https://dexidp.io/docs/getting-started/). For example, on Ubuntu, from your project root directory:   
+  ```
+  # Install Go
+  apt install golang-go
+  # Download Dex
+  git clone https://github.com/dexidp/dex.git
+  # Build Dex
+  cd dex
+  make
+  make examples
+  ```
+  Note, the provided `.gitignore` file ignores the `dex` folder.
+* Register your GitHub application, get the `clientID` and `clientSecret` from GitHub and report them to your Dex configuration. Modify the provided `./dex-config/config.yml` configuration to look like:
+  ```yaml
+  - type: github
+    id: github
+    name: GitHub
+    config:
+      clientID: xxxx98f1c26493dbxxxx
+      clientSecret: xxxxxxxxx80e139441b637796b128d8xxxxxxxxx
+      redirectURI: http://127.0.0.1:5556/dex/callback
+  ```
+* Inside `./dex-config/config.yml`, the front-end application is already registered and CORS is activated. Now that Dex is built and configured, you can start the Dex server:
+  ```yaml
+  cd dex
+  bin/dex serve dex-config/config.yaml
+  ```
+* Start the back-end
+  ```bash
+  cd back-end
+  # Install dependencies (use yarn or npm)
+  yarn install
+  # Optional, fill the database with initial data
+  bin/init
+  # Start the back-end
+  bin/start
+  ```
+* Start the front-end
+  ```bash
+  cd front-end
+  # Install dependencies (use yarn or npm)
+  yarn install
+  # Start the front-end
+  yarn start
+  ```
 
-- Clone the remote repository to local
-```sh
-git clone git@github.com:polocto/Web-Technologie.git
-```
-- In both `./front-end` & `./back-end` run the following command
-```sh
-npm install
-```
-Modify callback url in `dex/examples/config-dev.yaml` to `http://127.0.0.1:3000/callback`
-then run the following command from dolder `dex`
-```sh
-./bin/dex serve examples/config-dev.yaml 
-```
-# Run
-To run this application
-- In both `.front-end` & `./back-end` run the following command
-```sh
-npm start
-```
-A page will open in your browser. Click on the button with the label 'LOGIN'.
+## Author
 
-# Authors
-- [Paul SADE](mailto:paul.sade@edu.ece.fr)
-- [Mathis Camard](mailto:mathis.camard@edu.ece.fr)
+**Paul SADE**
+*[paul.sade@edu.ece.fr](mailto:paul.sade@edu.ece.fr)*
 
-# Liscence
-None
+**Mathis CAMARD**
+*[mathis.camard@edu.ece.fr](mailto:mathis.camard@edu.ece.fr)*
+
+## Tasks
+
+Project management
+
+* Naming convention   
+  *place your graduation and comments*
+* Project structure   
+  *place your graduation and comments*
+* Code quality   
+  *place your graduation and comments*
+* Design, UX   
+  *place your graduation and comments*
+* Git and DevOps   
+  *place your graduation and comments*
+
+Application development
+
+* Welcome screens   
+  *place your graduation and comments*
+* New channel creation   
+  *place your graduation and comments*
+* Channel membership and access   
+  *place your graduation and comments*
+* Ressource access control   
+  *place your graduation and comments*
+* Invite users to channels   
+  *place your graduation and comments*
+* Message modification   
+  *place your graduation and comments*
+* Message removal   
+  *place your graduation and comments*
+* Account settings   
+  *place your graduation and comments*
+* Gravatar integration   
+  *place your graduation and comments*
+* Avatar selection   
+  *place your graduation and comments*
+* Personal custom avatar   
+  *place your graduation and comments*
+
+## Bonus
+
+*place your graduation and comments*

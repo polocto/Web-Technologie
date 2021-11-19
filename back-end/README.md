@@ -5,13 +5,6 @@ This is a chat application we wrote to learn the basics and the not so basics fe
 
 ## Usage
 
-Initialize the database with records and start the web application:
-
-```bash
-npm run develop 
-Chat is waiting for you at http://localhost:3000
-```
-
 Start the web application:
 
 ```bash

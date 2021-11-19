@@ -4,7 +4,7 @@ import {forwardRef, useImperativeHandle, useLayoutEffect, useRef} from 'react'
 // Layout
 import { useTheme } from '@mui/styles';
 // Markdown
-import {unified} from 'unified'
+import { unified } from 'unified'
 import markdown from 'remark-parse'
 import remark2rehype from 'remark-rehype'
 import html from 'rehype-stringify'
@@ -22,6 +22,7 @@ dayjs.updateLocale('en', {
 
 const useStyles = (theme) => ({
   root: {
+    position: 'relative',
     flex: '1 1 auto',
     overflow: 'auto',
     '& ul': {
@@ -34,8 +35,19 @@ const useStyles = (theme) => ({
   message: {
     padding: '.2rem .5rem',
     ':hover': {
-      backgroundColor: 'rgba(255,255,255,.2)',
+      backgroundColor: 'rgba(255,255,255,.05)',
     },
+  },
+  fabWrapper: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    width: '50px',
+  },
+  fab: {
+    position: 'fixed !important',
+    top: 0,
+    width: '50px',
   },
 })
 
