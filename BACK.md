@@ -1,10 +1,11 @@
-# Objects Description and Use
+# Description of back-end objects and their uses
 
 This is a presentation of the differents object that will be use and an explanation of how it should be used for our project. We'll describe the different functionalities and a way to handle it. It composed of 3 types of objects:
 - [Channels](#channels)
 - [Users](#users)
 - [Messages](#messages)
 
+Those objects are describe under how they will appear in the back-end, however less informations will be sent to the front end. This will describe other objects see the file [FRONT.md](FRONT.md).
 
 ## Channels
 Here will see how a channel works.
