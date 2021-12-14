@@ -50,7 +50,7 @@ If there's one of this two event a `departureTime` will be define so he won't ha
 
 > Admin case
 
-If the admin leave the conversation and if there's is no other admin he will have to design another user as the admin. If there is no other user there's no admin define (!! the conversation will not be active anymore but only readable)
+If the admin leave the conversation and if there's is no other admin the older user in the conversation will be designate. If there is no other user there's no admin define (!! the conversation will not be active anymore but only readable)
 
 ### Suppress a Channel
 ---
@@ -144,6 +144,61 @@ If the admin leave the conversation and if there's is no other admin he will hav
 ```
 
 ## Users
+User are the core of the application.
+
+### Create
+---
+When use openid connection, the user should be automatically created if doesn't exist in the database.
+
+The **`email`** is used as an **id**.
+
+>Mandatory
+- `id` created by default
+- `email` is mandatory to create an account
+- `username` ask the user to fill it, if too hard take fisrt par of `email` before "@"
+>Default
+- `onLineStatus` online when connected and pass offline if disconnect
+- `profileImage` if none choosen by the user one is chosen by default
+>Not Mandatory
+- `lastName` will be added if the user choose to add one
+- `firstName` will be added if the user choose to add one
+- `channels` ids will be listed when the user will be invited to one or when the user creates one
+- `contacts` userId will be added when the user will be added
+- `importantMessages` will be create when user select important messages
+
+### Modify
+---
+Having an `id` make possible to change the email address.
+
+>Modifiable
+- `username`
+- `onLineStatus`
+- `profileImage`
+- `lastName`
+- `firstName`
+- `channels`
+- `contacts`
+- `importantMessages`
+
+`channels` look [here](#manage-users-of-the-channel)
+- You can create one also
+
+`contacts` there's no demands you just add it and you can send some messages
+- Add them by email address
+- blocked act as a filter need to think about it
+
+- `importantMessages` store messages from channels as important
+
+### Delete
+---
+- Don't delete all informations of the `user` to keep channel's consistency, keep `email` and `username`, add a parameter `deleted`
+- Leave all channels by defining a `departureTime`.
+- Delete him from:
+    - all its contact
+    - Pending invitation
+
+### Implementation
+---
 ```json
 {
     "id": "<id>",
@@ -165,6 +220,8 @@ If the admin leave the conversation and if there's is no other admin he will hav
     ],
     "onLineStatus": "off ligne", 
     "contacts": ["<idUser>", "<idUser>",...],
+    "pendingInvitation": ["<idUser>", "<idUser>",...],
+    "sentInvitation": ["<idUser>", "<idUser>",...],
     "importantMessages": 
     [
         {
@@ -174,8 +231,19 @@ If the admin leave the conversation and if there's is no other admin he will hav
         ...
     ]
 }
+
+{
+    "id": "<id>",
+    "username": "<username>", 
+    "email": "<e-mail>", 
+    "deleted": true
+}
 ```
 ## Messages
+Messages are the basic of the application since it's a message application. However there's no much things that depends on messages so they are quit simple to manage.
+
+
+### Implementation
 ```json
 {
     "channelId": "<channelId>", 
