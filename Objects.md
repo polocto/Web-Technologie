@@ -28,11 +28,11 @@ Here will see how a channel works.
 - `shareImage` the shared images during the conversation
 - `shareLinks` the shared Links during the conversation
 
-### Creation
+### Create
 ---
 The user who creates a channel will have to give a `name` to the channel, specify the `users` be part of the channel which determine the `numberOfUserHavingAccess`. He will be by default designated as an `admin`. Each invited `user` will have the **same `arrivalTime` timeStamp**. `lastModification` will be initialize.
 
-### Manage users of the Channel
+### Update
 ---
 We **never suppress users from a channel** because it have no sens if we delete someone, that the channel vanish from his list of channels. If we **suppress him from the channel but he still has acces to it**, as long messages are stored in the channel **he will have access to all messages**. **We want him to have access to the previous messages when he was a member of the group**. We will **manage his access to some messages**.
 
@@ -52,7 +52,7 @@ If there's one of this two event a `departureTime` will be define so he won't ha
 
 If the admin leave the conversation and if there's is no other admin the older user in the conversation will be designate. If there is no other user there's no admin define (!! the conversation will not be active anymore but only readable)
 
-### Suppress a Channel
+### Delete
 ---
 #### From a user list
 - Decrement the `numberOfUserHavingAccess` by one
@@ -166,7 +166,7 @@ The **`email`** is used as an **id**.
 - `contacts` userId will be added when the user will be added
 - `importantMessages` will be create when user select important messages
 
-### Modify
+### Update
 ---
 Having an `id` make possible to change the email address.
 
@@ -188,6 +188,7 @@ Having an `id` make possible to change the email address.
 - blocked act as a filter need to think about it
 
 - `importantMessages` store messages from channels as important
+    - If a messages can not be found in the db because it has been deleted, keep the object and informe the front that this message have been deleted
 
 ### Delete
 ---
@@ -240,13 +241,29 @@ Having an `id` make possible to change the email address.
 }
 ```
 ## Messages
-Messages are the basic of the application since it's a message application. However there's no much things that depends on messages so they are quit simple to manage.
+Messages are the basement of the application since it's a message application. However there's no much things that depends on messages so they are quit simple to manage.
 
+### Create
+
+When we create a message it implies it to have :
+- `creation` will be the time when the message have been sent it will be use as an id
+- `modification` will mark the last time a user have made a modification (same as creation first message sent)
+- `content` which is necessary for the creation of a message
+- `readed` is an object listing all the user who have access to the conversation when the message was sent and a status for each users to know if everyone have read the message.
+- `pinned` is a boolean initialize to **false**
+- `reactions` the different reaction to a message
+
+### Update
+- Change the `content`
+- Modify the `modification` timestamp
+- Add or remove `reactions`
+
+### Delete
+- Just delete the message
 
 ### Implementation
 ```json
-{
-    "channelId": "<channelId>", 
+{ 
     "creation": "<timeStamp>", 
     "modification": "<timeStamp>",
     "creator": "<userId>", 
@@ -259,8 +276,7 @@ Messages are the basic of the application since it's a message application. Howe
         },
         ...
     ], 
-    "pinned": false, 
-    "important": ["<userId>",...],
+    "pinned": false,
     "reactions": 
     [
         {
