@@ -14,7 +14,17 @@ import {
 
 const theme = createTheme({
   palette: {
-    mode: 'dark',
+    primary: {
+      main: '#6C7070',
+      dark: '#3A3E3E',
+      light: '#949999',
+      contrastText: '#C4C4C4',
+    },
+    secondary: {
+      main: '#00b89c',
+    },
+    
+
   }
 });
 

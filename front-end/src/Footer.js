@@ -1,18 +1,17 @@
 
 /** @jsxImportSource @emotion/react */
+import { useTheme } from '@mui/styles';
 
-const styles = {
+
+const useStyles = (theme) => ({
   footer: {
-    height: '30px',
-    backgroundColor: 'rgba(255,255,255,.3)',
+    padding: theme.spacing(1),
+    backgroundColor: theme.palette.primary.dark,
     flexShrink: 0,
   },
-}
+})
 
-export default function Footer() {
-  return (
-    <footer style={styles.footer}>
-      footer
-    </footer>
-  );
+export default function Footer({}) {
+  const styles = useStyles(useTheme());
+  return (<span></span>);
 }
