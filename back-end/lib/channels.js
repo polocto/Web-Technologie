@@ -25,19 +25,4 @@ router.put('/:id', async (req, res) => {
 
 router.use('/:id*', messages);
 
-// router.get('/:id/messages', async (req, res) => {
-//     try{
-//         const channel = await db.channels.get(req.params.id);
-//     }catch(err){
-//         return res.status(404).send('Channel does not exist.');
-//     }
-//     const messages = await db.messages.list(req.params.id);
-//     res.json(messages);
-// })
-
-// router.post('/:id/messages', async (req, res) => {
-//     const message = await db.messages.create(req.params.id, req.body);
-//     res.status(201).json(message);
-// })
-
 module.exports = router;
