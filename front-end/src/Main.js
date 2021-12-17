@@ -17,7 +17,7 @@ import {
 
 const useStyles = (theme) => ({
   root: {
-    backgroundColor: '#373B44',
+    backgroundColor: '#3A3E3E',
     overflow: 'hidden',
     flex: '1 1 auto',
     display: 'flex',
@@ -45,8 +45,8 @@ export default function Main() {
   const isDrawerVisible = alwaysOpen || drawerVisible
   return (
     <main css={styles.root}>
-      <Drawer
-        PaperProps={{ style: { position: 'relative' } }}
+      <Drawer 
+        PaperProps={{ style: { position: 'relative', background: '#585d5d',} }}
         BackdropProps={{ style: { position: 'relative' } }}
         ModalProps={{
           style: { position: 'relative' }

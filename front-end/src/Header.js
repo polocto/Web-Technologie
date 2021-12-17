@@ -6,6 +6,7 @@ import { IconButton, Link } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Context from "./Context";
 import { ThemeProvider } from "@emotion/react";
+import { Button } from "@mui/material";
 
 const useStyles = (theme) => ({
   header: {
@@ -47,11 +48,17 @@ export default function Header({ drawerToggleListener }) {
       >
         <MenuIcon />
       </IconButton>
-      {/* Header */}
+      { Header }
       {oauth ? (
         <span>
           {oauth.email}
-          <Link onClick={onClickLogout}>logout</Link>
+
+          <Button id="logoutButton" variant="outlined" color="error">
+          <Link onClick={onClickLogout}>
+            logout
+          </Link>
+          </Button>
+          
         </span>
       ) : (
         <span></span>

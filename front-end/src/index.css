@@ -22,7 +22,8 @@ ul {
 }
 
 #root > div {
-  color: #fff;
+  color: #00b89c;
+  background-color: #3a3e3e;
   position: absolute;
   height: 100%;
   width: 100%;
@@ -48,5 +49,47 @@ ul {
   justify-content: center;
   align-items: center;
   position: relative;
-  left: -215px;
+  left: -20%;
+}
+
+#logoutButton {
+  display: flex;
+  justify-content: center;
+  align-items: left;
+  left: 80%;
+  top: -25%;
+}
+
+#channelList {
+  padding: 0;
+  margin: 0;
+  background-color: #585d5d;
+}
+
+#circle {
+  width: 100px;
+  height: 20px;
+  border-radius: 25px;
+  background: #949999;
+  padding: 2%;
+  margin-left: 15px;
+  margin-top: 20px;
+}
+
+#welcmButton {
+  background: #949999;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-left: 18px;
+ 
+}
+
+#channelLink {
+  padding-left: 17%; 
+  padding-right: 17%;  
+  position: relative;
+  line-height: 1.5;
+  color: red;
 }
