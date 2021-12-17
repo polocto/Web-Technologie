@@ -3,6 +3,21 @@ const supertest = require('supertest');
 const microtime = require('microtime');
 const app = require('../lib/app');
 const db = require('../lib/db');
+const users = [
+  {
+    id: "185-185-1564-54-564"
+  },
+  {
+    id: "185-185-153-54-564"
+  }
+];
+const channelTest = {
+  name: 'channel 1',
+  profileImage: '../img/default.png',
+  admin: ["185-185-1564-54-564"],
+  users: [...users],
+  numberOfUserHavingAccess: users.length,
+}
 
 describe('messages', () => {
   
@@ -14,7 +29,7 @@ describe('messages', () => {
     // Create a channel
     const {body: channel} = await supertest(app)
     .post('/channels')
-    .send({name: 'channel 1'});
+    .send(channelTest);
     // Get messages
     const {body: messages} = await supertest(app)
     .get(`/channels/${channel.id}/messages`)
@@ -26,7 +41,7 @@ describe('messages', () => {
     // Create a channel
     const {body: channel} = await supertest(app)
     .post('/channels')
-    .send({name: 'channel 1'});
+    .send(channelTest);
     // and a message inside it
     await supertest(app)
     .post(`/channels/${channel.id}/messages`)
@@ -46,7 +61,7 @@ describe('messages', () => {
     // Create a channel
     const {body: channel} = await supertest(app)
     .post('/channels')
-    .send({name: 'channel 1'});
+    .send(channelTest);
     // Create a message inside it
     const {body: message} = await supertest(app)
     .post(`/channels/${channel.id}/messages`)
