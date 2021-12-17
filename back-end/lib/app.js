@@ -1,12 +1,8 @@
-
-const db = require('./db');
 const express = require('express');
 const cors = require('cors');
-const {clone, merge} = require('mixme');
-const microtime = require('microtime');
 const authenticator = require('./authenticator');
-const channels = require('./channels');
-const users = require('./users');
+const channels = require('./route/channels');
+const users = require('./route/users');
 
 const app = express();
 const authenticate = authenticator({

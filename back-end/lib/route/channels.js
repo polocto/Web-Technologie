@@ -1,4 +1,4 @@
-const db = require('./db');
+const db = require('../db/db');
 const express = require('express');
 const messages = require('./messages');
 const router = express.Router();
@@ -9,8 +9,14 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const channel = await db.channels.create(req.body);
-    res.status(201).json(channel);
+    try{
+        const [metadata, userId] = req.body;
+        const channel = await db.channels.create(metadata,userId);
+        res.status(201).json(channel);
+    }
+    catch(err){
+        res.status(err.status).send(err.messages);
+    }
 });
 
 router.get('/:id', async (req, res) => {
