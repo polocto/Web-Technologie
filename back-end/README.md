@@ -162,7 +162,6 @@ If the admin leave the conversation and if there's is no other admin the older u
     "name": "exemple nom",
     "profileImage": "photo.jpg", 
     "lastModification": "<timeStamp>", 
-    "numberOfUserHavingAccess": "<n>",
     "admin": ["<isUser>"],
     "users": 
     [ 
@@ -287,17 +286,7 @@ Having an `id` make possible to change the email address.
     "lastName": "<last name>", 
     "firstName": "<first name>", 
     "profileImage": "<image>", 
-    "channels": [
-        {
-            "channel": "<idChannel>", 
-            "notification": true
-        },
-        {
-            "channel": "<idChannel>",  
-            "notification": false
-        },
-        ...
-    ],
+    "channels": ["<idChannel>",...],
     "onLineStatus": "off ligne", 
     "contacts": ["<idUser>", "<idUser>",...],
     "pendingInvitation": ["<idUser>", "<idUser>",...],
@@ -310,13 +299,6 @@ Having an `id` make possible to change the email address.
         },
         ...
     ]
-}
-
-{
-    "id": "<id>",
-    "username": "<username>", 
-    "email": "<e-mail>", 
-    "deleted": true
 }
 ```
 ## Messages
@@ -346,16 +328,7 @@ When we create a message it implies it to have :
     "creation": "<timeStamp>", 
     "modification": "<timeStamp>",
     "creator": "<userId>", 
-    "content": "<content>", 
-    "readed": 
-    [
-        {
-            "user": "<idUser>",
-            "readed": true
-        },
-        ...
-    ], 
-    "pinned": false,
+    "content": "<content>",
     "reactions": 
     [
         {
