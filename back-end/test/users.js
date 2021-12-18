@@ -10,38 +10,10 @@ const userTest = {
   profileImage: "../image/default.jpg",
 }
 
-describe.skip('users', () => {
+describe('users', () => {
   
   beforeEach( async () => {
     await db.admin.clear();
-  });
-  
-  it('list empty', async () => {
-    // Return an empty user list by default
-    const {body: users} = await supertest(app)
-    .get('/users')
-    .expect(200);
-    users.should.eql([]);
-  });
-  
-  it('list one element', async () => {
-    // Create a user
-    await supertest(app)
-    .post('/users')
-    .send(userTest);
-    // Ensure we list the users correctly
-    const {body: users} = await supertest(app)
-    .get('/users')
-    .expect(200);
-    users.should.match([{
-      id: /^\w+-\w+-\w+-\w+-\w+$/,
-      username: "polocto",
-      email: "paul.sade@live.fr",
-      lastName: "Sade",
-      firstName: "Paul",
-      profileImage: "../image/default.jpg",
-      onLineStatus: "available"
-    }]);
   });
   
   it('add one element', async () => {
@@ -68,13 +40,7 @@ describe.skip('users', () => {
     .expect(200);
     user1.username.should.eql('polocto');
   });
-
-  it('get unvalid user', async () => {
-    await supertest(app)
-    .get(`/users/1234`)
-    .expect(404);
-  });
-
+  
   it('get user by email', async () => {
     await supertest(app)
     .post('/users')
@@ -85,70 +51,55 @@ describe.skip('users', () => {
     .expect(200);
     user.username.should.eql('polocto');
   })
-
-  it('try add existing email', async () => {
-    await supertest(app)
-    .post('/users')
-    .send(userTest)
-    .expect(201);
-
-    await supertest(app)
-    .post('/users')
-    .send(userTest)
-    .expect(409);    
-  })
-
+  
   it('modify metadata', async () => {
     const {body: user} = await supertest(app)
     .post('/users')
     .send(userTest);
     user.firstName = "Mathis";
     user.lastName = "Camard";
-    const id = user.id;
-    delete user.id;
-    delete user.email;
-
+    
     const {body: result} = await supertest(app)
-    .put(`/users/${id}`)
+    .put(`/users`)
     .send(user)
     .expect(200);
-
+    
     result.should.match({
       firstName: "Mathis",
       lastName: "Camard"
     });
   });
-
-  it('modify wrong metadata', async () => {
-    const {body: user} = await supertest(app)
-    .post('/users')
-    .send(userTest);
+  
+  describe('list', () => {
+    it('list empty', async () => {
+      // Return an empty user list by default
+      const {body: users} = await supertest(app)
+      .get('/users')
+      .expect(200);
+      users.should.eql([]);
+    });
     
-    let copy = {...user};
-    copy.id = 1234;
-
-    await supertest(app)
-    .put(`/users/${user.id}`)
-    .send(copy)
-    .expect(403);
-
-    copy = {...user};
-    copy.email = 1234;
-
-    await supertest(app)
-    .put(`/users/${user.id}`)
-    .send(copy)
-    .expect(403);
-
-    copy = {...user};
-    copy.test = 1234;
-
-    await supertest(app)
-    .put(`/users/${user.id}`)
-    .send(copy)
-    .expect(403);
+    it('list one element', async () => {
+      // Create a user
+      await supertest(app)
+      .post('/users')
+      .send(userTest);
+      // Ensure we list the users correctly
+      const {body: users} = await supertest(app)
+      .get('/users')
+      .expect(200);
+      users.should.match([{
+        id: /^\w+-\w+-\w+-\w+-\w+$/,
+        username: "polocto",
+        email: "paul.sade@live.fr",
+        lastName: "Sade",
+        firstName: "Paul",
+        profileImage: "../image/default.jpg",
+        onLineStatus: "available"
+      }]);
+    });
   });
-
+  
   describe('contact', () => {
     const userBeta = {
       username: "mathisCAMARD",
@@ -157,19 +108,19 @@ describe.skip('users', () => {
       firstName: "Mathis",
       profileImage: "../image/default.jpg"
     };
-
+    
     it('send an invitation', async () => {
       //add users
       const {body: sender}=await supertest(app)
       .post('/users')
       .send(userTest);
-      await supertest(app)
+      const {body: user1}=await supertest(app)
       .post('/users')
       .send(userBeta);
       //send an invitation
       const {body: result} = await supertest(app)
-      .post(`/users/${sender.id}/contacts`)
-      .send({email: userBeta.email})
+      .post(`/users/contacts/${user1.id}`)
+      .send(sender)
       .expect(200);
       //get the user invited
       const {body: receiver} = await supertest(app)
@@ -177,9 +128,9 @@ describe.skip('users', () => {
       //verify if the infitantion have been well send and receive
       result.sentInvitation[0].should.match(receiver.id);
       receiver.pendingInvitation[0].should.match(sender.id);
-
+      
     });
-
+    
     it('accept an invitation', async () => {
       //add users
       const {body: sender}=await supertest(app)
@@ -190,11 +141,14 @@ describe.skip('users', () => {
       .send(userBeta);
       //send an invitation
       const {body: result} = await supertest(app)
-      .post(`/users/${sender.id}/contacts`)
-      .send({email: userBeta.email});
+      .post(`/users/contacts/${receiver.id}`)
+      .send(sender);
+      const {body: receiver2} = await supertest(app)
+      .get(`/users/${receiver.id}`);
       //accept the invitation
       const {body: resultR} = await supertest(app)
-      .post(`/users/${receiver.id}/contacts/${sender.id}`)
+      .post(`/users/contacts/${sender.id}`)
+      .send(receiver2)
       .expect(200);
       //get the user info of the sender
       const {body: resultS} = await supertest(app)
@@ -207,43 +161,71 @@ describe.skip('users', () => {
       resultS.contacts[0].should.match(resultR.id);
       resultR.contacts[0].should.match(resultS.id);
     });
-
+    
     it('list empty', async () => {
       const {body: user}=await supertest(app)
       .post('/users')
       .send(userTest);
-
+      
       const {body: users}=await supertest(app)
-      .get('/users/:id/contacts')
-      .send(user.contacts)
+      .get('/users/contacts')
+      .send(user)
+      .expect(200);
+      
+      users.should.eql([]);
+      
+    });
+    
+    it('list pending invitation', async () =>{
+      //create sender
+      const {body: sender}=await supertest(app)
+      .post('/users')
+      .send(userTest);
+      //create receiver
+      const {body: receiver} = await supertest(app)
+      .post('/users')
+      .send(userBeta);
+      //send invitation
+      await supertest(app)
+      .post(`/users/contacts/${receiver.id}`)
+      .send(sender);
+      const {body: receiver1} = await supertest(app)
+      .get(`/users/${receiver.id}`);
+      //list pending invitation
+      const {body: users}=await supertest(app)
+      .get('/users/contacts/pending')
+      .send(receiver1)
       .expect(200);
 
-      users.should.eql([]);
 
     });
-
+    
     it('list one contact', async () => {
       const {body: sender}=await supertest(app)
       .post('/users')
       .send(userTest);
-
+      
       const {body: receiver} = await supertest(app)
       .post('/users')
       .send(userBeta);
+      
+      await supertest(app)
+      .post(`/users/contacts/${receiver.id}`)
+      .send(sender);
 
-      const {body: result} = await supertest(app)
-      .post(`/users/${sender.id}/contacts`)
-      .send({email: userBeta.email});
-
+      const {body: receiver2} = await supertest(app)
+      .get(`/users/${receiver.id}`); 
+      
       const {body: resultR} = await supertest(app)
-      .post(`/users/${receiver.id}/contacts/${sender.id}`)
+      .post(`/users/contacts/${sender.id}`)
+      .send(receiver2)
       .expect(200);
       
       const {body: users}=await supertest(app)
-      .get('/users/:id/contacts')
-      .send(resultR.contacts)
+      .get('/users/contacts')
+      .send(resultR)
       .expect(200);
-
+      
       users.length.should.eql(1);
       users[0].should.match({
         username: 'polocto',
@@ -253,8 +235,26 @@ describe.skip('users', () => {
         profileImage: '../image/default.jpg',
         onLineStatus: 'available',
         id: /^\w+-\w+-\w+-\w+-\w+$/
-      })
+      });
+    });
+    
+    it('list sent invitation', async () =>{
+      const {body: sender}=await supertest(app)
+      .post('/users')
+      .send(userTest);
+      
+      const {body: receiver} = await supertest(app)
+      .post('/users')
+      .send(userBeta);
+      
+      await supertest(app)
+      .post(`/users/contacts/${receiver.id}`)
+      .send(sender);
 
+      const {body: users}=await supertest(app)
+      .get('/users/contacts/sent')
+      .send(sender)
+      .expect(200);
     });
 
     it('refuse an invitation', async () => {
@@ -267,21 +267,22 @@ describe.skip('users', () => {
       .send(userBeta);
       //send invitation
       await supertest(app)
-      .post(`/users/${sender.id}/contacts`)
-      .send({email: userBeta.email});
+      .post(`/users/contacts/${receiver.id}`)
+      .send(sender);
       //delete contact
       const {body: resultR} = await supertest(app)
-      .delete(`/users/${receiver.id}/contacts/${sender.id}`)
+      .delete(`/users/contacts/${sender.id}`)
+      .send(receiver)
       .expect(200);
-
+      
       const {body: result} = await supertest(app)
       .get(`/users/${sender.id}`);
-
+      
       resultR.pendingInvitation.should.eql([]);
       result.sentInvitation.should.eql([]);
       
     });
-
+    
     it('delete a contact', async () =>  {
       //add users
       const {body: sender}=await supertest(app)
@@ -292,20 +293,72 @@ describe.skip('users', () => {
       .send(userBeta);
       //send an invitation
       await supertest(app)
-      .post(`/users/${sender.id}/contacts`)
-      .send({email: userBeta.email});
+      .post(`/users/contacts/${receiver.id}`)
+      .send(sender);
       //accept the invitation
       await supertest(app)
-      .post(`/users/${receiver.id}/contacts/${sender.id}`);
+      .post(`/users/contacts/${sender.id}`)
+      .send(receiver);
       const {body: resultR} = await supertest(app)
-      .delete(`/users/${receiver.id}/contacts/${sender.id}`)
+      .delete(`/users/contacts/${sender.id}`)
+      .send(receiver)
       .expect(200);
       const {body: result} = await supertest(app)
       .get(`/users/${sender.id}`);
-
+      
       resultR.pendingInvitation.should.eql([]);
       result.sentInvitation.should.eql([]);
     });
   })
   
+  describe('handle errors', () => {
+    
+    it('try add existing email', async () => {
+      await supertest(app)
+      .post('/users')
+      .send(userTest)
+      .expect(201);
+  
+      await supertest(app)
+      .post('/users')
+      .send(userTest)
+      .expect(409);    
+    });
+    
+    it('get unvalid user', async () => {
+      await supertest(app)
+      .get(`/users/1234`)
+      .expect(404);
+    });
+    
+    it('modify wrong metadata', async () => {
+      const {body: user} = await supertest(app)
+      .post('/users')
+      .send(userTest);
+      
+      let copy = {...user};
+      copy.id = 1234;
+      
+      await supertest(app)
+      .put(`/users`)
+      .send(copy)
+      .expect(404);
+      
+      copy = {...user};
+      copy.email = 1234;
+      
+      await supertest(app)
+      .put(`/users`)
+      .send(copy)
+      .expect(403);
+      
+      copy = {...user};
+      copy.test = 1234;
+      
+      await supertest(app)
+      .put(`/users`)
+      .send(copy)
+      .expect(403);
+    });
+  });
 });

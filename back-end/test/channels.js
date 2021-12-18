@@ -49,7 +49,7 @@ describe('channels', () => {
       // Return an empty channel list by default
       const {body: channels} = await supertest(app)
       .get('/channels')
-      .send(user1.id)
+      .send(user1)
       .expect(200);
       channels.should.eql([]);
     });
@@ -58,39 +58,16 @@ describe('channels', () => {
       // Create a channel
       const {body: user}=await supertest(app)
       .post('/channels')
-      .send([{...channelTest}, user1.id]);
+      .send([channelTest, user1]);
       // Ensure we list the channels correctly
       const {body: channels} = await supertest(app)
       .get('/channels')
-      .send(user.channels)
+      .send(user)
       .expect(200);
       channels.should.match([{
         id: /^\w+-\w+-\w+-\w+-\w+$/,
-        name: 'channel 1',
-        profileImage: '../img/default.png',
-        admin: [user1.id],
-        users: [
-          {
-            id: user1.id,
-            presentTime: [
-              {
-                arrivalTime: (it) => it.should.be.approximately(microtime.now(), 1000000)
-              }
-            ]
-          },
-          {
-            id: user2.id,
-            presentTime: [
-              {
-                arrivalTime: (it) => it.should.be.approximately(microtime.now(), 1000000)
-              }
-            ]
-          }
-        ],
-        pinned: [],
-        shareFile: [],
-        shareImage: [],
-        shareLinks: []
+        name: 'test',
+        profileImage: '../img/lol.png'
       }]);
     });
     
@@ -99,42 +76,116 @@ describe('channels', () => {
   it('create one element', async () => {
     // Create a channel
     
-    const {body: channel} = await supertest(app)
+    const {body: user}=await supertest(app)
     .post('/channels')
-    .send(channelTest)
+    .send([channelTest, user1])
     .expect(201);
     // Check its return value
-    channel.should.match({
-      id: /^\w+-\w+-\w+-\w+-\w+$/,
-      name: 'channel 1',
-      profileImage: '../img/default.png',
-      admin: [/^\w+-\w+-\w+-\w+-\w+$/],
-      numberOfUserHavingAccess: 2,
-    });
-    channel.users.map((user)=>{
-      user.should.match({
-        id: /^\w+-\w+-\w+-\w+-\w+$/,
-      });
-      user.presentTime[user.presentTime.length-1].should.match({
-        arrivalTime: (it) => it.should.be.approximately(microtime.now(), 1000000)
-      });
-    })
+    user.channels.should.match([/^\w+-\w+-\w+-\w+-\w+$/]);
+    user.channels.length.should.eql(1);
     // Check it was correctly inserted
     const {body: channels} = await supertest(app)
-    .get('/channels');
+    .get('/channels')
+    .send(user)
+    .expect(200);
     channels.length.should.eql(1);
   });
   
   it('get channel', async () => {
     // Create a channel
-    const {body: channel1} = await supertest(app)
+    const {body: user}=await supertest(app)
     .post('/channels')
-    .send(channelTest);
+    .send([{...channelTest}, user1]);
     // Check it was correctly inserted
-    const {body: channel} = await supertest(app)
-    .get(`/channels/${channel1.id}`)
+    const {body: channel1} = await supertest(app)
+    .get(`/channels/${user.channels[0]}`)
+    .send(user1)
     .expect(200);
-    channel.name.should.eql('channel 1');
+    channel1.admin.should.eql(true);
+
+    const {body: channel2} = await supertest(app)
+    .get(`/channels/${user.channels[0]}`)
+    .send(user2)
+    .expect(200);
+    channel2.admin.should.eql(false);
+  });
+
+  it('modify metadata', async () => {
+    //Define secandary channel
+    let channelBeta = {
+      name: "new",
+      profileImage: "../img/help.png",
+      users: [user1.id]
+    };
+    // Create a channel
+    const {body: user}=await supertest(app)
+    .post('/channels')
+    .send([{...channelTest}, user1]);
+    const {body: channel}=await supertest(app)
+    .put(`/channels/${user.channels[0]}`)
+    .send([channelBeta, user])
+    .expect(200);
+    
+    
+    channel.should.match({
+      name: "new",
+      profileImage: "../img/help.png"
+    });
+
+  });
+
+  describe("delete", ()=>{
+
+    it('delete channel from one user', async () => {
+      const {body: user}=await supertest(app)
+      .post('/channels')
+      .send([{...channelTest}, user1]);
+  
+      user.channels.length.should.eql(1);
+      const channelId = user.channels[0];
+  
+      const {body: test1}=await supertest(app)
+      .delete(`/channels/${channelId}`)
+      .send(user)
+      .expect(200);
+      
+      test1.channels.length.should.eql(0);
+      
+      let {body: channel1} = await supertest(app)
+      .get(`/channels/${channelId}`)
+      .send(test1)
+      .expect(404);
+      
+    });
+  
+    it("delete channel from all channel's user", async () => {
+      const {body: user}=await supertest(app)
+      .post('/channels')
+      .send([{...channelTest}, user1]);
+  
+      user.channels.length.should.eql(1);
+      const channelId = user.channels[0];
+      
+      const {body: test2} = await supertest(app)
+      .get(`/users/${user2.id}`)
+      .expect(200);
+      const {body: test1}=await supertest(app)
+      .delete(`/channels/${channelId}`)
+      .send(user)
+      .expect(200);
+      const {body: result}=await supertest(app)
+      .delete(`/channels/${channelId}`)
+      .send(test2)
+      .expect(200);
+      
+      test1.channels.length.should.eql(0);
+  
+      await supertest(app)
+      .get(`/channels/${channelId}`)
+      .send(result)
+      .expect(404);
+  
+    });
   });
   
 });

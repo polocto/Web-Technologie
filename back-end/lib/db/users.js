@@ -77,57 +77,19 @@ module.exports ={
         }
     },
 
-    deleteContact: async function(idUser,idContact){
-        const user = await this.get(idUser);
-        const contact = await this.get(idContact);
+    update: async function (user) {
+        const original = await this.get(user.id);
+        const originalKeys = Object.keys(original);
+        const userKeys = Object.keys(user);
 
-        const match = element => element.match(idContact);
+        if(originalKeys.length != userKeys.length) throw new StatusError(403, `wrong number keys`);
 
-        if(user.pendingInvitation.some(match))
-        {
-        contact.sentInvitation.splice(contact.sentInvitation.indexOf(idUser),1);
-        user.pendingInvitation.splice(user.pendingInvitation.indexOf(idContact),1);
-        }
-        else if(user.sentInvitation.some(match))
-        {
-        user.sentInvitation.splice(user.sentInvitation.indexOf(idContact),1);
-        contact.pendingInvitation.splice(contact.pendingInvitation.indexOf(idUser),1);
-        }
-        else if(user.contacts.some(match))
-        {
-        contact.contacts.splice(contact.contacts.indexOf(idUser),1);
-        user.contacts.splice(user.contacts.indexOf(idContact),1);
-        }
-        else
-        {
-        throw new StatusError(404,"This user is in any list");
-        }
+        if(!original.email.match(user.email)) throw new StatusError(403,"Properties not modifiable");
 
         delete user.id;
-        delete contact.id;
-
-        await db.put(`users:${idUser}`, JSON.stringify(user));
-        await db.put(`users:${idContact}`, JSON.stringify(contact));
-        return merge({id: idUser},user);
-    },
-
-    update: async function (id, user) {
-        const original = await this.get(id);
-        const keys = Object.keys(user);
-
-        keys.map(key => {
-        if(!key.match("id") && !key.match("email"))
-        {
-            original[key] = user[key];
-        }
-        else
-        {
-            throw new StatusError(403,`You are not authorised to modify or add the parameter ${key}`);
-        }
-        });
-        delete original.id;
-        await db.put(`users:${id}`, JSON.stringify(original));
-        return merge({id: id}, original);
+        await db.put(`users:${original.id}`, JSON.stringify(user));
+        user = await this.get(original.id);
+        return user;//merge({id: original.id}, user);
     },
 
     sendInvitation: async function (senderId,email) {
