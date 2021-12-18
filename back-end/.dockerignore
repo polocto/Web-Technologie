@@ -1,0 +1,4 @@
+*.md
+./db
+node_modules
+test
