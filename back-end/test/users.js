@@ -10,7 +10,7 @@ const userTest = {
   profileImage: "../image/default.jpg",
 }
 
-describe.only('users', () => {
+describe('users', () => {
   
   beforeEach( async () => {
     await db.admin.clear();
