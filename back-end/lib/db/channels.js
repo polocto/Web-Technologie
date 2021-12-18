@@ -128,16 +128,18 @@ module.exports = {
     },
 
     delete: async function (channel, admin) {
-      if(channel.users.length != 0 && admin && !channel.admin.some(id => id.match(admin))) throw new StatusError(403,)
+      if(channel.admin.length != 0 && admin && !channel.admin.some(id => id.match(admin))) throw new StatusError(403,)
       //delete channel from all users
       channel.users.map(async userId => {
         const user = await users.get(userId);
         user.channels.splice(user.channels.indexOf(channel.id),1);
         await users.update(user);
-      })
-      channel.users = [];
+      });
       channel = await this.update(channel);
-      const regex = new RegExp("channels:" + channel.id + ".*");
-      await db.del(regex)
+      db.del(`channels:${channel.id}`);
+      db.clear({
+        gt: `messages:${channelId}:`,
+        lte: `messages:${channelId}` + String.fromCharCode(":".charCodeAt(0) + 1),
+      });
     }
 }

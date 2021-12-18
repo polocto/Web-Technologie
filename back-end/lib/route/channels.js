@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
           delete channel.pinned;
           return channel;
         })
-        res.status(200).json(channels);
+        res.status(200).send(channels);
     }
     catch(err){
         if (err instanceof StatusError)
@@ -45,7 +45,7 @@ router.post('/', async (req, res) => {
             const newUser = await db.users.get(user.id);
             if(!channel.users.some(elem => elem.id.match(newUser.id))) throw new StatusError(409,"User haven't be add well to the channel");
             if(!newUser.channels.some(elem => elem.match(channel.id))) throw new StatusError(409,"Channel haven't be add well to the user");
-            res.status(201).json(newUser);
+            res.status(201).send(newUser);
         }
     }
     catch(err){
@@ -84,7 +84,7 @@ router.get('/:id', async (req, res) => {
 
         channel.admin = channel.admin.some(elem => elem.match(req.body.id));
 
-        res.status(200).json(channel);
+        res.status(200).send(channel);
     }
     catch(err){
         if (err instanceof StatusError)
@@ -118,7 +118,7 @@ router.put('/:id', async (req, res) => {
             }
         });
         
-        res.status(200).json(channel);
+        res.status(200).send(channel);
     }
     catch(err){
         if (err instanceof StatusError)
@@ -151,14 +151,19 @@ router.delete('/:id', async (req, res) => {
         }).filter(user => user!=null));
         if(!channel.users.some(u => u.id.match(user.id))) throw new StatusError(409, "User is not in the channel");
 
-        const index = channel.users.findIndex(item => item.id.match(user.id));
-        channel.users.splice(index,1);
+        channel.users.splice(channel.users.findIndex(item => item.id.match(user.id)),1);
+        const index = channel.admin.findIndex(item => item.match(user.id));
+        if(index>=0)channel.admin.splice(index,1);
         user.channels.splice(user.channels.indexOf(channel.id),1);
-        db.channels.update(channel)
+
+        if(!channel.admin.length && channel.users.length)
+            channel.admin.push(channel.users.at(0).id);
+
+        await db.channels.update(channel)
         .then(async (value) => {
-            if(!value.users.length) db.channels.delete(value);
+            if(!value.admin.length) db.channels.delete(value);
         })
-        res.status(200).json(user);
+        res.status(200).send(user);
     }
     catch(err){
         if (err instanceof StatusError)

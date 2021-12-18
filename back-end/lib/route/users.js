@@ -6,14 +6,14 @@ const StatusError = require('../error');
 //get a list of users
 router.get('/', async (req, res) => {
     const users = await db.users.list();
-    res.status(200).json(users);
+    res.status(200).send(users);
 });
 
 //create a user
 router.post('/', async (req, res) => {
     try {
         const user = await db.users.create(req.body)
-        res.status(201).json(user);
+        res.status(201).send(user);
     }
     catch(err ){
         if (err instanceof StatusError)
@@ -32,7 +32,7 @@ router.post('/', async (req, res) => {
 router.put('/', async (req, res) => {
     try{
         const user = await db.users.update(req.body);
-        res.status(200).json(user);
+        res.status(200).send(user);
     }
     catch(err){
         if (err instanceof StatusError)
@@ -52,7 +52,7 @@ router.get('/contacts', async (req, res) => {
     try{
         const user = await db.users.get(req.body.id);
         const result = await db.users.list(user.contacts);
-        res.status(200).json(result);
+        res.status(200).send(result);
     }
     catch(err){
         if (err instanceof StatusError)
@@ -73,7 +73,7 @@ router.get('/contacts/pending', async (req, res) => {
     try{
         const user = await db.users.get(req.body.id);
         const result = await db.users.list(user.pendingInvitation);
-        res.status(200).json(result);
+        res.status(200).send(result);
     }
     catch(err){
         if (err instanceof StatusError)
@@ -92,7 +92,7 @@ router.get('/contacts/sent', async (req, res) => {
     try{
         const user = await db.users.get(req.body.id);
         const result = await db.users.list(user.sentInvitation);
-        res.status(200).json(result);
+        res.status(200).send(result);
     }
     catch(err){
         if (err instanceof StatusError)
@@ -111,7 +111,7 @@ router.get('/contacts/sent', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try{
         const user = await db.users.get(req.params.id);
-        res.status(200).json(user);
+        res.status(200).send(user);
     }
     catch(err){
         if (err instanceof StatusError)
@@ -150,7 +150,7 @@ router.post('/contacts/:id', async (req, res) => {
             user = await db.users.sendInvitation(user.id,req.params.id);
         }
 
-        res.status(200).json(user);
+        res.status(200).send(user);
     }
     catch(err){
         if (err instanceof StatusError)
@@ -199,7 +199,7 @@ router.delete('/contacts/:contactId', async (req, res) => {
         
         await db.users.update(contact);
         await db.users.update(user);
-        res.status(200).json(user);
+        res.status(200).send(user);
     }
     catch{
         if (err instanceof StatusError)

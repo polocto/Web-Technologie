@@ -135,50 +135,43 @@ describe('channels', () => {
   });
 
   describe("delete", ()=>{
-
-    it('delete channel from one user', async () => {
+    let channelId;
+    let temp;
+    beforeEach(async ()=>{
       const {body: user}=await supertest(app)
       .post('/channels')
       .send([{...channelTest}, user1]);
-  
       user.channels.length.should.eql(1);
-      const channelId = user.channels[0];
-  
+      channelId = user.channels[0];
       const {body: test1}=await supertest(app)
       .delete(`/channels/${channelId}`)
       .send(user)
       .expect(200);
-      
       test1.channels.length.should.eql(0);
-      
+      temp = test1;
+    })
+
+    it('delete channel from one user', async () => {
+  
       let {body: channel1} = await supertest(app)
       .get(`/channels/${channelId}`)
-      .send(test1)
+      .send(temp)
       .expect(404);
       
     });
   
     it("delete channel from all channel's user", async () => {
-      const {body: user}=await supertest(app)
-      .post('/channels')
-      .send([{...channelTest}, user1]);
-  
-      user.channels.length.should.eql(1);
-      const channelId = user.channels[0];
+      
       
       const {body: test2} = await supertest(app)
       .get(`/users/${user2.id}`)
-      .expect(200);
-      const {body: test1}=await supertest(app)
-      .delete(`/channels/${channelId}`)
-      .send(user)
       .expect(200);
       const {body: result}=await supertest(app)
       .delete(`/channels/${channelId}`)
       .send(test2)
       .expect(200);
       
-      test1.channels.length.should.eql(0);
+      temp.channels.length.should.eql(0);
   
       await supertest(app)
       .get(`/channels/${channelId}`)

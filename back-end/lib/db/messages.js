@@ -16,18 +16,22 @@ module.exports = {
       return merge(message, {channelId: channelId, creation: creation});
     },
 
-    list: async (channelId) => {
+    list: function (channelId,accessTime) {
       return new Promise( (resolve, reject) => {
         const messages = [];
         db.createReadStream({
           gt: `messages:${channelId}:`,
           lte: `messages:${channelId}` + String.fromCharCode(":".charCodeAt(0) + 1),
         }).on( 'data', ({key, value}) => {
-          message = JSON.parse(value);
           const [, channelId, creation] = key.split(':');
-          message.channelId = channelId;
-          message.creation = creation;
-          messages.push(message);
+          const keys= Object.keys(accessTime);
+          if(creation>=accessTime.arrivalTime && (keys.length==1 || creation<=accessTime.departureTime))
+          {
+            let message = JSON.parse(value);
+            message.channelId = channelId;
+            message.creation = creation;
+            messages.push(message);
+          }
         }).on( 'error', (err) => {
           reject(err);
         }).on( 'end', () => {
@@ -35,4 +39,24 @@ module.exports = {
         });
       });
     },
+
+    get: async function (channel, creation){
+      try{
+        const data = await db.get(`messages:${channel}:${creation}`);
+        const message = JSON.parse(data);
+        return merge(message, {channelId: channel, creation: creation})
+      }catch(err)
+      {
+        throw new StatusError(404, "Message Not Found");
+      }
+    },
+
+    delete: async function (channel, creation){
+      try{
+        return await db.del(`messages:${channel}:${creation}`);
+      }catch(err)
+      {
+        throw new StatusError(404, "Message Not Found");
+      }
+    }
 }
