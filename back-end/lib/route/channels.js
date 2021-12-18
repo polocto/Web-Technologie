@@ -61,10 +61,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/', async (req,res)=>{
-    
-});
-
 router.get('/:id', async (req, res) => {
     try{
         const user = await db.users.get(req.body.id);

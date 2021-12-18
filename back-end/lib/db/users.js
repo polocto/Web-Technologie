@@ -79,17 +79,13 @@ module.exports ={
 
     update: async function (user) {
         const original = await this.get(user.id);
-        const originalKeys = Object.keys(original);
-        const userKeys = Object.keys(user);
-
-        if(originalKeys.length != userKeys.length) throw new StatusError(403, `wrong number keys`);
 
         if(!original.email.match(user.email)) throw new StatusError(403,"Properties not modifiable");
 
         delete user.id;
         await db.put(`users:${original.id}`, JSON.stringify(user));
         user = await this.get(original.id);
-        return user;//merge({id: original.id}, user);
+        return user;
     },
 
     sendInvitation: async function (senderId,email) {

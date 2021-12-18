@@ -351,14 +351,6 @@ describe('users', () => {
       .put(`/users`)
       .send(copy)
       .expect(403);
-      
-      copy = {...user};
-      copy.test = 1234;
-      
-      await supertest(app)
-      .put(`/users`)
-      .send(copy)
-      .expect(403);
     });
   });
 });
