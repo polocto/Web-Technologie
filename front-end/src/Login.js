@@ -1,51 +1,51 @@
 /** @jsxImportSource @emotion/react */
-import { useContext, useEffect } from "react";
-import { useCookies } from "react-cookie";
-import crypto from "crypto";
-import qs from "qs";
-import axios from "axios";
+import { useContext, useEffect } from 'react';
+import { useCookies } from 'react-cookie';
+import crypto from 'crypto';
+import qs from 'qs';
+import axios from 'axios';
 // Layout
-import { useTheme } from "@mui/styles";
-import { Link } from "@mui/material";
-import { Button } from "@mui/material";
+import { useTheme } from '@mui/styles';
+import { Link } from '@mui/material';
+import { Button } from '@mui/material';
 // Local
-import Context from "./Context";
-import { useNavigate } from "react-router-dom";
-import Image from "./icons/loginBackground.png";
+import Context from './Context';
+import { useNavigate } from 'react-router-dom';
+import Image from './icons/loginBackground.png';
 
 const base64URLEncode = (str) => {
   return str
-    .toString("base64")
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=/g, "");
+    .toString('base64')
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=/g, '');
 };
 
 const sha256 = (buffer) => {
-  return crypto.createHash("sha256").update(buffer).digest();
+  return crypto.createHash('sha256').update(buffer).digest();
 };
 
 const useStyles = (theme) => ({
   root: {
-    flex: "1 1 auto",
+    flex: '1 1 auto',
     backgroundColor: theme.palette.primary.dark,
     backgroundImage: `url(${Image})`,
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "absolute",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    "& > div": {
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'absolute',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '& > div': {
       margin: `${theme.spacing(1)}`,
-      marginLeft: "auto",
-      marginRight: "auto",
+      marginLeft: 'auto',
+      marginRight: 'auto',
     },
-    "& fieldset": {
-      border: "none",
-      "& label": {
+    '& fieldset': {
+      border: 'none',
+      '& label': {
         marginBottom: theme.spacing(0.5),
-        display: "block",
+        display: 'block',
       },
     },
   },
@@ -64,7 +64,7 @@ const Redirect = ({ config, codeVerifier }) => {
       `redirect_uri=${config.redirect_uri}&`,
       `code_challenge=${code_challenge}&`,
       `code_challenge_method=S256`,
-    ].join("");
+    ].join('');
     window.location = url;
   };
   return (
@@ -83,7 +83,7 @@ const Tokens = ({ oauth }) => {
   const { setOauth } = useContext(Context);
   const styles = useStyles(useTheme());
   const { id_token } = oauth;
-  const id_payload = id_token.split(".")[1];
+  const id_payload = id_token.split('.')[1];
   const { email } = JSON.parse(atob(id_payload));
   const logout = (e) => {
     e.stopPropagation();
@@ -91,7 +91,7 @@ const Tokens = ({ oauth }) => {
   };
   return (
     <div css={styles.root}>
-      Welcome {email}{" "}
+      Welcome {email}
       <Link onClick={logout} color="secondary">
         logout
       </Link>
@@ -108,16 +108,16 @@ const LoadToken = ({ code, codeVerifier, config, removeCookie, setOauth }) => {
         const { data } = await axios.post(
           config.token_endpoint,
           qs.stringify({
-            grant_type: "authorization_code",
+            grant_type: 'authorization_code',
             client_id: `${config.client_id}`,
             code_verifier: `${codeVerifier}`,
             redirect_uri: `${config.redirect_uri}`,
             code: `${code}`,
           })
         );
-        removeCookie("code_verifier");
+        removeCookie('code_verifier');
         setOauth(data);
-        navigate("/");
+        navigate('/');
       } catch (err) {
         console.error(err);
       }
@@ -133,21 +133,21 @@ export default function Login({ onUser }) {
   const [cookies, setCookie, removeCookie] = useCookies([]);
   const { oauth, setOauth } = useContext(Context);
   const config = {
-    authorization_endpoint: "http://localhost:5556/dex/auth",
-    token_endpoint: "http://localhost:5556/dex/token",
-    client_id: "webtech-frontend",
-    redirect_uri: "http://localhost:3000",
-    scope: "openid%20email%20offline_access",
+    authorization_endpoint: 'http://localhost:5556/dex/auth',
+    token_endpoint: 'http://localhost:5556/dex/token',
+    client_id: 'webtech-frontend',
+    redirect_uri: 'http://localhost:3000',
+    scope: 'openid%20email%20offline_access',
   };
   const params = new URLSearchParams(window.location.search);
-  const code = params.get("code");
+  const code = params.get('code');
   // is there a code query parameters in the url
   if (!code) {
     // no: we are not being redirected from an oauth server
     if (!oauth) {
       const codeVerifier = base64URLEncode(crypto.randomBytes(32));
-      console.log("set code_verifier", codeVerifier);
-      setCookie("code_verifier", codeVerifier);
+      console.log('set code_verifier', codeVerifier);
+      setCookie('code_verifier', codeVerifier);
       return (
         <Redirect
           codeVerifier={codeVerifier}
@@ -161,7 +161,7 @@ export default function Login({ onUser }) {
     }
   } else {
     // yes: we are coming from an oauth server
-    console.log("get code_verifier", cookies.code_verifier);
+    console.log('get code_verifier', cookies.code_verifier);
     return (
       <LoadToken
         code={code}

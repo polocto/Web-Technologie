@@ -11,7 +11,7 @@ const useStyles = (theme) => ({
   },
 })
 
-export default function Footer({}) {
+export default function Footer() {
   const styles = useStyles(useTheme());
-  return (<span></span>);
+  return (<span style={styles}></span>);
 }
