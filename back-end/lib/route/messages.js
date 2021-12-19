@@ -12,9 +12,17 @@ router.get('/', async (req, res) => {
         
         const messages = await Promise.all(presentTime.map(interval => {
             return db.messages.list(channel.id,interval);
-        }));        
+        }));
+
+        const result = await Promise.all(messages.flat().map(async (message)=>{
+            const user = await db.users.get(message.author);
+            return new Promise((resolve,reject)=>{
+                message.author = {id: user.id, username: user.username};
+                resolve(message);
+            });
+        }))
        
-       res.status(200).send(messages.flat());
+       res.status(200).send(result);
         
     }catch(err){
         if (err instanceof StatusError)

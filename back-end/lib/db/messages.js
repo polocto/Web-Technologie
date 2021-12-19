@@ -50,7 +50,22 @@ module.exports = {
         throw new StatusError(404, "Message Not Found");
       }
     },
-
+    getLast: async function (channelId){
+      return await new Promise( (resolve, reject) => {
+        db.createKeyStream({
+          gt: `messages:${channelId}:`,
+          lte: `messages:${channelId}` + String.fromCharCode(":".charCodeAt(0) + 1),
+          reverse: true,
+          limit: 1
+        }).on( 'data', (key) => {
+          const [, , creation] = key.split(':');
+          resolve(creation);
+        })
+        .on('end',()=>{
+          resolve(null);
+        });
+      });
+    },
     delete: async function (channel, creation){
       try{
         return await db.del(`messages:${channel}:${creation}`);

@@ -7,16 +7,23 @@ const router = express.Router({ mergeParams : true });
 router.get('/', async (req, res) => {
     try{
         const user = await db.users.get(req.params.idUser);
-        const channels = await db.channels.list(user.channels);
-        channels.map(channel => {
-          delete channel.users;
-          delete channel.admin;
-          delete channel.shareFile;
-          delete channel.shareImage;
-          delete channel.shareLinks;
-          delete channel.pinned;
-          return channel;
-        })
+        let channels = await db.channels.list(user.channels);
+        channels = await Promise.all(channels.map(async channel => {
+            const creation = await db.messages.getLast(channel.id);
+            return new Promise((resolve,reject)=>{
+                delete channel.users;
+                delete channel.admin;
+                delete channel.shareFile;
+                delete channel.shareImage;
+                delete channel.shareLinks;
+                delete channel.pinned;
+                if(creation && creation>channel.lastModification)
+                    channel.lastModification = creation;
+                resolve(channel);
+            });
+        }));
+
+        channels.sort((a,b)=> b.lastModification - a.lastModification);
         res.status(200).send(channels);
     }
     catch(err){

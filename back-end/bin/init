@@ -97,7 +97,6 @@ let channels = [
       await axios.post(`http://localhost:${config.port}/users/${users[0].id}/contacts/${users[4].id}`);
     //Clément accept an invitation to Paul
       await axios.post(`http://localhost:${config.port}/users/${users[4].id}/contacts/${users[0].id}`);
-      //update users
       
       //Paul creates a channel with Mathis
       await axios.post(`http://localhost:${config.port}/users/${users[0].id}/channels`,channels[0]);
@@ -140,11 +139,13 @@ let channels = [
     await axios.post(`http://localhost:${config.port}/users/${users[0].id}/channels/${users[0].channels[1]}/messages`,{content: 'AAAAAA DEVOPSSSS'});
     await axios.post(`http://localhost:${config.port}/users/${users[4].id}/channels/${users[0].channels[1]}/messages`,{content: 'WEBTECHHHHH MA VIE'});
     
-    const {data: messages} = await axios.get(`http://localhost:${config.port}/users/${users[0].id}/channels/${users[0].channels[1]}/messages`);
-
-
+    const {data: messages} = await axios.get(`http://localhost:${config.port}/users/${users[0].id}/channels/${users[0].channels[0]}/messages`);
     messages.map(message => {
       console.log(message);
+    })
+    const {data: myChannels} =  await axios.get(`http://localhost:${config.port}/users/${users[0].id}/channels`);
+    myChannels.map(channel => {
+      console.log(channel);
     })
   }
   catch(err){

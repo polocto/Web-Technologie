@@ -28,6 +28,7 @@ module.exports = {
 
       channel = merge(channel,
       {
+        lastModification: presentTime[0].arrivalTime,
         admin: [idUser],
         pinned: [],
         shareFile: [],
