@@ -14,6 +14,7 @@ export const Provider = ({
   const [drawerVisible, setDrawerVisible] = useState(false)
   const [channels, setChannels] = useState([])
   const [currentChannel, setCurrentChannel] = useState(null)
+  const [user, setUser] = useState(null)
   return (
     <Context.Provider value={{
       oauth: oauth,
@@ -42,6 +43,8 @@ export const Provider = ({
         const channel = channels.find( channel => channel.id === channelId)
         setCurrentChannel(channel)
       },
+      user: user,
+      setUser: setUser,
     }}>{children}</Context.Provider>
   )
 }

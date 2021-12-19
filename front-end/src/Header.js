@@ -29,7 +29,7 @@ const useStyles = (theme) => ({
 
 export default function Header({ drawerToggleListener }) {
   const styles = useStyles(useTheme());
-  const { oauth, setOauth, drawerVisible, setDrawerVisible } =
+  const { user, setOauth, drawerVisible, setDrawerVisible } =
     useContext(Context);
   const drawerToggle = (e) => {
     setDrawerVisible(!drawerVisible);
@@ -49,9 +49,9 @@ export default function Header({ drawerToggleListener }) {
         <MenuIcon />
       </IconButton>
       { Header }
-      {oauth ? (
+      {user ? (
         <span>
-          {oauth.email}
+          {user.username}
 
           <Button id="logoutButton" variant="outlined" color="error">
           <Link onClick={onClickLogout}>

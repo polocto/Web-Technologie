@@ -19,13 +19,13 @@ const styles = {
 };
 
 export default function Channels() {
-  const { oauth, channels, setChannels } = useContext(Context);
+  const { user, oauth, channels, setChannels } = useContext(Context);
   const naviate = useNavigate();
   useEffect(() => {
     const fetch = async () => {
       try {
         const { data: channels } = await axios.get(
-          "http://localhost:3001/channels",
+          `http://localhost:3001/users/${user.id}/channels`,
           {
             headers: {
               Authorization: `Bearer ${oauth.access_token}`,
@@ -38,7 +38,7 @@ export default function Channels() {
       }
     };
     fetch();
-  }, [oauth, setChannels]);
+  }, [oauth, user, setChannels]);
   return (
     <div id="channelList">
       <ul css={styles.root}>

@@ -34,7 +34,7 @@ const useStyles = (theme) => ({
 export default function Channel() {
   const navigate = useNavigate()
   const { id } = useParams()
-  const {channels, oauth} = useContext(Context)
+  const {user, channels, oauth} = useContext(Context)
   const channel = channels.find( channel => channel.id === id)
   const styles = useStyles(useTheme())
   const listRef = useRef()
@@ -46,9 +46,9 @@ export default function Channel() {
   useEffect( () => {
     const fetch = async () => {
       try{
-        const {data: messages} = await axios.get(`http://localhost:3001/channels/${id}/messages`, {
+        const {data: messages} = await axios.get(`http://localhost:3001/users/${user.id}/channels/${id}/messages`, {
           headers: {
-            // TODO: secure the request
+              Authorization: `Bearer ${oauth.access_token}`
           }
         })
         setMessages(messages)
@@ -60,7 +60,7 @@ export default function Channel() {
       }
     }
     fetch()
-  }, [id, oauth, navigate])
+  }, [id, oauth, navigate,user])
   const onScrollDown = (scrollDown) => {
     setScrollDown(scrollDown)
   }
