@@ -2,129 +2,138 @@
 
 const axios = require('axios')
 const app = require('../lib/app')
-const db = require('../lib/db')
+const db = require('../lib/db/db')
 const config = {
   port: 3001
 };
 
+let users = [{
+  username: "polocto",
+  email: process.env.TEST_PAYLOAD_EMAIL,
+  lastName: "Sade",
+  firstName: "Paul"
+},{
+  username: "mathisCAMARD",
+  email: "mathis.camard@edu.ece.fr",
+  lastName: "Camard",
+  firstName: "Mathis"
+},{
+  username: "aliceCbx",
+  email: "alice.combernoux@edu.ece.fr",
+  lastName: "Combernoux",
+  firstName: "Alice"
+},{
+  username: "snow",
+  email: "neige.jumeau@edu.ece.fr",
+  lastName: "Jumeau",
+  firstName: "Neige"
+},{
+  username: "clemoctohub",
+  email: "clement.fages@edu.ece.fr",
+  lastName: "Fages",
+  firstName: "Clément"
+},
+];
+
+let channels = [
+  {
+    name: "Channel 1",
+    profileImage: "../img/lol.png",
+    users: []
+  },
+  {
+    name: "Channel 2",
+    profileImage: "../img/lol.png",
+    users: []
+  }
+];
+
 (async function() {
   await db.admin.clear();
-  await app.listen(config.port);
-  await Promise.all([{
-    name: 'Channel 1',
-    messages: [{
-      author: 'sergei',
-      creation: 1602831101929,
-      content: `
-      ## 1 - Architecture - Level easy
-  
-      It is now the right time to re-organize/refactor our code. Split this
-      monolithic react Component into multiple section. In the end, we should end
-      up with the following components: 'Header', 'Footer', 'Main', 'Channels',
-      'Channel', 'Messages', 'MessageSend':
-  
-      - 'App.js' file uses 'Header.js', 'Main.js', 'Footer.js'
-      - 'Main.js' file uses 'Channels.js', 'Channel.js'
-      - 'Channels.js' prints the list of channels
-      - 'Channel.js' prints the messages, uses 'Messages.js' and 'MessageSend.js'
-      - 'Messages.js' prints the list of messages inside the current channel
-      - 'MessageForm.js' send a new message
+  app.listen(config.port);
 
-      \`\`\`
-      +--------------------------------------------+
-      |                  Header                    |
-      +--------------------------------------------+
-      |   Channels    |          Channel           |
-      |               | +------------------------+ |
-      |               | |        Messages        | |
-      |               | +------------------------+ |
-      |               | |      MessageSend       | |
-      |               | +------------------------+ |
-      +--------------------------------------------+
-      |                  Footer                    |
-      +--------------------------------------------+
-      \`\`\`
-      `.replace(/^ {6}/gm,''),
-    },{
-      author: 'david',
-      creation: 1602832138892,
-      content: `
-      ## 2 - Styles - Level easy
-  
-      Give it some styles, use CSS to make it looks good. Possible source of
-      improvements include changing the colors, replacing the HTML "send" button
-      with an icon, working on the header, providing day/night themes ... be creative
-      `.replace(/^ {6}/gm,''),
-    },{
-      author: 'sergei',
-      creation: 1602840139202,
-      content: `
-      ## 3 - Use an external library - Level medium
-  
-      Format the date in a human readable format. While the date is generated on
-      the server side to ensure its relevance and prevent from forgery, it must be
-      displayed according to the user browser local. The
-      [Moment.js](https://momentjs.com/) library has been the library of choice
-      for many years to accomplish date formatting. Read what is displayed on the
-      top right corner of their homepage, it is now depreciated. Read the reasons
-      and act accordingly.
-      `.replace(/^ {6}/gm,''),
-    },{
-      author: 'david',
-      creation: 1602844139200,
-      content: `
-      ## 4 - Support message contents in Markdown - Level hard
-  
-      Markdown is the most popular syntax to format text into HTML. It is used
-      by the majority of the project Readme files, to write documentation and to
-      generate websites.
-  
-      I recommand you to use the [unified](https://unifiedjs.com/) which is very
-      powerful and comes with a lot of plugins. You can read the Markdown to HTML
-      guide in the learn section and enrich it with your selection of relevant
-      plugins.
-  
-      Consider adding syntax highlight support with a library like
-      [Prism](https://prismjs.com/).
-      `.replace(/^ {6}/gm,'').replace(/^ {6}/gm,''),
-    }]
-  },{
-    name: 'Channel 2',
-    messages: [{
-      author: 'sergei',
-      creation: 1602223579200,
-      content: `
-      Ping
-      `.replace(/^ {6}/gm,'')
-    },{
-      author: 'david',
-      creation: 1602523579200,
-      content: `
-      Pong
-      `.replace(/^ {6}/gm,'')
-    }]
-  },{
-    name: 'Channel 3',
-    messages: [{
-      author: 'sergei',
-      creation: 1602223579200,
-      content: `
-      What is the answer to the Ultimate Question of Life, the Universe and Everything ?
-      `.replace(/^ {6}/gm,'')
-    },{
-      author: 'david',
-      creation: 1602523579200,
-      content: `
-      42
-      `.replace(/^ {6}/gm,'')
-    }]
-  }].map( async (channel) => {
-    const {data: {id}} = await axios.post(`http://localhost:${config.port}/channels`, {
-      name: channel.name
+  try
+  {
+    users = await Promise.all(users.map((async u => {
+        const {data:user} = await axios.post(`http://localhost:${config.port}/users`, u);
+        return new Promise((resolve,reject)=>{
+          resolve(user);
+        });
+    })));
+    channels[0].users.push(users[0].id); 
+    channels[0].users.push(users[1].id);
+    users.map(user => {
+      channels[1].users.push(user.id);
+    });
+
+    channels.map(channel => {
+      console.log(channel);
     })
-    return Promise.all( channel.messages.map( async (message) => {
-      await axios.post(`http://localhost:${config.port}/channels/${id}/messages`, message)
-    }))
-  }))
+    
+    //Paul send invitation to Mathis
+      await axios.post(`http://localhost:${config.port}/users/contacts/${users[1].id}`,{...users[0]});
+    //Mathis accept invitation of Paul
+      await axios.post(`http://localhost:${config.port}/users/contacts/${users[0].id}`,{...users[1]});
+    //Paul send an invitation to Alice
+      await axios.post(`http://localhost:${config.port}/users/contacts/${users[2].id}`,{...users[0]});
+    //Neige send an invitation to Paul
+      await axios.post(`http://localhost:${config.port}/users/contacts/${users[1].id}`,{...users[3]});
+    //Neige send an invitation to Clément
+      await axios.post(`http://localhost:${config.port}/users/contacts/${users[4].id}`,{...users[3]});
+    //Clément accept an invitation to Neige
+      await axios.post(`http://localhost:${config.port}/users/contacts/${users[3].id}`,{...users[4]});
+    ////
+    //Alice send an invitation to Clément
+      await axios.post(`http://localhost:${config.port}/users/contacts/${users[4].id}`,{...users[2]});
+    //Clément accept an invitation to Alice
+      await axios.post(`http://localhost:${config.port}/users/contacts/${users[2].id}`,{...users[4]});
+    //////
+    //Mathis send an invitation to Clément
+      await axios.post(`http://localhost:${config.port}/users/contacts/${users[4].id}`,{...users[1]});
+    //Clément accept an invitation to Mathis
+      await axios.post(`http://localhost:${config.port}/users/contacts/${users[1].id}`,{...users[4]});
+    //////
+    //Paul send an invitation to Clément
+      await axios.post(`http://localhost:${config.port}/users/contacts/${users[4].id}`,{...users[0]});
+    //Clément accept an invitation to Paul
+      await axios.post(`http://localhost:${config.port}/users/contacts/${users[0].id}`,{...users[4]});
+      //update users
+      
+      //Paul creates a channel with Mathis
+      await axios.post(`http://localhost:${config.port}/channels`,[channels[0],users[0]]);
+      //Clément create a channel whith everyone
+      await axios.post(`http://localhost:${config.port}/channels`,[channels[1],users[4]]);
+      
+      users = await Promise.all(users.map((async u => {
+        const {data:user} = await axios.get(`http://localhost:${config.port}/users/${u.id}`);
+        return new Promise((resolve,reject)=>{
+          resolve(user);
+        });
+      })));
+      users.map(user=>{
+        console.log(user);
+      })
+      
+    {
+       const {data: channel} = await axios({
+        method: "get",
+        url: `http://localhost:${config.port}/channels/${users[0].channels[0]}`,
+        body: users[0]
+      });
+      channels[0] = channel;
+    }
+    {
+      const {data: channel} = await axios.get(`http://localhost:${config.port}/channels/${users[0].channels[1]}`,users[0]);
+      channels[1] = channel;
+    }
+
+    channels.map(channel=>{
+      console.log(channel);
+    })
+  }
+  catch(err){
+    console.log(err)
+  }
+
   process.exit()
 })();

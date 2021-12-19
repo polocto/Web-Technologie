@@ -26,7 +26,7 @@ const channelTest = {
 
 let user, user2, channelId;
 
-describe('messages', () => {
+describe.only('messages', () => {
   
   beforeEach( async () => {
     await db.admin.clear();
@@ -38,8 +38,8 @@ describe('messages', () => {
     .send(user_2);
     channelTest.users = [temp1.id,temp2.id];
     const {body: temp3} = await supertest(app)
-    .post('/channels')
-    .send([channelTest, temp1])
+    .post(`/users/${temp1.id}/channels`)
+    .send(channelTest)
     .expect(201);
     user = temp3;
     user2 = temp2;
@@ -49,8 +49,7 @@ describe('messages', () => {
   it('list empty', async () => {
     // Get messages
     const {body: messages} = await supertest(app)
-    .get(`/channels/${channelId}/messages`)
-    .send(user)
+    .get(`/users/${user.id}/channels/${channelId}/messages`)
     .expect(200);
     messages.should.eql([]);
   });
@@ -59,13 +58,12 @@ describe('messages', () => {
     // and a message inside it
     const content = "test message";
     const {body: message} = await supertest(app)
-    .post(`/channels/${channelId}/messages`)
-    .send([user,content]);
+    .post(`/users/${user.id}/channels/${channelId}/messages`)
+    .send({content: content});
     message.content.should.eql("test message");
     // Get messages
     const {body: messages} = await supertest(app)
-    .get(`/channels/${channelId}/messages`)
-    .send(user)
+    .get(`/users/${user.id}/channels/${channelId}/messages`)
     .expect(200);
     message.creation = message.creation.toString();
     messages.should.eql([{...message}]);
@@ -75,8 +73,8 @@ describe('messages', () => {
     // Create a message inside it
     const content = "test message";
     const {body: message} = await supertest(app)
-    .post(`/channels/${channelId}/messages`)
-    .send([user,content])
+    .post(`/users/${user.id}/channels/${channelId}/messages`)
+    .send({content: content})
     .expect(201);
     message.should.match({
       author: user.id,
@@ -85,28 +83,26 @@ describe('messages', () => {
     });
     // Check it was correctly inserted
     const {body: messages} = await supertest(app)
-    .get(`/channels/${channelId}/messages`);
+    .get(`/users/${user.id}/channels/${channelId}/messages`);
     messages.length.should.eql(1);
   });
   
   it('access invalid channel', async () => {
     // Get messages
     const {body: messages} = await supertest(app)
-    .get(`/channels/1234/messages`)
-    .send(user)
+    .get(`/users/${user.id}/channels/1234/messages`)
     .expect(404);
   });
 
   it('get message', async () => {
     const content = "test message";
     const {body: message} = await supertest(app)
-    .post(`/channels/${channelId}/messages`)
-    .send([user,content])
+    .post(`/users/${user.id}/channels/${channelId}/messages`)
+    .send({content: content})
     .expect(201);
 
     const {body: result} = await supertest(app)
-    .get(`/channels/${channelId}/messages/${message.creation}`)
-    .send(user)
+    .get(`/users/${user.id}/channels/${channelId}/messages/${message.creation}`)
     .expect(200);
 
     message.creation = message.creation.toString();
@@ -116,16 +112,14 @@ describe('messages', () => {
   it('delete message', async () => {
     const content = "test message";
     const {body: message} = await supertest(app)
-    .post(`/channels/${channelId}/messages`)
-    .send([user,content])
+    .post(`/users/${user.id}/channels/${channelId}/messages`)
+    .send({content: content})
     .expect(201);
     await supertest(app)
-    .delete(`/channels/${channelId}/messages/${message.creation}`)
-    .send(user)
+    .delete(`/users/${user.id}/channels/${channelId}/messages/${message.creation}`)
     .expect(200);
     const {body: result} = await supertest(app)
-    .get(`/channels/${channelId}/messages/${message.creation}`)
-    .send(user)
+    .get(`/users/${user.id}/channels/${channelId}/messages/${message.creation}`)
     .expect(404);
   });
 
@@ -133,20 +127,19 @@ describe('messages', () => {
   it.skip('try get a message after channel is deleted message', async () => {
     const content = "test message";
     const {body: message} = await supertest(app)
-    .post(`/channels/${channelId}/messages`)
-    .send([user,content]);
+    .post(`/users/${user.id}/channels/${channelId}/messages`)
+    .send({content: content});
     await new Promise((resolve,reject)=>{
       supertest(app)
-      .delete(`/channels/${channelId}`)
+      .delete(`/users/${user.id}/channels/${channelId}`)
       .send(user)
       .then(()=>{
         supertest(app)
-        .delete(`/channels/${channelId}`)
+        .delete(`/users/${user.id}/channels/${channelId}`)
         .send(user2)
         .then(()=>{
           supertest(app)
-          .get(`/channels/${channelId}/messages/${message.creation}`)
-          .send(user)
+          .get(`/users/${user.id}/channels/${channelId}/messages/${message.creation}`)
           .expect(404)
           .then(()=>{resolve()});
         })

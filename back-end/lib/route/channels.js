@@ -2,11 +2,11 @@ const db = require('../db/db');
 const express = require('express');
 const messages = require('./messages');
 const StatusError = require('../error');
-const router = express.Router();
+const router = express.Router({ mergeParams : true });
 
 router.get('/', async (req, res) => {
     try{
-        const user = await db.users.get(req.body.id);
+        const user = await db.users.get(req.params.idUser);
         const channels = await db.channels.list(user.channels);
         channels.map(channel => {
           delete channel.users;
@@ -34,18 +34,18 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try{
-        const [metadata, user] = req.body;
+        const metadata = req.body;
         if(metadata.users.length <2)
         {
             throw new StatusError (403,"You should select more users");
         }
         else
         {
-            const channel = await db.channels.create(metadata,user.id);
-            const newUser = await db.users.get(user.id);
-            if(!channel.users.some(elem => elem.id.match(newUser.id))) throw new StatusError(409,"User haven't be add well to the channel");
-            if(!newUser.channels.some(elem => elem.match(channel.id))) throw new StatusError(409,"Channel haven't be add well to the user");
-            res.status(201).send(newUser);
+            const channel = await db.channels.create(metadata,req.params.idUser);
+            const user = await db.users.get(req.params.idUser);
+            if(!channel.users.some(elem => elem.id.match(user.id))) throw new StatusError(409,"User haven't be add well to the channel");
+            if(!user.channels.some(elem => elem.match(channel.id))) throw new StatusError(409,"Channel haven't be add well to the user");
+            res.status(201).send(user);
         }
     }
     catch(err){
@@ -63,7 +63,7 @@ router.post('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try{
-        const user = await db.users.get(req.body.id);
+        const user = await db.users.get(req.params.idUser);
         if(!user.channels.some(elem => elem.match(req.params.id)))
         {
             throw new StatusError(404,"This user have no right to access this channel");
@@ -82,7 +82,7 @@ router.get('/:id', async (req, res) => {
         }).filter(user => user!=null));
 
 
-        channel.admin = channel.admin.some(elem => elem.match(req.body.id));
+        channel.admin = channel.admin.some(elem => elem.match(req.params.idUser));
 
         res.status(200).send(channel);
     }
@@ -101,8 +101,8 @@ router.get('/:id', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     try{
-        let [metadata, user] = req.body;
-        user = await db.users.get(user.id);
+        const user = await db.users.get(req.params.idUser);
+        const metadata = req.body;
         if(!user.channels.some(elem=>elem.match(req.params.id))) throw new StatusError(401,"You don't have the authorization to access to this channel");
         const channel = await db.channels.get(req.params.id);
         
@@ -135,7 +135,7 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try{
-        const user = await db.users.get(req.body.id);
+        const user = await db.users.get(req.params.idUser);
 
         const channel = await db.channels.get(req.params.id);
         channel.users = await db.users.list(channel.users.map(user => {
@@ -178,6 +178,6 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-router.use('/:id*', messages);
+router.use('/:id/messages', messages);
 
 module.exports = router;

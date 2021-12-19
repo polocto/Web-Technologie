@@ -1,6 +1,7 @@
 const db = require('../db/db');
 const express = require('express');
 const router = express.Router();
+const channels = require('./channels');
 const StatusError = require('../error');
 
 //get a list of users
@@ -29,8 +30,9 @@ router.post('/', async (req, res) => {
 });
 
 //update a user
-router.put('/', async (req, res) => {
+router.put('/:idUser', async (req, res) => {
     try{
+        req.body.id = req.params.idUser;
         const user = await db.users.update(req.body);
         res.status(200).send(user);
     }
@@ -48,9 +50,9 @@ router.put('/', async (req, res) => {
 });
 
 //get a list of contacts and their information
-router.get('/contacts', async (req, res) => {
+router.get('/:idUser/contacts', async (req, res) => {
     try{
-        const user = await db.users.get(req.body.id);
+        const user = await db.users.get(req.params.idUser);
         const result = await db.users.list(user.contacts);
         res.status(200).send(result);
     }
@@ -69,9 +71,9 @@ router.get('/contacts', async (req, res) => {
 
 
 
-router.get('/contacts/pending', async (req, res) => {
+router.get('/:idUser/contacts/pending', async (req, res) => {
     try{
-        const user = await db.users.get(req.body.id);
+        const user = await db.users.get(req.params.idUser);
         const result = await db.users.list(user.pendingInvitation);
         res.status(200).send(result);
     }
@@ -88,9 +90,9 @@ router.get('/contacts/pending', async (req, res) => {
     }
 });
 
-router.get('/contacts/sent', async (req, res) => {
+router.get('/:idUser/contacts/sent', async (req, res) => {
     try{
-        const user = await db.users.get(req.body.id);
+        const user = await db.users.get(req.params.idUser);
         const result = await db.users.list(user.sentInvitation);
         res.status(200).send(result);
     }
@@ -108,9 +110,9 @@ router.get('/contacts/sent', async (req, res) => {
 });
 
 //get user from id or email
-router.get('/:id', async (req, res) => {
+router.get('/:idUser', async (req, res) => {
     try{
-        const user = await db.users.get(req.params.id);
+        const user = await db.users.get(req.params.idUser);
         res.status(200).send(user);
     }
     catch(err){
@@ -128,10 +130,10 @@ router.get('/:id', async (req, res) => {
 
 //send an invitation
 //accept an invitation
-router.post('/contacts/:id', async (req, res) => {
+router.post('/:idUser/contacts/:idContact', async (req, res) => {
     try{
-        let user = await db.users.get(req.body.id);
-        const match = elem => elem.match(req.params.id);
+        let user = await db.users.get(req.params.idUser);
+        const match = elem => elem.match(req.params.idContact);
 
         if(user.sentInvitation.some(match))
         {
@@ -143,11 +145,11 @@ router.post('/contacts/:id', async (req, res) => {
         }
         else if(user.pendingInvitation.some(match))
         {
-            user = await db.users.acceptInvitation(user.id,req.params.id);
+            user = await db.users.acceptInvitation(user.id,req.params.idContact);
         }
         else
         {
-            user = await db.users.sendInvitation(user.id,req.params.id);
+            user = await db.users.sendInvitation(user.id,req.params.idContact);
         }
 
         res.status(200).send(user);
@@ -168,10 +170,10 @@ router.post('/contacts/:id', async (req, res) => {
 //delete a contact
 //cancel an invitation
 //refuse an invitation
-router.delete('/contacts/:contactId', async (req, res) => {
+router.delete('/:idUser/contacts/:contactId', async (req, res) => {
     try{
 
-        const user = await db.users.get(req.body.id);
+        const user = await db.users.get(req.params.idUser);
         const contact = await db.users.get(req.params.contactId);
 
         const match = element => element.match(contact.id);
@@ -213,5 +215,7 @@ router.delete('/contacts/:contactId', async (req, res) => {
         }
     }
 });
+
+router.use('/:idUser/channels', channels);
 
 module.exports = router;

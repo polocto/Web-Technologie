@@ -54,13 +54,13 @@ describe('users', () => {
   
   it('modify metadata', async () => {
     const {body: user} = await supertest(app)
-    .post('/users')
+    .post(`/users`)
     .send(userTest);
     user.firstName = "Mathis";
     user.lastName = "Camard";
     
     const {body: result} = await supertest(app)
-    .put(`/users`)
+    .put(`/users/${user.id}`)
     .send(user)
     .expect(200);
     
@@ -112,22 +112,21 @@ describe('users', () => {
     it('send an invitation', async () => {
       //add users
       const {body: sender}=await supertest(app)
-      .post('/users')
+      .post(`/users`)
       .send(userTest);
       const {body: user1}=await supertest(app)
-      .post('/users')
+      .post(`/users`)
       .send(userBeta);
       //send an invitation
       const {body: result} = await supertest(app)
-      .post(`/users/contacts/${user1.id}`)
-      .send(sender)
+      .post(`/users/${sender.id}/contacts/${user1.id}`)
       .expect(200);
       //get the user invited
       const {body: receiver} = await supertest(app)
-      .get(`/users/${userBeta.email}`);
+      .get(`/users/${user1.id}`);
       //verify if the infitantion have been well send and receive
       result.sentInvitation[0].should.match(receiver.id);
-      receiver.pendingInvitation[0].should.match(sender.id);
+      receiver.pendingInvitation[0].should.match(result.id);
       
     });
     
@@ -141,14 +140,12 @@ describe('users', () => {
       .send(userBeta);
       //send an invitation
       const {body: result} = await supertest(app)
-      .post(`/users/contacts/${receiver.id}`)
-      .send(sender);
+      .post(`/users/${sender.id}/contacts/${receiver.id}`)
       const {body: receiver2} = await supertest(app)
       .get(`/users/${receiver.id}`);
       //accept the invitation
       const {body: resultR} = await supertest(app)
-      .post(`/users/contacts/${sender.id}`)
-      .send(receiver2)
+      .post(`/users/${receiver2.id}/contacts/${sender.id}`)
       .expect(200);
       //get the user info of the sender
       const {body: resultS} = await supertest(app)
@@ -168,8 +165,7 @@ describe('users', () => {
       .send(userTest);
       
       const {body: users}=await supertest(app)
-      .get('/users/contacts')
-      .send(user)
+      .get(`/users/${user.id}/contacts`)
       .expect(200);
       
       users.should.eql([]);
@@ -187,14 +183,12 @@ describe('users', () => {
       .send(userBeta);
       //send invitation
       await supertest(app)
-      .post(`/users/contacts/${receiver.id}`)
-      .send(sender);
+      .post(`/users/${sender.id}/contacts/${receiver.id}`)
       const {body: receiver1} = await supertest(app)
       .get(`/users/${receiver.id}`);
       //list pending invitation
       const {body: users}=await supertest(app)
-      .get('/users/contacts/pending')
-      .send(receiver1)
+      .get(`/users/${receiver1.id}/contacts/pending`)
       .expect(200);
 
 
@@ -210,20 +204,17 @@ describe('users', () => {
       .send(userBeta);
       
       await supertest(app)
-      .post(`/users/contacts/${receiver.id}`)
-      .send(sender);
+      .post(`/users/${sender.id}/contacts/${receiver.id}`);
 
       const {body: receiver2} = await supertest(app)
       .get(`/users/${receiver.id}`); 
       
       const {body: resultR} = await supertest(app)
-      .post(`/users/contacts/${sender.id}`)
-      .send(receiver2)
+      .post(`/users/${receiver2.id}/contacts/${sender.id}`)
       .expect(200);
       
       const {body: users}=await supertest(app)
-      .get('/users/contacts')
-      .send(resultR)
+      .get(`/users/${resultR.id}/contacts`)
       .expect(200);
       
       users.length.should.eql(1);
@@ -252,8 +243,7 @@ describe('users', () => {
       .send(sender);
 
       const {body: users}=await supertest(app)
-      .get('/users/contacts/sent')
-      .send(sender)
+      .get(`/users/${sender.id}/contacts/sent`)
       .expect(200);
     });
 
@@ -267,12 +257,10 @@ describe('users', () => {
       .send(userBeta);
       //send invitation
       await supertest(app)
-      .post(`/users/contacts/${receiver.id}`)
-      .send(sender);
+      .post(`/users/${sender.id}/contacts/${receiver.id}`);
       //delete contact
       const {body: resultR} = await supertest(app)
-      .delete(`/users/contacts/${sender.id}`)
-      .send(receiver)
+      .delete(`/users/${receiver.id}/contacts/${sender.id}`)
       .expect(200);
       
       const {body: result} = await supertest(app)
@@ -297,11 +285,9 @@ describe('users', () => {
       .send(sender);
       //accept the invitation
       await supertest(app)
-      .post(`/users/contacts/${sender.id}`)
-      .send(receiver);
+      .post(`/users/${receiver.id}/contacts/${sender.id}`);
       const {body: resultR} = await supertest(app)
-      .delete(`/users/contacts/${sender.id}`)
-      .send(receiver)
+      .delete(`/users/${receiver.id}/contacts/${sender.id}`)
       .expect(200);
       const {body: result} = await supertest(app)
       .get(`/users/${sender.id}`);
@@ -340,7 +326,7 @@ describe('users', () => {
       copy.id = 1234;
       
       await supertest(app)
-      .put(`/users`)
+      .put(`/users/${copy.id}`)
       .send(copy)
       .expect(404);
       
@@ -348,7 +334,7 @@ describe('users', () => {
       copy.email = 1234;
       
       await supertest(app)
-      .put(`/users`)
+      .put(`/users/${user.id}`)
       .send(copy)
       .expect(403);
     });

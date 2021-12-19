@@ -48,8 +48,7 @@ describe('channels', () => {
     it('list empty', async () => {
       // Return an empty channel list by default
       const {body: channels} = await supertest(app)
-      .get('/channels')
-      .send(user1)
+      .get(`/users/${user1.id}/channels`)
       .expect(200);
       channels.should.eql([]);
     });
@@ -57,12 +56,11 @@ describe('channels', () => {
     it('list one element', async () => {
       // Create a channel
       const {body: user}=await supertest(app)
-      .post('/channels')
-      .send([channelTest, user1]);
+      .post(`/users/${user1.id}/channels`)
+      .send(channelTest);
       // Ensure we list the channels correctly
       const {body: channels} = await supertest(app)
-      .get('/channels')
-      .send(user)
+      .get(`/users/${user1.id}/channels`)
       .expect(200);
       channels.should.match([{
         id: /^\w+-\w+-\w+-\w+-\w+$/,
@@ -77,16 +75,15 @@ describe('channels', () => {
     // Create a channel
     
     const {body: user}=await supertest(app)
-    .post('/channels')
-    .send([channelTest, user1])
+    .post(`/users/${user1.id}/channels`)
+    .send(channelTest)
     .expect(201);
     // Check its return value
     user.channels.should.match([/^\w+-\w+-\w+-\w+-\w+$/]);
     user.channels.length.should.eql(1);
     // Check it was correctly inserted
     const {body: channels} = await supertest(app)
-    .get('/channels')
-    .send(user)
+    .get(`/users/${user.id}/channels`)
     .expect(200);
     channels.length.should.eql(1);
   });
@@ -94,18 +91,16 @@ describe('channels', () => {
   it('get channel', async () => {
     // Create a channel
     const {body: user}=await supertest(app)
-    .post('/channels')
-    .send([{...channelTest}, user1]);
+    .post(`/users/${user1.id}/channels`)
+    .send(channelTest);
     // Check it was correctly inserted
     const {body: channel1} = await supertest(app)
-    .get(`/channels/${user.channels[0]}`)
-    .send(user1)
+    .get(`/users/${user.id}/channels/${user.channels[0]}`)
     .expect(200);
     channel1.admin.should.eql(true);
 
     const {body: channel2} = await supertest(app)
-    .get(`/channels/${user.channels[0]}`)
-    .send(user2)
+    .get(`/users/${user2.id}/channels/${user.channels[0]}`)
     .expect(200);
     channel2.admin.should.eql(false);
   });
@@ -119,11 +114,11 @@ describe('channels', () => {
     };
     // Create a channel
     const {body: user}=await supertest(app)
-    .post('/channels')
-    .send([{...channelTest}, user1]);
+    .post(`/users/${user1.id}/channels`)
+    .send(channelTest);
     const {body: channel}=await supertest(app)
-    .put(`/channels/${user.channels[0]}`)
-    .send([channelBeta, user])
+    .put(`/users/${user.id}/channels/${user.channels[0]}`)
+    .send(channelBeta)
     .expect(200);
     
     
@@ -139,13 +134,12 @@ describe('channels', () => {
     let temp;
     beforeEach(async ()=>{
       const {body: user}=await supertest(app)
-      .post('/channels')
-      .send([{...channelTest}, user1]);
+      .post(`/users/${user1.id}/channels`)
+      .send({...channelTest});
       user.channels.length.should.eql(1);
       channelId = user.channels[0];
       const {body: test1}=await supertest(app)
-      .delete(`/channels/${channelId}`)
-      .send(user)
+      .delete(`/users/${user.id}/channels/${channelId}`)
       .expect(200);
       test1.channels.length.should.eql(0);
       temp = test1;
@@ -154,28 +148,24 @@ describe('channels', () => {
     it('delete channel from one user', async () => {
   
       let {body: channel1} = await supertest(app)
-      .get(`/channels/${channelId}`)
-      .send(temp)
+      .get(`/channels/${channelId}/user/${temp.id}`)
       .expect(404);
       
     });
   
     it("delete channel from all channel's user", async () => {
       
-      
       const {body: test2} = await supertest(app)
       .get(`/users/${user2.id}`)
       .expect(200);
       const {body: result}=await supertest(app)
-      .delete(`/channels/${channelId}`)
-      .send(test2)
+      .delete(`/users/${test2.id}/channels/${channelId}`)
       .expect(200);
       
       temp.channels.length.should.eql(0);
   
       await supertest(app)
-      .get(`/channels/${channelId}`)
-      .send(result)
+      .get(`/channels/${channelId}/user/${temp.id}`)
       .expect(404);
   
     });

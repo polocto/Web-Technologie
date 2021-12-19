@@ -5,7 +5,7 @@ const StatusError = require('../error');
 
 router.get('/', async (req, res) => {
     try{
-        const user = req.body;
+        const user = await db.users.get(req.params.idUser);
         const channel = await db.channels.get(req.params.id);
 
         const presentTime = [...channel.users.at(channel.users.findIndex(elem => elem.id.match(user.id))).presentTime];
@@ -31,7 +31,8 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
     try{
-        const [user,content] = req.body;
+        const user = await db.users.get(req.params.idUser);
+        const content = req.body.content;
         const message = await db.messages.create(req.params.id, {author: user.id, content: content});
         res.status(201).send(message);
     }catch(err){
@@ -49,9 +50,9 @@ router.post('/', async (req, res) => {
 
 router.get('/:creation', async (req, res) => {
     try{
-        const user = req.body;
+        const user = await db.users.get(req.params.idUser);
         const channel = await db.channels.get(req.params.id);
-
+        const creation = req.params.creation;
         if(!channel.users[channel.users.findIndex(elem=>elem.id.match(user.id))].presentTime.some((elem)=>{
             const keys = Object.keys(elem);
             if(elem.arrivalTime > creation || (keys.length>=2 && elem.departureTime < creation)) return false;
@@ -75,7 +76,7 @@ router.get('/:creation', async (req, res) => {
 
 router.delete('/:creation', async (req, res) => {
     try{
-        const user = req.body;
+        const user = await db.users.get(req.params.idUser);
         const message = await db.messages.get(req.params.id,req.params.creation);
         if(!message.author.match(user.id)) throw new StatusError(404, "The user is not the creator of the message")
         db.messages.delete(req.params.id, req.params.creation)

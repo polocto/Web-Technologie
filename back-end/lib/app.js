@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const authenticator = require('./authenticator');
-const channels = require('./route/channels');
 const users = require('./route/users');
 
 const app = express();
@@ -18,9 +17,6 @@ app.get('/', (req, res) => {
     '<h1>ECE WebTech Chat</h1>'
   ].join(''));
 });
-
-// Channels
-app.use('/channels', authenticate, channels);
 
 // Users
 app.use('/users',authenticate,users);
