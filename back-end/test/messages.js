@@ -26,7 +26,7 @@ const channelTest = {
 
 let user, user2, channelId;
 
-describe.only('messages', () => {
+describe('messages', () => {
   
   beforeEach( async () => {
     await db.admin.clear();
@@ -66,7 +66,15 @@ describe.only('messages', () => {
     .get(`/users/${user.id}/channels/${channelId}/messages`)
     .expect(200);
     message.creation = message.creation.toString();
-    messages.should.eql([{...message}]);
+    messages.should.eql([{
+      author: {
+        id: user.id,
+        username: user.username
+      },
+      channelId: message.channelId,
+      content: message.content,
+      creation: message.creation
+    }]);
   });
   
   it('add one element', async () => {
@@ -124,27 +132,37 @@ describe.only('messages', () => {
   });
 
   //Doesn't wait long enougth, read before precedent action have been written
-  it.skip('try get a message after channel is deleted message', async () => {
+  it('modify a message', async () => {
     const content = "test message";
+    const content2 = "nouveau";
     const {body: message} = await supertest(app)
     .post(`/users/${user.id}/channels/${channelId}/messages`)
     .send({content: content});
-    await new Promise((resolve,reject)=>{
-      supertest(app)
-      .delete(`/users/${user.id}/channels/${channelId}`)
-      .send(user)
-      .then(()=>{
-        supertest(app)
-        .delete(`/users/${user.id}/channels/${channelId}`)
-        .send(user2)
-        .then(()=>{
-          supertest(app)
-          .get(`/users/${user.id}/channels/${channelId}/messages/${message.creation}`)
-          .expect(404)
-          .then(()=>{resolve()});
-        })
-      })
-    });
+    
+    const {body: message2} = await supertest(app)
+    .post(`/users/${user.id}/channels/${channelId}/messages/${message.creation}`)
+    .send({content: content2})
+    .expect(200);
+
+    message.content.should.not.eql(message2.content);
+
+     
+  })
+
+  it('wrong user try modify a message', async () => {
+    const content = "test message";
+    const content2 = "nouveau";
+    const {body: message} = await supertest(app)
+    .post(`/users/${user.id}/channels/${channelId}/messages`)
+    .send({content: content});
+    
+    const {body: message2} = await supertest(app)
+    .post(`/users/${user2.id}/channels/${channelId}/messages/${message.creation}`)
+    .send({content: content2})
+    .expect(401);
+
+    message.content.should.not.eql(message2.content);
+
      
   })
   

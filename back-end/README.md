@@ -25,55 +25,54 @@ Request:
 - get: return a list of all users from the db
 - post: create a user
     - send `user`'s metadata (`email`)
-- put: update a user's metadate
-    - send `user` after modification
 
-### `/users/:id`
+### `/users/:idUser`
+- params: `idUser` should be either an id or an email
 Request:
+- put: modify user's data
+    - send(data)
 - get: return the active user
-    - params: `id` should be either an id or an email
 
-### `/users/contacts`
+### `/users/:idUser/contacts`
 Request:
 - get: return list of contacts
-    - send `user`
 
-### `/users/contacts/pending`
+### `/users/:idUser/contacts/pending`
 Request:
 - get: return list of pending Invitation
-    - send `user`
     
-### `/users/contacts/sent`
+### `/users/:idUser/contacts/sent`
 Request:
 - get: return list of sent Invitation
-    - send: `user`
 
-### `/users/contacts/:id`
+### `/users/:idUser/contacts/:idContact`
+- params: `:idContact` contact's id
 Request:
 - post: send or accept an invitation
-    - send: `user`
-    - params: `:id` contact's id
 - delete: refuse an invitation or delete a contact
-    - send: `user`
-    - params: `:id` contact's id
 
-### `/channels`
+### `/users/:idUser/channels`
 Request:
-- get: return a list of channels
-    - send: `user`
+- get: return a list of channels that belongs to the user
 - post: create a channel
-    - send: [`channel`, `user`], `channel` correspond to the channel metadata and `user` to the channel creator
+    - send: `channel`correspond to the channel metadata
 
-### `/channels/:id`
+### `/users/:idUser/channels/:idChannel`
 - get: return channels info
-    - send `user`
-    - params: `id` of the channel to get
 - put: modify channel's data
-    - send: [`channel`, `user`], `channel` correspond to the channel metadata after modification and `user` to the one who ask modifications
-    - params: `id` id of the channel to update
+    - send: `channel` correspond to the channel metadata after modification 
 - delete: delete the user from the channel
-    - send: `user`
-    - params: `id` of the channel to delete
+
+### `/users/:idUser/channels/:idChannel/messages`
+- get: return a list of messages from a channel
+- post: create a message
+    - send: `{content: <constent>}`
+
+### `/users/:idUser/channels/:idChannel/messages/:creation`
+- get: return one message
+- delete: delete one message (only the owner)
+- update: update message
+    -send: `{content: <constent>}`
 
 
 # Description of back-end objects and their uses

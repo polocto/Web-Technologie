@@ -66,6 +66,18 @@ module.exports = {
         });
       });
     },
+    update: async function (channel, creation, content){
+      let message = await this.get(channel,creation);
+      message.modification = microtime.now();
+      message.content = content;
+      await db.put(`messages:${channel}:${creation}`, JSON.stringify({
+        author: message.author,
+        content: message.content,
+        modification: message.modification
+      }));
+
+      return message;
+    },
     delete: async function (channel, creation){
       try{
         return await db.del(`messages:${channel}:${creation}`);
