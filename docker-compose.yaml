@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  back:
+    image: polocto/web-back-end:latest
+    ports: 
+    - "3001:3001"
+    volumes:
+    - my-vol:/usr/src/app
+  front:
+    depends_on:
+    - back
+    image: polocto/web-front-end:latest
+    ports:
+    - "3000:3000"
+    environment:
+      WEB_HOST: polocto/web-back-end
+      WEB_PORT: 3001
+volumes:
+  my-vol:
