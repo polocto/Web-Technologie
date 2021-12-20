@@ -125,7 +125,6 @@ module.exports = {
 
       delete original.id;
       await db.put(`channels:${channel.id}`, JSON.stringify(original));
-      return channel;
     },
 
     delete: async function (channel, admin) {

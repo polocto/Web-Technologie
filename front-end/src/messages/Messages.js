@@ -45,7 +45,6 @@ async function onDelete(message, user, oauth,removeMessage, key) {
         },
       }
     );
-    console.log(removeMessage);
     removeMessage(message.index);
   }
   catch(err)

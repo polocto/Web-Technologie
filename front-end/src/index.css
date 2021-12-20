@@ -53,11 +53,38 @@ ul {
 }
 
 #logoutButton {
-  position: absolute;
   justify-content: center;
   position: relative;
   margin-left: 10%;
   margin-top: 0%;
+  
+}
+
+#testFooter{
+  display: flex;
+  position: relative;
+  justify-content: center;
+  grid-gap: 300px;
+  
+}
+
+#titreChannel{
+  display: grid;
+  position: relative;
+  padding: 0;
+  margin-right: 0%;
+  margin-top: 1%;
+  width: 80%;
+  height: 5%;
+}
+
+#buttonDrawer{
+  display: grid;
+  position: relative;
+  padding: 0;
+  margin-right: 0;
+  width: 15%;
+  margin-right: 5%;
   
 }
 
@@ -249,3 +276,4 @@ ul {
   width: fit-content;
   margin-top: 1%;
 }
+

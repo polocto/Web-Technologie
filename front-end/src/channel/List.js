@@ -86,7 +86,6 @@ export default forwardRef(({ channel, messages, onScrollDown, removeMessage }, r
     return () => rootNode.removeEventListener("scroll", handleScroll);
   });
 
-  console.log(messages);
   return (
     <div css={styles.root} ref={rootEl}>
       <h1>Messages for {channel.name}</h1>

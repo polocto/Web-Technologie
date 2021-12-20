@@ -37,7 +37,6 @@ const useStyles = (theme) => ({
 async function onUpdate(field, content, oauth, setUser) {
   let modifcations = {};
   modifcations[field] = content;
-  console.log(modifcations);
   if (content.length != 0) {
     const { data: user } = await axios.put(
       `http://localhost:${config.port}/users/${oauth.email}`,
@@ -48,7 +47,6 @@ async function onUpdate(field, content, oauth, setUser) {
         },
       }
     );
-    console.log(user);
     setUser(user);
   }
 }

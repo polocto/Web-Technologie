@@ -124,6 +124,8 @@ router.put('/:id', async (req, res) => {
                     throw new StatusError(402, "You can't modify the users of the channel");
             }
         });
+
+        await db.channels.update(channel);
         
         res.status(200).send(channel);
     }

@@ -58,6 +58,14 @@
   yarn start
   ```
 
+---
+
+## Prototype of our application 
+
+- [Figma prototype link](https://www.figma.com/file/G0MED2g3sdk65A6lm9JBV9/WebTech?node-id=0%3A1)
+
+---
+
 ## Author
 
 **Paul SADE**
