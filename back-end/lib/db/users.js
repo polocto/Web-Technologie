@@ -2,6 +2,7 @@ const {v4: uuid} = require('uuid');
 const {merge} = require('mixme');
 const db = require('./leveldb');
 const StatusError = require('../error');
+const { use } = require('../route/messages');
 
 module.exports ={
     get: async (id) => {
@@ -48,7 +49,7 @@ module.exports ={
             gt: "users:",
             lte: "users" + String.fromCharCode(":".charCodeAt(0) + 1),
             }).on( 'data', ({key, value}) => {
-            user = JSON.parse(value);
+            const user = JSON.parse(value);
             user.id = key.split(':')[1];
             delete user.sentInvitation;
             delete user.pendingInvitation;
@@ -121,6 +122,9 @@ module.exports ={
 
         sender.contacts.push(receiverId);
         user.contacts.push(senderId);
+
+        delete user.id;
+        delete sender.id;
 
         await db.put(`users:${receiverId}`, JSON.stringify(user));
         await db.put(`users:${senderId}`, JSON.stringify(sender));

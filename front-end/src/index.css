@@ -85,6 +85,14 @@ ul {
   margin-left: 18px;
 }
 
+#contactsLink {
+  padding-left: 17%;
+  padding-right: 17%;
+  position: relative;
+  line-height: 1.5;
+  color: black;
+}
+
 #channelLink {
   padding-left: 17%;
   padding-right: 17%;

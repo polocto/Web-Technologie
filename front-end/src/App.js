@@ -39,6 +39,12 @@ export default function App() {
       state: { from: location }
     }}
   />)
+  const goContacts= (<Navigate
+    to={{
+      pathname: "/contacts",
+      state: { from: location }
+    }}
+  />)
   const gohome = (<Navigate
     to={{
       pathname: "/",

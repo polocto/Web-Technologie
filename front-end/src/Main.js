@@ -15,6 +15,7 @@ import {
   Routes,
 } from 'react-router-dom'
 import axios from 'axios';
+import Contacts from './Contacts';
 
 const useStyles = (theme) => ({
   root: {
@@ -85,6 +86,7 @@ export default function Main() {
         <Channels />
       </Drawer>
       <Routes>
+        <Route path="contacts" element={<Contacts/>}/>
         <Route path=":id" element={<Channel />}/>
         <Route path="*" element={<Welcome />}/>
       </Routes>
