@@ -101,29 +101,37 @@ ul {
   color: black;
 }
 
-#sendButton{
+#sendButton {
   margin-top: 10%;
   color: wheat;
 }
 
-#marche{
+#marche {
   border-color: aqua;
   padding: 0;
   margin-top: 0;
   margin-left: 45%;
 }
 
-#invfr{
-  position:absolute;
+#invfr {
+  position: absolute;
   margin-left: 45%;
 }
 
-#crechan{
+#crechan {
   position: absolute;
   margin-left: 15%;
 }
 
-#set{
+#set {
   position: absolute;
   margin-left: 75%;
+}
+
+#ProfilImage {
+  position: absolute;
+  top: 10%;
+  left: auto;
+  right: auto;
+  margin-left: 4%;
 }

@@ -42,6 +42,13 @@ export default function Welcome() {
         spacing={5}
       >
         <form id="marche">
+          <img
+            id="ProfilImage"
+            src="https://www.pngitem.com/pimgs/b/296-2969032_mlg-doge-png.png"
+            alt="profilImage"
+            width="100"
+            height="100"
+          ></img>
           <TextField
             variant="filled"
             label="Nom"
@@ -76,22 +83,20 @@ export default function Welcome() {
           <Button variant="contained">Edit</Button>
         </form>
 
-        
-          <div id="crechan" css={styles.card}>
-            <ChannelIcon css={styles.icon} />
-            <Typography color="textPrimary">Create channels</Typography>
-          </div>
-    
-          <div id="invfr" css={styles.card} >
-            <FriendsIcon css={styles.icon} />
-            <Typography color="textPrimary">Invite friends</Typography>
-          </div>
-       
-          <div id="set" css={styles.card}>
-            <SettingsIcon css={styles.icon} />
-            <Typography color="textPrimary">Settings</Typography>
-          </div>
-       
+        <div id="crechan" css={styles.card}>
+          <ChannelIcon css={styles.icon} />
+          <Typography color="textPrimary">Create channels</Typography>
+        </div>
+
+        <div id="invfr" css={styles.card}>
+          <FriendsIcon css={styles.icon} />
+          <Typography color="textPrimary">Invite friends</Typography>
+        </div>
+
+        <div id="set" css={styles.card}>
+          <SettingsIcon css={styles.icon} />
+          <Typography color="textPrimary">Settings</Typography>
+        </div>
       </Grid>
     </div>
   );
