@@ -72,6 +72,10 @@ router.get('/:creation', async (req, res) => {
         }))throw new StatusError(404,"No messages found")
 
         const message = await db.messages.get(req.params.id, req.params.creation, user.id);
+        message.author = {
+            id: user.id,
+            username: user.username
+        };
         res.status(200).send(message);
     }catch(err){
         if (err instanceof StatusError)

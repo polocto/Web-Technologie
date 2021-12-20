@@ -85,7 +85,10 @@ describe('messages', () => {
     .send({content: content})
     .expect(201);
     message.should.match({
-      author: user.id,
+      author: {
+        id: user.id,
+        username: user.username
+      },
       creation: (it) => it.should.be.approximately(microtime.now(), 1000000),
       content: content
     });
@@ -140,7 +143,7 @@ describe('messages', () => {
     .send({content: content});
     
     const {body: message2} = await supertest(app)
-    .post(`/users/${user.id}/channels/${channelId}/messages/${message.creation}`)
+    .put(`/users/${user.id}/channels/${channelId}/messages/${message.creation}`)
     .send({content: content2})
     .expect(200);
 
@@ -157,7 +160,7 @@ describe('messages', () => {
     .send({content: content});
     
     const {body: message2} = await supertest(app)
-    .post(`/users/${user2.id}/channels/${channelId}/messages/${message.creation}`)
+    .put(`/users/${user2.id}/channels/${channelId}/messages/${message.creation}`)
     .send({content: content2})
     .expect(401);
 
