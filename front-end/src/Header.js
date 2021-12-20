@@ -5,6 +5,7 @@ import { useTheme } from "@mui/styles";
 import { IconButton, Link } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Context from "./Context";
+import { ReactComponent as logoIcon } from "./icons/logo.svg";
 //import { ThemeProvider } from "@emotion/react";
 import { Button } from "@mui/material";
 
@@ -39,7 +40,9 @@ export default function Header({ drawerToggleListener }) {
     setOauth(null);
   };
   return (
+    
     <header css={styles.header}>
+      
       <IconButton
         color="inherit"
         aria-label="open drawer"
@@ -52,7 +55,7 @@ export default function Header({ drawerToggleListener }) {
       {user ? (
         <span>
           {user.prenom && user.nom ? user.prenom +""+user.nom : user.username}
-
+          
           <Button id="logoutButton" variant="outlined" color="error">
           <Link id="logoutLink" onClick={onClickLogout}>
             logout

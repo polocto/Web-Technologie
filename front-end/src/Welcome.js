@@ -33,48 +33,53 @@ const useStyles = (theme) => ({
   },
 });
 
-async function onUpdate(field, content, oauth, setUser){
-
-  let modifcations={};
+async function onUpdate(field, content, oauth, setUser) {
+  let modifcations = {};
   modifcations[field] = content;
-  console.log(modifcations)
-    if(content.length != 0)
-    {
-      const {data: user} = await axios.put(`http://localhost:3001/users/${oauth.email}`,modifcations,
+  console.log(modifcations);
+  if (content.length != 0) {
+    const { data: user } = await axios.put(
+      `http://localhost:3001/users/${oauth.email}`,
+      modifcations,
       {
         headers: {
           Authorization: `Bearer ${oauth.access_token}`,
         },
-      });
-      console.log(user)
-      setUser(user);
-    }
+      }
+    );
+    console.log(user);
+    setUser(user);
+  }
 }
 
-function handleChange (value, setValue)
-{
+function handleChange(value, setValue) {
   setValue(value);
 }
 
 export default function Welcome() {
   const styles = useStyles(useTheme());
   const { user, setUser, oauth } = useContext(Context);
-  const [prenom,setPrenom] = useState("Prenom");
-  const [nom,setNom] = useState("Nom");
-  const [username,setUsername] = useState("username");
+  const [prenom, setPrenom] = useState("Prenom");
+  const [nom, setNom] = useState("Nom");
+  const [username, setUsername] = useState("username");
 
-  const [profileImage,setProfileImage]=useState("https://www.pngitem.com/pimgs/b/296-2969032_mlg-doge-png.png");
-  const [print, setPrint]=useState(false);
+  const [profileImage, setProfileImage] = useState(
+    "https://www.pngitem.com/pimgs/b/296-2969032_mlg-doge-png.png"
+  );
+  const [print, setPrint] = useState(false);
 
-  useEffect(()=>{
-    if(user)
-    {
-      setPrenom(user.firstName ? user.firstName : "username")
-      setNom(user.lastName ? user.lastName : "username")
-      setUsername(user.username ? user.username : "username")
-      setProfileImage(user.profileImage ? user.profileImage : "https://www.pngitem.com/pimgs/b/296-2969032_mlg-doge-png.png")
+  useEffect(() => {
+    if (user) {
+      setPrenom(user.firstName ? user.firstName : "username");
+      setNom(user.lastName ? user.lastName : "username");
+      setUsername(user.username ? user.username : "username");
+      setProfileImage(
+        user.profileImage
+          ? user.profileImage
+          : "https://www.pngitem.com/pimgs/b/296-2969032_mlg-doge-png.png"
+      );
     }
-  },[user])
+  }, [user]);
 
   return (
     <div id="channelList" css={styles.root}>
@@ -100,14 +105,20 @@ export default function Welcome() {
             value={nom}
             alignItems="center"
             color="secondary"
-            onChange={(e)=>{
-              handleChange(e.target.value,setNom)
+            onChange={(e) => {
+              handleChange(e.target.value, setNom);
             }}
           />
-          <Button variant="contained" onClick={(e)=>{
-            e.preventDefault();
-            onUpdate("lastName",nom,oauth,setUser)
-          }} ><ModeEditOutlineRoundedIcon fontSize="small" />Edit</Button>
+          <Button
+            variant="contained"
+            onClick={(e) => {
+              e.preventDefault();
+              onUpdate("lastName", nom, oauth, setUser);
+            }}
+          >
+            <ModeEditOutlineRoundedIcon fontSize="small" />
+            Edit
+          </Button>
 
           <br></br>
 
@@ -117,14 +128,20 @@ export default function Welcome() {
             value={prenom}
             alignItems="center"
             color="secondary"
-            onChange={(e)=>{
-              handleChange(e.target.value,setPrenom)
+            onChange={(e) => {
+              handleChange(e.target.value, setPrenom);
             }}
           />
-          <Button variant="contained" onClick={(e)=>{
-            e.preventDefault();
-            onUpdate("firstName",prenom,oauth,setUser)
-          }} ><ModeEditOutlineRoundedIcon fontSize="small" />Edit</Button>
+          <Button
+            variant="contained"
+            onClick={(e) => {
+              e.preventDefault();
+              onUpdate("firstName", prenom, oauth, setUser);
+            }}
+          >
+            <ModeEditOutlineRoundedIcon fontSize="small" />
+            Edit
+          </Button>
           <br></br>
 
           <TextField
@@ -133,14 +150,20 @@ export default function Welcome() {
             value={username}
             alignItems="center"
             color="secondary"
-            onChange={(e)=>{
-              handleChange(e.target.value,setUsername)
+            onChange={(e) => {
+              handleChange(e.target.value, setUsername);
             }}
           />
-          <Button variant="contained" onClick={(e)=>{
-            e.preventDefault();
-            onUpdate("username",username,oauth,setUser)
-          }} ><ModeEditOutlineRoundedIcon fontSize="small" />Edit</Button>
+          <Button
+            variant="contained"
+            onClick={(e) => {
+              e.preventDefault();
+              onUpdate("username", username, oauth, setUser);
+            }}
+          >
+            <ModeEditOutlineRoundedIcon fontSize="small" />
+            Edit
+          </Button>
           <br></br>
 
           <TextField
@@ -150,30 +173,34 @@ export default function Welcome() {
             value={profileImage}
             alignItems="center"
             color="secondary"
-
-            onChange={(e)=>{
-              handleChange(e.target.value,setProfileImage)
+            onChange={(e) => {
+              handleChange(e.target.value, setProfileImage);
             }}
           />
-          <Button variant="contained" onClick={(e)=>{
-            e.preventDefault();
-            onUpdate("profileImage",profileImage,oauth,setUser)
-          }}><ModeEditOutlineRoundedIcon fontSize="small" />Edit</Button>
+          <Button
+            variant="contained"
+            onClick={(e) => {
+              e.preventDefault();
+              onUpdate("profileImage", profileImage, oauth, setUser);
+            }}
+          >
+            <ModeEditOutlineRoundedIcon fontSize="small" />
+            Edit
+          </Button>
         </form>
 
         <div id="crechan" css={styles.card}>
-          <ChannelIcon css={styles.icon} />
-          <Typography color="textPrimary">Create channels</Typography>
+          <ChannelIcon id="createChannelIcon" css={styles.icon} />
+          <Button id="createChannelButton" variant="contained">
+            <Typography color="textPrimary">Create channels</Typography>
+          </Button>
         </div>
 
         <div id="invfr" css={styles.card}>
-          <FriendsIcon css={styles.icon} />
-          <Typography color="textPrimary">Invite friends</Typography>
-        </div>
-
-        <div id="set" css={styles.card}>
-          <SettingsIcon css={styles.icon} />
-          <Typography color="textPrimary">Settings</Typography>
+          <FriendsIcon id="addFriendsIcon" css={styles.icon} />
+          <Button id="addFriendButton" variant="contained">
+            <Typography color="textPrimary">Invite friends</Typography>
+          </Button>
         </div>
       </Grid>
     </div>

@@ -43,18 +43,20 @@ export default function Channels() {
     <div id="channelList">
       <ul css={styles.root}>
         <li css={styles.channel}>
-          <Button
-            id="welcmButton"
-            variant="contained"
-            href="#contained-buttons"
-          >
-             <Link id="wlcmLink" to="/channels" component={RouterLink}>
-              Welcome
-            </Link>
-          </Button>
+          <div class="test">
+            <Button
+              id="welcmButton"
+              variant="contained"
+              href="#contained-buttons"
+            >
+              <Link id="wlcmLink" to="/channels" component={RouterLink}>
+                Welcome
+              </Link>
+            </Button>
+          </div>
         </li>
         {channels.map((channel, i) => (
-          <li key={i} css={styles.channel}>
+          <li id="listeOfChannel" key={i} css={styles.channel}>
             <div id="circle">
               <Link
                 id="channelLink"
@@ -65,7 +67,6 @@ export default function Channels() {
                 }}
               >
                 {channel.name}
-                
               </Link>
             </div>
           </li>

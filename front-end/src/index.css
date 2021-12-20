@@ -85,6 +85,15 @@ ul {
   margin-left: 18px;
 }
 
+#friendRequest{
+  background: #949999;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-left: 18px;
+}
+
 #channelLink {
   padding-left: 17%;
   padding-right: 17%;
@@ -115,17 +124,14 @@ ul {
 
 #invfr {
   position: absolute;
-  margin-left: 45%;
+  display: grid;
+  margin-left: 60%;
 }
 
 #crechan {
   position: absolute;
-  margin-left: 15%;
-}
-
-#set {
-  position: absolute;
-  margin-left: 75%;
+  display: grid;
+  margin-left: 25%;
 }
 
 #ProfilImage {
@@ -135,3 +141,36 @@ ul {
   right: auto;
   margin-left: 4%;
 }
+
+#createChannelButton{
+  position: absolute;
+  bottom: 0;
+
+}
+
+#addFriendButton{
+  position: absolute;
+  bottom: 0;
+
+}
+
+#createChannelIcon{
+  margin-left: 9%;
+  margin-bottom: 15%;
+}
+
+#addFriendsIcon{
+  margin-bottom: 15%;
+  margin-left: 3%;
+  
+}
+
+.test{
+  display: grid;
+  grid-row-gap: 10px;
+}
+
+#listeOfChannel{
+  display: grid;
+}
+
