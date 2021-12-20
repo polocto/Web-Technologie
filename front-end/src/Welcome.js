@@ -7,6 +7,7 @@ import { ReactComponent as FriendsIcon } from "./icons/friends.svg";
 import { ReactComponent as SettingsIcon } from "./icons/settings.svg";
 import { Button, TextField, ButtonGroup, Fab } from "@mui/material";
 import { grid } from "@mui/system";
+import { useState } from "react";
 
 const useStyles = (theme) => ({
   root: {
@@ -31,6 +32,11 @@ const useStyles = (theme) => ({
 
 export default function Welcome() {
   const styles = useStyles(useTheme());
+  const [data,setData]=useState(null);
+  const [print, setPrint]=useState(false);
+  function getData(val){
+    setData(val.target.value)
+  }
   return (
     <div id="channelList" css={styles.root}>
       <Grid
@@ -44,7 +50,8 @@ export default function Welcome() {
         <form id="marche">
           <img
             id="ProfilImage"
-            src="https://www.pngitem.com/pimgs/b/296-2969032_mlg-doge-png.png"
+            // src="https://www.pngitem.com/pimgs/b/296-2969032_mlg-doge-png.png"
+            src={data}
             alt="profilImage"
             width="100"
             height="100"
@@ -81,6 +88,17 @@ export default function Welcome() {
             color="secondary"
           />
           <Button variant="contained">Edit</Button>
+          <br></br>
+
+          <TextField
+            variant="filled"
+            label="Profil picture"
+            margin="dense"
+            value=""
+            alignItems="center"
+            color="secondary"
+          />
+          <Button variant="contained" onClick={()=>setPrint(true)}>Edit</Button>
         </form>
 
         <div id="crechan" css={styles.card}>
