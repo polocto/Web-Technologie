@@ -17,6 +17,7 @@ import {
 import axios from 'axios';
 import Contacts from './Contacts';
 import CreateChannel from './channel/CreateChannel';
+import config from './config';
 
 const useStyles = (theme) => ({
   root: {
@@ -38,7 +39,7 @@ const useStyles = (theme) => ({
 
 const getUser = async function(setUser, oauth) {
   try{
-    const {data: user} = await axios.get(`http://localhost:3001/users/${oauth.email}`,
+    const {data: user} = await axios.get(`http://localhost:${config.port}/users/${oauth.email}`,
     {
       headers: {
         Authorization: `Bearer ${oauth.access_token}`,
@@ -48,7 +49,7 @@ const getUser = async function(setUser, oauth) {
   }
   catch(err)
   {
-    const {data: user} = await axios.post(`http://localhost:3001/users`,{email: oauth.email, lastName: 'Sade', firstName: 'Paul', username:'polocto'}, { headers: {Authorization: `Bearer ${oauth.access_token}`,}})
+    const {data: user} = await axios.post(`http://localhost:${config.port}/users`,{email: oauth.email, lastName: 'Sade', firstName: 'Paul', username:'polocto'}, { headers: {Authorization: `Bearer ${oauth.access_token}`,}})
     setUser(user);
   }
 }
@@ -58,7 +59,6 @@ export default function Main() {
     // currentChannel, not yet used
     drawerVisible,
     oauth,
-    user,
     setUser
   } = useContext(Context)
 
@@ -70,7 +70,7 @@ export default function Main() {
   useEffect(()=>{
 
     getUser(setUser,oauth);
-  },[oauth]);
+  },[oauth,setUser]);
   
   return (
     <main css={styles.root}>

@@ -10,6 +10,7 @@ import Form from "./channel/Form";
 import List from "./channel/List";
 import Context from "./Context";
 import { useNavigate, useParams } from "react-router-dom";
+import config from "./config";
 
 const useStyles = (theme) => ({
   root: {
@@ -51,7 +52,7 @@ export default function Channel() {
     const fetch = async () => {
       try {
         const { data: messages } = await axios.get(
-          `http://localhost:3001/users/${user.id}/channels/${id}/messages`,
+          `http://localhost:${config.port}/users/${user.id}/channels/${id}/messages`,
           {
             headers: {
               Authorization: `Bearer ${oauth.access_token}`,

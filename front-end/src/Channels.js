@@ -8,6 +8,7 @@ import { Link as RouterLink } from "react-router-dom";
 import Context from "./Context";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+import config from "./config";
 
 const styles = {
   root: {
@@ -25,7 +26,7 @@ export default function Channels() {
     const fetch = async () => {
       try {
         const { data: channels } = await axios.get(
-          `http://localhost:3001/users/${user.id}/channels`,
+          `http://localhost:${config.port}/users/${user.id}/channels`,
           {
             headers: {
               Authorization: `Bearer ${oauth.access_token}`,

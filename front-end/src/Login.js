@@ -12,6 +12,7 @@ import { Button } from '@mui/material';
 import Context from './Context';
 import { useNavigate } from 'react-router-dom';
 import Image from './icons/loginBackground.png';
+import config from './config';
 
 const base64URLEncode = (str) => {
   return str
@@ -132,13 +133,13 @@ export default function Login({ onUser }) {
   // const location = useLocation();
   const [cookies, setCookie, removeCookie] = useCookies([]);
   const { oauth, setOauth } = useContext(Context);
-  const config = {
-    authorization_endpoint: 'http://localhost:5556/dex/auth',
-    token_endpoint: 'http://localhost:5556/dex/token',
-    client_id: 'webtech-frontend',
-    redirect_uri: 'http://localhost:3000',
-    scope: 'openid%20email%20offline_access',
-  };
+  // {
+  //   authorization_endpoint: 'http://localhost:5556/dex/auth',
+  //   token_endpoint: 'http://localhost:5556/dex/token',
+  //   client_id: 'webtech-frontend',
+  //   redirect_uri: 'http://localhost:3000',
+  //   scope: 'openid%20email%20offline_access',
+  // };
   const params = new URLSearchParams(window.location.search);
   const code = params.get('code');
   // is there a code query parameters in the url

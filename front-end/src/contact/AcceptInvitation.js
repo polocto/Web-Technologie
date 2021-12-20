@@ -3,6 +3,7 @@ import Context from "../Context";
 import axios from "axios";
 import AddIcon from '@mui/icons-material/Add';
 import { Fab } from "@mui/material";
+import config from "../config";
 
 
 export default function AcceptInvitation({contact}){
@@ -11,7 +12,7 @@ export default function AcceptInvitation({contact}){
 
         try
         {
-            const {data: temp} = await axios.post(`http://localhost:3001/users/${user.id}/contacts/${contact.id}`,user,
+            const {data: temp} = await axios.post(`http://localhost:${config.port}/users/${user.id}/contacts/${contact.id}`,user,
             {
               headers: {
                 Authorization: `Bearer ${oauth.access_token}`,
