@@ -38,7 +38,7 @@ export default function Contacts(){
     }
 
     return(
-        <Box> 
+        <Box id="contactPage"> 
             <Tabs value={menu} onChange={handleChange} >
                 <Tab value="" label="Contact" />
                 <Tab value="pending"  label="Pending Invitations" />

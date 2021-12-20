@@ -42,44 +42,51 @@ export default function Channels() {
   return (
     <div id="channelList">
       <ul css={styles.root}>
-        <li css={styles.channel}>
-          
-          <div class="test">
+
+
+
+        <div class="test">
+          <li css={styles.channel}>
             <Button
               id="welcmButton"
               variant="contained"
               href="#contained-buttons"
             >
               <Link id="wlcmLink" to="/channels" component={RouterLink}>
-                Welcome
+                Parameters
               </Link>
             </Button>
-          </div>
-        </li>
-        <li css={styles.channel}>
-          <Button
-            id="contactsButton"
-            variant="contained"
-            href="#contained-buttons"
-          >
-             <Link id="contactsLink" to="/channels/contacts" component={RouterLink}>
-              Contacts
-            </Link>
-          </Button>
-          
-        </li>
-        <li css={styles.channel}>
-          <Button
-            id="contactsButton"
-            variant="contained"
-            href="#contained-buttons"
-          >
-             <Link id="contactsLink" to="/channels/contacts" component={RouterLink}>
-              Create channel
-            </Link>
-          </Button>
-          
-        </li>
+          </li>
+          <li css={styles.channel}>
+            <Button
+              id="contactsButton"
+              variant="contained"
+              href="#contained-buttons"
+            >
+              <Link
+                id="contactsLink"
+                to="/channels/contacts"
+                component={RouterLink}
+              >
+                Contacts
+              </Link>
+            </Button>
+          </li>
+          <li css={styles.channel}>
+            <Button
+              id="createChanButton"
+              variant="contained"
+              href="#contained-buttons"
+            >
+              <Link id="createChanLink">Create channel</Link>
+            </Button>
+          </li>
+        </div>
+
+
+
+
+
         {channels.map((channel, i) => (
           <li id="listeOfChannel" key={i} css={styles.channel}>
             <div id="circle">
