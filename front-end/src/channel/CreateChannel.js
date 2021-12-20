@@ -98,7 +98,7 @@ export default function CreateChannel(){
     },[]);
 
     return (
-    <Box>
+    <Box id="createChannel">
         <Typography>Create a new Channel</Typography>
         <Box>
             <TextField label="Name Channel" onChange={handleChange} value={name} />

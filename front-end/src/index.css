@@ -22,7 +22,7 @@ ul {
 }
 
 #root > div {
-  color: #00b89c;
+  color: #2e7d32;
   background-color: #3a3e3e;
   position: absolute;
   height: 100%;
@@ -36,7 +36,7 @@ ul {
   position: relative;
   left: 180px;
   top: -120px;
-  color: #00b89c;
+  color: #2e7d32;
   font-family: Play;
   font-size: 50px;
   font-variant: normal;
@@ -94,6 +94,7 @@ ul {
   margin-left: 18px;
   width: 70%;
 }
+
 #createChanButton {
   background: #949999;
   padding-top: 0px;
@@ -206,38 +207,43 @@ ul {
   display: grid;
 }
 
-#contactPage{
+#contactPage {
+  background-color: #949999;
+  position: relative;
+  width: 100%;
+}
+#createChannel {
   background-color: #949999;
   position: relative;
   width: 100%;
 }
 
-#title{
+#title {
   display: grid;
   padding: 0;
   margin-left: 50%;
   margin-top: 1%;
 }
 
-#head{
+#head {
   display: flex;
   position: relative;
   justify-content: center;
   height: 80px;
 }
 
-#l1{
+#l1 {
   width: fit-content;
   margin-top: 1%;
   margin-left: 2%;
 }
 
-#l2{
+#l2 {
   width: 1000px;
   margin-top: 1%;
 }
 
-#l3{
+#l3 {
   width: fit-content;
   margin-top: 1%;
 }
