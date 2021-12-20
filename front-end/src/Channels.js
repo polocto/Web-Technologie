@@ -42,20 +42,22 @@ export default function Channels() {
   return (
     <div id="channelList">
       <ul css={styles.root}>
-        <li css={styles.channel}>
-          
-          <div class="test">
+
+
+
+        <div class="test">
+          <li css={styles.channel}>
             <Button
               id="welcmButton"
               variant="contained"
               href="#contained-buttons"
             >
               <Link id="wlcmLink" to="/channels" component={RouterLink}>
-                Welcome
+                Parameters
               </Link>
             </Button>
+          </li>
           </div>
-        </li>
         <li css={styles.channel}>
           <Button
             id="contactsButton"

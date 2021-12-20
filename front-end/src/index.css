@@ -53,11 +53,11 @@ ul {
 }
 
 #logoutButton {
-  display: flex;
+  position: absolute;
   justify-content: center;
   position: relative;
-  margin-left: 80%;
-  top: -25%;
+  margin-left: 50%;
+  margin-top: 0%;
 }
 
 #channelList {
@@ -83,9 +83,28 @@ ul {
   padding-left: 30px;
   padding-right: 30px;
   margin-left: 18px;
+  width: 70%;
+}
+#contactsButton {
+  background: #949999;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-left: 18px;
+  width: 70%;
+}
+#createChanButton {
+  background: #949999;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-left: 18px;
+  width: 70%;
 }
 
-#friendRequest{
+#friendRequest {
   background: #949999;
   padding-top: 0px;
   padding-bottom: 0px;
@@ -102,6 +121,14 @@ ul {
 }
 
 #channelLink {
+  padding-left: 17%;
+  padding-right: 17%;
+  position: relative;
+  line-height: 1.5;
+  color: black;
+}
+
+#createChanLink {
   padding-left: 17%;
   padding-right: 17%;
   position: relative;
@@ -149,35 +176,68 @@ ul {
   margin-left: 4%;
 }
 
-#createChannelButton{
+#createChannelButton {
   position: absolute;
   bottom: 0;
-
 }
 
-#addFriendButton{
+#addFriendButton {
   position: absolute;
   bottom: 0;
-
 }
 
-#createChannelIcon{
+#createChannelIcon {
   margin-left: 9%;
   margin-bottom: 15%;
 }
 
-#addFriendsIcon{
+#addFriendsIcon {
   margin-bottom: 15%;
   margin-left: 3%;
-  
 }
 
-.test{
+.test {
   display: grid;
-  grid-row-gap: 10px;
+
+  grid-row-gap: 20px;
 }
 
-#listeOfChannel{
+#listeOfChannel {
   display: grid;
 }
 
+#contactPage{
+  background-color: #949999;
+  position: relative;
+  width: 100%;
+}
+
+#title{
+  display: grid;
+  padding: 0;
+  margin-left: 50%;
+  margin-top: 1%;
+}
+
+#head{
+  display: flex;
+  position: relative;
+  justify-content: center;
+  height: 80px;
+}
+
+#l1{
+  width: fit-content;
+  margin-top: 1%;
+  margin-left: 2%;
+}
+
+#l2{
+  width: 1000px;
+  margin-top: 1%;
+}
+
+#l3{
+  width: fit-content;
+  margin-top: 1%;
+}

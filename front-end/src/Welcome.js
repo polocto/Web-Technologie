@@ -189,7 +189,7 @@ export default function Welcome() {
           </Button>
         </form>
 
-        <div id="crechan" css={styles.card}>
+        {/* <div id="crechan" css={styles.card}>
           <ChannelIcon id="createChannelIcon" css={styles.icon} />
           <Button id="createChannelButton" variant="contained">
             <Typography color="textPrimary">Create channels</Typography>
@@ -201,7 +201,7 @@ export default function Welcome() {
           <Button id="addFriendButton" variant="contained">
             <Typography color="textPrimary">Invite friends</Typography>
           </Button>
-        </div>
+        </div> */}
       </Grid>
     </div>
   );

@@ -40,9 +40,7 @@ export default function Header({ drawerToggleListener }) {
     setOauth(null);
   };
   return (
-    
     <header css={styles.header}>
-      
       <IconButton
         color="inherit"
         aria-label="open drawer"
@@ -51,18 +49,34 @@ export default function Header({ drawerToggleListener }) {
       >
         <MenuIcon />
       </IconButton>
-      { Header }
+      {Header}
       {user ? (
-        <span>
-          {user.prenom && user.nom ? user.prenom +""+user.nom : user.username}
-          
-          <Button id="logoutButton" variant="outlined" color="error">
-          <Link id="logoutLink" onClick={onClickLogout}>
-            logout
-          </Link>
-          </Button>
-          
-        </span>
+        <ul>
+          <div id="head">
+            <li id="l1">
+              {user.prenom && user.nom
+                ? user.prenom + "" + user.nom
+                : user.username}
+            </li>
+            <li id="l2">
+              <h1 id="title" width="fitContent">
+                LOQUI ROCKET
+              </h1>
+            </li>
+            <li id="l3">
+              <Button
+                id="logoutButton"
+                variant="outlined"
+                color="error"
+                width="fitContent"
+              >
+                <Link id="logoutLink" onClick={onClickLogout}>
+                  logout
+                </Link>
+              </Button>
+            </li>
+          </div>
+        </ul>
       ) : (
         <span></span>
       )}
