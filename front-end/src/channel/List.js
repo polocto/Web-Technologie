@@ -57,7 +57,7 @@ const useStyles = (theme) => ({
   },
 });
 
-export default forwardRef(({ channel, messages, onScrollDown }, ref) => {
+export default forwardRef(({ channel, messages, onScrollDown, removeMessage }, ref) => {
   const styles = useStyles(useTheme());
   // Expose the `scroll` action
   useImperativeHandle(ref, () => ({
@@ -90,23 +90,8 @@ export default forwardRef(({ channel, messages, onScrollDown }, ref) => {
       <h1>Messages for {channel.name}</h1>
       <ul>
         {messages.map((message, i) => {
-          // const {value} = unified()
-          // .use(markdown)
-          // .use(remark2rehype)
-          // .use(html)
-          // .processSync(message.content);
-          // return (
-          //   <li key={i} css={styles.message}>
-          //     <p>
-          //       <span>{message.author.username}</span>
-          //       {' - '}
-          //       <span>{dayjs().calendar(message.creation)}</span>
-          //     </p>
-          //     <div dangerouslySetInnerHTML={{__html: value}}>
-          //     </div>
-          //   </li>
-          // )
-          return <Message key={i} message={message} />;
+          message.index = i;
+          return <Message message={message} removeMessage={removeMessage} />;
         })}
       </ul>
       <div ref={scrollEl} />

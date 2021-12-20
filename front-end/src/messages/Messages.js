@@ -34,7 +34,24 @@ const useStyles = (theme) => ({
   },
 });
 
-function onDelete(message, user) {}
+async function onDelete(message, user, oauth,removeMessage, key) {
+  try{
+    await axios.delete(
+      `http://localhost:3001/users/${user.id}/channels/${message.channelId}/messages/${message.creation}`,
+      {
+        headers: {
+          Authorization: `Bearer ${oauth.access_token}`,
+        },
+      }
+    );
+    console.log(removeMessage);
+    removeMessage(message.index);
+  }
+  catch(err)
+  {
+    console.error(err);
+  }
+}
 
 async function onModification(
   message,
@@ -45,7 +62,6 @@ async function onModification(
   oauth
 ) {
   if (modifiable) {
-    console.log(message);
     const { data: temp } = await axios.put(
       `http://localhost:3001/users/${user.id}/channels/${message.channelId}/messages/${message.creation}`,
       {
@@ -57,12 +73,12 @@ async function onModification(
         },
       }
     );
-    message = { ...temp };
+    message = { ...temp, index: message.index };
   }
   setModifiable(!modifiable);
 }
 
-function Option({ message, setModifiable, modifiable, content }) {
+function Option({ message, setModifiable, modifiable, content, removeMessage}) {
   const { user, oauth } = useContext(Context);
 
   return (
@@ -87,7 +103,7 @@ function Option({ message, setModifiable, modifiable, content }) {
       </Button>
       <Button
         onClick={() => {
-          onDelete();
+          onDelete(message,user,oauth, removeMessage);
         }}
       >
         <DeleteIcon />
@@ -96,25 +112,27 @@ function Option({ message, setModifiable, modifiable, content }) {
   );
 }
 
-export default function Message({ key, message }) {
-  const { user } = useContext(Context);
+export default function Message({ message , removeMessage}) {
+  const { user, oauth } = useContext(Context);
   const [content, setContent] = useState(message.content);
   const [modifiable, setModifiable] = useState(false);
   const styles = useStyles(useTheme);
-
+  
   function handleChange(e) {
     setContent(e.target.value);
   }
 
   if (user.id.match(message.author.id)) {
     return (
-      <li key={key} styles={styles.message} >
+      <li key={message.index} styles={styles.message} >
         <Option
           message={message}
           setModifiable={setModifiable}
           modifiable={modifiable}
           content={content}
+          removeMessage={removeMessage}
         />
+        <form css={styles.form} onSubmit={(e)=>{e.preventDefault(); onModification(message,setModifiable,modifiable,content,user,oauth)}} >
         <TextField
           variant="filled"
           
@@ -129,11 +147,12 @@ export default function Message({ key, message }) {
           color="secondary"
           
         />
+        </form>
       </li>
     );
   } else {
     return (
-      <li key={key} styles={styles.message}>
+      <li key={message.index} styles={styles.message}>
         <TextField
           variant="filled"
           label={

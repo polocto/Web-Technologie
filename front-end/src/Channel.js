@@ -43,6 +43,10 @@ export default function Channel() {
   const addMessage = (message) => {
     setMessages([...messages, message]);
   };
+  const removeMessage = (index) => {
+    messages.splice(index,1);
+    setMessages([...messages]);
+  }
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -64,6 +68,7 @@ export default function Channel() {
     };
     fetch();
   }, [id, oauth, navigate, user]);
+  useEffect(()=>{console.log(messages)},[messages])
   const onScrollDown = (scrollDown) => {
     setScrollDown(scrollDown);
   };
@@ -81,7 +86,7 @@ export default function Channel() {
         messages={messages}
         onScrollDown={onScrollDown}
         ref={listRef}
-        
+        removeMessage={removeMessage}
       />
       <Form addMessage={addMessage} channel={channel} />
       <Fab
