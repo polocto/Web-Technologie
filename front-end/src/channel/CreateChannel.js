@@ -140,6 +140,7 @@ export default function CreateChannel(){
                     })}
                 </Box>
             </Box>
+            <br></br>
             
             <Button variant="contained" onClick={onSubmit} endIcon={<CreateIcon />}>Create</Button>
         </Box>

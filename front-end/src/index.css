@@ -22,7 +22,7 @@ ul {
 }
 
 #root > div {
-  color: #2e7d32;
+  color: #00b89c;
   background-color: #3a3e3e;
   position: absolute;
   height: 100%;
@@ -36,7 +36,7 @@ ul {
   position: relative;
   left: 180px;
   top: -120px;
-  color: #2e7d32;
+  color: #00b89c;
   font-family: Play;
   font-size: 50px;
   font-variant: normal;
@@ -56,8 +56,9 @@ ul {
   position: absolute;
   justify-content: center;
   position: relative;
-  margin-left: 50%;
+  margin-left: 10%;
   margin-top: 0%;
+  
 }
 
 #channelList {
@@ -229,7 +230,8 @@ ul {
   display: flex;
   position: relative;
   justify-content: center;
-  height: 80px;
+  height: 70px;
+  justify-content: space-around;
 }
 
 #l1 {
