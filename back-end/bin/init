@@ -93,7 +93,7 @@ let channels = [
     );
     //Neige send an invitation to Paul
     await axios.post(
-      `http://localhost:${config.port}/users/${users[3].id}/contacts/${users[1].id}`
+      `http://localhost:${config.port}/users/${users[3].id}/contacts/${users[0].id}`
     );
     //Neige send an invitation to Clément
     await axios.post(

@@ -55,6 +55,17 @@ export default function Channels() {
             </Button>
           </div>
         </li>
+        <li css={styles.channel}>
+          <Button
+            id="contactsButton"
+            variant="contained"
+            href="#contained-buttons"
+          >
+             <Link id="contactsLink" to="/channels/contacts" component={RouterLink}>
+              Contacts
+            </Link>
+          </Button>
+        </li>
         {channels.map((channel, i) => (
           <li id="listeOfChannel" key={i} css={styles.channel}>
             <div id="circle">
