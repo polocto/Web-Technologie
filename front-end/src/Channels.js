@@ -48,7 +48,7 @@ export default function Channels() {
             variant="contained"
             href="#contained-buttons"
           >
-            <Link to="/channels" component={RouterLink}>
+             <Link id="wlcmLink" to="/channels" component={RouterLink}>
               Welcome
             </Link>
           </Button>

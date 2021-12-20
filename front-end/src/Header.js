@@ -54,7 +54,7 @@ export default function Header({ drawerToggleListener }) {
           {user.username}
 
           <Button id="logoutButton" variant="outlined" color="error">
-          <Link onClick={onClickLogout}>
+          <Link id="logoutLink" onClick={onClickLogout}>
             logout
           </Link>
           </Button>

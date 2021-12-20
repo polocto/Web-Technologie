@@ -6,7 +6,7 @@ import { useTheme } from '@mui/styles';
 const useStyles = (theme) => ({
   footer: {
     padding: theme.spacing(1),
-    backgroundColor: theme.palette.primary.dark,
+    backgroundColor: theme.palette.primary.main,
     flexShrink: 0,
   },
 })

@@ -55,8 +55,8 @@ ul {
 #logoutButton {
   display: flex;
   justify-content: center;
-  align-items: left;
-  left: 80%;
+  position: relative;
+  margin-left: 80%;
   top: -25%;
 }
 
@@ -83,13 +83,26 @@ ul {
   padding-left: 30px;
   padding-right: 30px;
   margin-left: 18px;
- 
 }
 
 #channelLink {
-  padding-left: 17%; 
-  padding-right: 17%;  
+  padding-left: 17%;
+  padding-right: 17%;
   position: relative;
   line-height: 1.5;
-  color: red;
+  color: black;
 }
+
+#wlcmLink {
+  color: black;
+}
+
+#logoutLink {
+  color: black;
+}
+
+#sendButton{
+  margin-top: 10%;
+  color: wheat;
+}
+

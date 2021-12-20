@@ -78,6 +78,7 @@ export default function Channel() {
         messages={messages}
         onScrollDown={onScrollDown}
         ref={listRef}
+        
       />
       <Form addMessage={addMessage} channel={channel} />
       <Fab
