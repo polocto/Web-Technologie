@@ -15,7 +15,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
 import Context from "../Context";
 import axios from "axios";
-import { blueGrey } from "@mui/material/colors";
+
 
 dayjs.extend(calendar);
 dayjs.extend(updateLocale);
@@ -27,7 +27,7 @@ dayjs.updateLocale("en", {
 
 const useStyles = (theme) => ({
   message: {
-    padding: ".2rem .5rem",
+    padding: "0.1rem .5rem",
     ":hover": {
       backgroundColor: "rgba(255,255,255,.05)",
     },

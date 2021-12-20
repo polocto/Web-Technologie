@@ -106,3 +106,24 @@ ul {
   color: wheat;
 }
 
+#marche{
+  border-color: aqua;
+  padding: 0;
+  margin-top: 0;
+  margin-left: 45%;
+}
+
+#invfr{
+  position:absolute;
+  margin-left: 45%;
+}
+
+#crechan{
+  position: absolute;
+  margin-left: 15%;
+}
+
+#set{
+  position: absolute;
+  margin-left: 75%;
+}
