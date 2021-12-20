@@ -59,9 +59,22 @@ function handleChange (value, setValue)
 export default function Welcome() {
   const styles = useStyles(useTheme());
   const { user, setUser, oauth } = useContext(Context);
-  const [prenom,setPrenom] = useState(user ? user.firstName : "Prenom");
-  const [nom,setNom] = useState(user ? user.lastName : "Nom");
-  const [username,setUsername] = useState(user ? user.username : "username");
+  const [prenom,setPrenom] = useState("Prenom");
+  const [nom,setNom] = useState("Nom");
+  const [username,setUsername] = useState("username");
+
+  const [profileImage,setProfileImage]=useState("https://www.pngitem.com/pimgs/b/296-2969032_mlg-doge-png.png");
+  const [print, setPrint]=useState(false);
+
+  useEffect(()=>{
+    if(user)
+    {
+      setPrenom(user.firstName ? user.firstName : "username")
+      setNom(user.lastName ? user.lastName : "username")
+      setUsername(user.username ? user.username : "username")
+      setProfileImage(user.profileImage ? user.profileImage : "https://www.pngitem.com/pimgs/b/296-2969032_mlg-doge-png.png")
+    }
+  },[user])
 
   return (
     <div id="channelList" css={styles.root}>
@@ -76,7 +89,7 @@ export default function Welcome() {
         <form id="marche">
           <img
             id="ProfilImage"
-            src="https://www.pngitem.com/pimgs/b/296-2969032_mlg-doge-png.png"
+            src={profileImage}
             alt="profilImage"
             width="100"
             height="100"
@@ -128,6 +141,24 @@ export default function Welcome() {
             e.preventDefault();
             onUpdate("username",username,oauth,setUser)
           }} ><ModeEditOutlineRoundedIcon fontSize="small" />Edit</Button>
+          <br></br>
+
+          <TextField
+            variant="filled"
+            label="Profil picture"
+            margin="dense"
+            value={profileImage}
+            alignItems="center"
+            color="secondary"
+
+            onChange={(e)=>{
+              handleChange(e.target.value,setProfileImage)
+            }}
+          />
+          <Button variant="contained" onClick={(e)=>{
+            e.preventDefault();
+            onUpdate("profileImage",profileImage,oauth,setUser)
+          }}><ModeEditOutlineRoundedIcon fontSize="small" />Edit</Button>
         </form>
 
         <div id="crechan" css={styles.card}>
