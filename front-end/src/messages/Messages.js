@@ -1,20 +1,21 @@
 import { useTheme } from "@emotion/react";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 // Markdown
-import { unified } from "unified";
-import markdown from "remark-parse";
-import remark2rehype from "remark-rehype";
-import html from "rehype-stringify";
+// import { unified } from "unified";
+// import markdown from "remark-parse";
+// import remark2rehype from "remark-rehype";
+// import html from "rehype-stringify";
 // Time
 import dayjs from "dayjs";
 import calendar from "dayjs/plugin/calendar";
 import updateLocale from "dayjs/plugin/updateLocale";
-import { Button, TextField, ButtonGroup, Fab } from "@mui/material";
+import { Button, TextField, ButtonGroup } from "@mui/material";
 import ModeEditOutlineRoundedIcon from "@mui/icons-material/ModeEditOutlineRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
 import Context from "../Context";
 import axios from "axios";
+import config from '../config'
 
 
 dayjs.extend(calendar);
@@ -37,7 +38,7 @@ const useStyles = (theme) => ({
 async function onDelete(message, user, oauth,removeMessage, key) {
   try{
     await axios.delete(
-      `http://localhost:3001/users/${user.id}/channels/${message.channelId}/messages/${message.creation}`,
+      `http://localhost:${config.port}/users/${user.id}/channels/${message.channelId}/messages/${message.creation}`,
       {
         headers: {
           Authorization: `Bearer ${oauth.access_token}`,
@@ -63,7 +64,7 @@ async function onModification(
 ) {
   if (modifiable) {
     const { data: temp } = await axios.put(
-      `http://localhost:3001/users/${user.id}/channels/${message.channelId}/messages/${message.creation}`,
+      `http://localhost:${config.port}/users/${user.id}/channels/${message.channelId}/messages/${message.creation}`,
       {
         content: content,
       },

@@ -4,7 +4,7 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import { useContext, useState } from "react";
 import Context from "../Context";
-
+import config from "../config";
 
 
 export default function AddContact(){
@@ -19,7 +19,7 @@ export default function AddContact(){
 
     const handleClick = async ()=>{
         try{
-            const {data: temp} = await axios.post(`http://localhost:3001/users/${user.id}/contacts/${email}`,user,
+            const {data: temp} = await axios.post(`http://localhost:${config.port}/users/${user.id}/contacts/${email}`,user,
             {
               headers: {
                 Authorization: `Bearer ${oauth.access_token}`,

@@ -3,13 +3,12 @@ import { Box } from "@mui/system";
 import { useContext, useEffect, useState } from "react";
 import Context from "../Context";
 import CreateIcon from '@mui/icons-material/Create';
-import { useTheme } from "@emotion/react";
 import axios from "axios";
 import AddIcon from '@mui/icons-material/Add';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { Fab } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
+import config from "../config";
 
 
 
@@ -19,7 +18,6 @@ export default function CreateChannel(){
     const [name,setName] = useState("");
     const [list,setList] = useState([]);
     const [contactsChannel,setContactsChannel] = useState([]);
-    const styles = useTheme();
     const navigate = useNavigate();
 
 
@@ -27,7 +25,7 @@ export default function CreateChannel(){
         e.preventDefault();
         try{
             const users = contactsChannel.map((user) => user.id);
-            const {data: u} = await axios.post(`http://localhost:3001/users/${user.id}/channels`,{
+            const {data: u} = await axios.post(`http://localhost:${config.port}/users/${user.id}/channels`,{
                 name: name,
                 users: [...users]
             },
@@ -78,24 +76,26 @@ export default function CreateChannel(){
         }
     }
 
-    useEffect(async ()=>{
-
-        try{
-            const {data: contacts} = await axios.get(`http://localhost:3001/users/${user.id}/contacts`,
+    useEffect(()=>{
+        async function fetch (){
+            try{
+                const {data: contacts} = await axios.get(`http://localhost:${config.port}/users/${user.id}/contacts`,
+                {
+                headers: {
+                    Authorization: `Bearer ${oauth.access_token}`,
+                },
+                })
+                setList(contacts);
+            }
+            catch(error)
             {
-              headers: {
-                Authorization: `Bearer ${oauth.access_token}`,
-              },
-            })
-            setList(contacts);
+                console.log(error)
+                setList([]);
+            }
         }
-        catch(error)
-        {
-            console.log(error)
-            setList([]);
-        }
+        fetch();
 
-    },[]);
+    },[oauth,user]);
 
     return (
     <Box>

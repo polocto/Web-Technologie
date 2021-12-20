@@ -3,6 +3,7 @@ import Context from "../Context";
 import axios from "axios";
 import CancelIcon from '@mui/icons-material/Cancel';
 import { Fab } from "@mui/material";
+import config from "../config";
 
 
 export default function DeleteContact({contact}){
@@ -11,7 +12,7 @@ export default function DeleteContact({contact}){
 
         try
         {
-            const {data: temp} = await axios.delete(`http://localhost:3001/users/${user.id}/contacts/${contact.id}`,
+            const {data: temp} = await axios.delete(`http://localhost:${config.port}/users/${user.id}/contacts/${contact.id}`,
             {
               headers: {
                 Authorization: `Bearer ${oauth.access_token}`,

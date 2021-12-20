@@ -11,6 +11,7 @@ import { useContext, useEffect, useState } from "react";
 import ModeEditOutlineRoundedIcon from "@mui/icons-material/ModeEditOutlineRounded";
 import axios from "axios";
 import { grid } from "@mui/system";
+import config from "./config";
 
 const useStyles = (theme) => ({
   root: {
@@ -39,7 +40,7 @@ async function onUpdate(field, content, oauth, setUser) {
   console.log(modifcations);
   if (content.length != 0) {
     const { data: user } = await axios.put(
-      `http://localhost:3001/users/${oauth.email}`,
+      `http://localhost:${config.port}/users/${oauth.email}`,
       modifcations,
       {
         headers: {

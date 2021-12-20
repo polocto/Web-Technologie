@@ -9,6 +9,7 @@ import Context from "../Context";
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import config from "../config";
 
 const useStyles = (theme) => {
   // See https://github.com/mui-org/material-ui/blob/next/packages/material-ui/src/OutlinedInput/OutlinedInput.js
@@ -43,7 +44,7 @@ export default function Form({ addMessage, channel }) {
   const styles = useStyles(useTheme());
   const onSubmit = async () => {
     const { data: message } = await axios.post(
-      `http://localhost:3001/users/${user.id}/channels/${channel.id}/messages`,
+      `http://localhost:${config.port}/users/${user.id}/channels/${channel.id}/messages`,
       {
         content: content,
       },

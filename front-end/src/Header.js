@@ -5,7 +5,6 @@ import { useTheme } from "@mui/styles";
 import { IconButton, Link } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Context from "./Context";
-import { ReactComponent as logoIcon } from "./icons/logo.svg";
 //import { ThemeProvider } from "@emotion/react";
 import { Button } from "@mui/material";
 

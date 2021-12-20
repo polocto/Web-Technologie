@@ -1,4 +1,4 @@
-import { Fab, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import AcceptInvitation from "./AcceptInvitation";
 import DeleteContact from "./DeleteContact";
