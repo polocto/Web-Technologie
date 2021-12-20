@@ -78,13 +78,20 @@ module.exports ={
     },
 
     update: async function (user) {
-        const original = await this.get(user.id);
+        let original = await this.get(user.id);
 
         if(!original.email.match(user.email)) throw new StatusError(403,"Properties not modifiable");
 
-        delete user.id;
-        await db.put(`users:${original.id}`, JSON.stringify(user));
-        user = await this.get(original.id);
+        const id =  original.id;
+        const keys = Object.keys(user);
+
+        keys.map(key=>{
+            original[key] = user[key];
+        })
+
+        delete original.id;
+        await db.put(`users:${id}`, JSON.stringify(original));
+        user = await this.get(id);
         return user;
     },
 

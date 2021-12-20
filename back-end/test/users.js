@@ -61,7 +61,10 @@ describe('users', () => {
     
     const {body: result} = await supertest(app)
     .put(`/users/${user.id}`)
-    .send(user)
+    .send({
+      firstName: "Mathis",
+      lastName: "Camard"
+    })
     .expect(200);
     
     result.should.match({

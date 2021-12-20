@@ -51,7 +51,7 @@ export default function Header({ drawerToggleListener }) {
       { Header }
       {user ? (
         <span>
-          {user.username}
+          {user.prenom && user.nom ? user.prenom +""+user.nom : user.username}
 
           <Button id="logoutButton" variant="outlined" color="error">
           <Link id="logoutLink" onClick={onClickLogout}>

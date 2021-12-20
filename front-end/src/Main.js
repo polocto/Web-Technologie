@@ -64,13 +64,12 @@ export default function Main() {
   const styles = useStyles(theme)
   const alwaysOpen = useMediaQuery(theme.breakpoints.up('sm'))
   const isDrawerVisible = alwaysOpen || drawerVisible;
-  if(!user)
-  {
-    getUser(setUser,oauth);
-  }
+  
   useEffect(()=>{
-    console.log(user)
-  },[user]);
+
+    getUser(setUser,oauth);
+  },[oauth]);
+  
   return (
     <main css={styles.root}>
       <Drawer 

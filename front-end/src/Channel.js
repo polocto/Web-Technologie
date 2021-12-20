@@ -68,7 +68,6 @@ export default function Channel() {
     };
     fetch();
   }, [id, oauth, navigate, user]);
-  useEffect(()=>{console.log(messages)},[messages])
   const onScrollDown = (scrollDown) => {
     setScrollDown(scrollDown);
   };

@@ -1,4 +1,5 @@
 
+import axios from 'axios'
 import React, {useState} from 'react'
 import { useCookies } from 'react-cookie'
 
@@ -44,7 +45,7 @@ export const Provider = ({
         setCurrentChannel(channel)
       },
       user: user,
-      setUser: setUser,
+      setUser: setUser
     }}>{children}</Context.Provider>
   )
 }
