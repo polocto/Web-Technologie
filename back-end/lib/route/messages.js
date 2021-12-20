@@ -42,6 +42,10 @@ router.post('/', async (req, res) => {
         const user = await db.users.get(req.params.idUser);
         const content = req.body.content;
         const message = await db.messages.create(req.params.id, {author: user.id, content: content});
+        message.author = {
+            id: user.id,
+            username: user.username
+        }
         res.status(201).send(message);
     }catch(err){
         if (err instanceof StatusError)
@@ -82,14 +86,16 @@ router.get('/:creation', async (req, res) => {
     }
 })
 
-router.post('/:creation', async (req, res) => {
+router.put('/:creation', async (req, res) => {
     try{
         const user = await db.users.get(req.params.idUser);
         const message = await db.messages.get(req.params.id,req.params.creation);
         if(!message.author.match(user.id)) throw new StatusError(401, "The user is not the creator of the message")
         db.messages.update(req.params.id, req.params.creation,req.body.content)
-        .then(()=>{
-            res.sendStatus(200);
+        .then((value)=>{
+            value.author.id=user.id;
+            value.author.username=user.username;
+            res.status(200).send(value);
         });
     }catch(err){
         if (err instanceof StatusError)
