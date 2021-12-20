@@ -20,7 +20,7 @@ const styles = {
 
 export default function Channels() {
   const { user, oauth, channels, setChannels } = useContext(Context);
-  const naviate = useNavigate();
+  const navigate = useNavigate();
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -70,11 +70,11 @@ export default function Channels() {
         </li>
         <li css={styles.channel}>
           <Button
-            id="contactsButton"
+            id="createChanButton"
             variant="contained"
             href="#contained-buttons"
           >
-             <Link id="contactsLink" to="/channels/contacts" component={RouterLink}>
+             <Link id="createChanLink" to="/channels/new" component={RouterLink}>
               Create channel
             </Link>
           </Button>
@@ -88,7 +88,7 @@ export default function Channels() {
                 href={`/channels/${channel.id}`}
                 onClick={(e) => {
                   e.preventDefault();
-                  naviate(`/channels/${channel.id}`);
+                  navigate(`/channels/${channel.id}`);
                 }}
               >
                 {channel.name}

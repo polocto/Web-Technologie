@@ -42,7 +42,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     try{
         const metadata = req.body;
-        if(metadata.users.length <2)
+        if(metadata.users.length <1)
         {
             throw new StatusError (403,"You should select more users");
         }

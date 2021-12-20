@@ -8,10 +8,6 @@ import { useTheme } from "@mui/styles";
 import Context from "../Context";
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Input from '@mui/material/Input';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 
 const useStyles = (theme) => {
@@ -42,7 +38,7 @@ const useStyles = (theme) => {
 };
 
 export default function Form({ addMessage, channel }) {
-  const { user, oauth } = useContext(Context);
+  const { user, oauth , setUser} = useContext(Context);
   const [content, setContent] = useState("");
   const styles = useStyles(useTheme());
   const onSubmit = async () => {
@@ -57,6 +53,7 @@ export default function Form({ addMessage, channel }) {
         },
       }
     );
+    setUser({...user});
     addMessage(message);
     setContent("");
   };

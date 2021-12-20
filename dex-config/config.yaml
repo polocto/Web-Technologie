@@ -17,13 +17,10 @@ staticClients:
 - id: webtech-frontend
   redirectURIs:
   - 'http://localhost:3000'
-  name: 'webtech-frontend'
-  
+  name: 'WebTech Front End Chat Server'
   public: true
+  
 connectors:
-- type: mockCallback
-  id: mock
-  name: Example
 - type: github
   id: github
   name: GitHub

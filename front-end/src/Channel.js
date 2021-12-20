@@ -57,29 +57,30 @@ export default function Channel() {
               Authorization: `Bearer ${oauth.access_token}`,
             },
           }
-        );
-        setMessages(messages);
-        if (listRef.current) {
-          listRef.current.scroll();
+          );
+          console.log(messages)
+          setMessages(messages);
+          if (listRef.current) {
+            listRef.current.scroll();
+          }
+        } catch (err) {
+          navigate("/oups");
         }
-      } catch (err) {
-        navigate("/oups");
-      }
+      };
+      fetch();
+    }, [id, oauth, navigate, user]);
+    const onScrollDown = (scrollDown) => {
+      setScrollDown(scrollDown);
     };
-    fetch();
-  }, [id, oauth, navigate, user]);
-  const onScrollDown = (scrollDown) => {
-    setScrollDown(scrollDown);
-  };
-  const onClickScroll = () => {
-    listRef.current.scroll();
-  };
-  // On refresh, context.channel is not yet initialized
-  if (!channel) {
-    return <div>loading</div>;
-  }
-  return (
-    <div css={styles.root}>
+    const onClickScroll = () => {
+      listRef.current.scroll();
+    };
+    // On refresh, context.channel is not yet initialized
+    if (!channel) {
+      return <div>loading</div>;
+    }
+    return (
+      <div css={styles.root}>
       <List
         channel={channel}
         messages={messages}

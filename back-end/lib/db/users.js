@@ -2,7 +2,6 @@ const {v4: uuid} = require('uuid');
 const {merge} = require('mixme');
 const db = require('./leveldb');
 const StatusError = require('../error');
-const { use } = require('../route/messages');
 
 module.exports ={
     get: async (id) => {
