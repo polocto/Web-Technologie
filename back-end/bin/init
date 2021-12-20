@@ -9,10 +9,10 @@ const config = {
 
 let users = [
   {
-    username: "polocto",
+    username: "wdavidw",
     email: process.env.TEST_PAYLOAD_EMAIL,
-    lastName: "Sade",
-    firstName: "Paul",
+    lastName: "Worms",
+    firstName: "David",
   },
   {
     username: "mathisCAMARD",

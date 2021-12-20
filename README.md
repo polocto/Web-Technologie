@@ -5,8 +5,6 @@
 
 ## Usage
 
-*how to start and use the application, run the tests, ...*
-
 * Clone this repository, from your local machine:
   ```
   git clone https://github.com/adaltas/ece-webtech-2021-fall.git webtech
@@ -44,10 +42,8 @@
   cd back-end
   # Install dependencies (use yarn or npm)
   yarn install
-  # Optional, fill the database with initial data
-  bin/init
-  # Start the back-end
-  bin/start
+  
+  npm run develop
   ```
 * Start the front-end
   ```bash
@@ -79,41 +75,68 @@
 Project management
 
 * Naming convention   
-  *place your graduation and comments*
+  2/2
 * Project structure   
-  *place your graduation and comments*
+  3/4
 * Code quality   
-  *place your graduation and comments*
+  3/4
 * Design, UX   
-  *place your graduation and comments*
+  2/4
 * Git and DevOps   
-  *place your graduation and comments*
+  3,75
 
 Application development
 
 * Welcome screens   
-  *place your graduation and comments*
+  3/4
 * New channel creation   
-  *place your graduation and comments*
+  5/6
 * Channel membership and access   
-  *place your graduation and comments*
+  4/4
 * Ressource access control   
-  *place your graduation and comments*
+  4/4
 * Invite users to channels   
-  *place your graduation and comments*
+  4/6
 * Message modification   
-  *place your graduation and comments*
+  2/2
 * Message removal   
-  *place your graduation and comments*
+  2/2
 * Account settings   
-  *place your graduation and comments*
+  3/4
 * Gravatar integration   
-  *place your graduation and comments*
+  0/2
 * Avatar selection   
-  *place your graduation and comments*
+  0/4
 * Personal custom avatar   
-  *place your graduation and comments*
+  3/6
 
 ## Bonus
 
 *place your graduation and comments*
+4
+Devops:
+- CI/CD
+  - unit test
+  - heroku
+  - docker Image
+- Docker-compose
+
+5
+Functionalities:
+- Contact
+  - Send Invitation
+  - Receive Invitation
+  - Refuse Invitation
+  - Delete Conatct
+  - Accept Invitation
+
+2
+- Message
+  - If we leave the channel an we are reinvited (back-end possible to add users but not front) we have only access to messages when we had access to channel
+
+3
+- Channels
+  - order channels on the left from the more recent modification to the latest
+
+
+**Final Grade : 52.75**
