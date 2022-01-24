@@ -1,7 +1,17 @@
 
 # Chat application - final project
 
-*presentation, introduction, ...*
+Is a chat application containg different features such as:
+- OAuth
+- Send Invitaion
+- Cancel Invitation
+- Accept Invitation
+- Refuse Invitation
+- Create a Channel
+- Delete a Channel
+- Modify a message
+- Delete a message
+- ...
 
 ## Usage
 
@@ -43,7 +53,7 @@
   # Install dependencies (use yarn or npm)
   yarn install
   
-  npm run develop
+  yarn run develop
   ```
 * Start the front-end
   ```bash
@@ -70,73 +80,3 @@
 **Mathis CAMARD**
 *[mathis.camard@edu.ece.fr](mailto:mathis.camard@edu.ece.fr)*
 
-## Tasks
-
-Project management
-
-* Naming convention   
-  2/2
-* Project structure   
-  3/4
-* Code quality   
-  3/4
-* Design, UX   
-  2/4
-* Git and DevOps   
-  3,75
-
-Application development
-
-* Welcome screens   
-  3/4
-* New channel creation   
-  5/6
-* Channel membership and access   
-  4/4
-* Ressource access control   
-  4/4
-* Invite users to channels   
-  4/6
-* Message modification   
-  2/2
-* Message removal   
-  2/2
-* Account settings   
-  3/4
-* Gravatar integration   
-  0/2
-* Avatar selection   
-  0/4
-* Personal custom avatar   
-  3/6
-
-## Bonus
-
-*place your graduation and comments*
-4
-Devops:
-- CI/CD
-  - unit test
-  - heroku
-  - docker Image
-- Docker-compose
-
-5
-Functionalities:
-- Contact
-  - Send Invitation
-  - Receive Invitation
-  - Refuse Invitation
-  - Delete Conatct
-  - Accept Invitation
-
-2
-- Message
-  - If we leave the channel an we are reinvited (back-end possible to add users but not front) we have only access to messages when we had access to channel
-
-3
-- Channels
-  - order channels on the left from the more recent modification to the latest
-
-
-**Final Grade : 52.75**
